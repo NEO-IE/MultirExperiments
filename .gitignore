@@ -7,3 +7,11 @@
 /data/
 derby.log
 .cache
+/MultirFramework-master/.classpath
+/MultirFramework-master/.project
+/MultirFramework-master/.settings/
+/MultirFramework-master/project/project/
+/MultirFramework-master/project/target/
+/MultirFramework-master/target/
+/MultirFramework-master/data/
+/bin
