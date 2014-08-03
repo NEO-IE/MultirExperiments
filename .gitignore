@@ -5,6 +5,8 @@
 /project/target/
 /target/
 /data/
+derby.log
+.cache
 /MultirFramework-master/.classpath
 /MultirFramework-master/.project
 /MultirFramework-master/.settings/
