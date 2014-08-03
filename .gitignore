@@ -5,3 +5,5 @@
 /project/target/
 /target/
 /data/
+derby.log
+.cache

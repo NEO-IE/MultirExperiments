@@ -1,7 +1,7 @@
 
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/ashishm/workspace/MultirExperiments/data/corpus",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/corpus",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
