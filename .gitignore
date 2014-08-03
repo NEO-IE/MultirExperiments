@@ -15,3 +15,7 @@ derby.log
 /MultirFramework-master/target/
 /MultirFramework-master/data/
 /bin
+/doc/*.log
+/doc/*.aux
+/doc/*.backup
+
