@@ -7,6 +7,7 @@ public class ConditionalInference {
 
 	public static Parse infer(MILDocument doc,
 			Scorer parseScorer, Parameters params) {
+	
 		int numMentions = doc.numMentions;
 		
 		Parse parse = new Parse();
@@ -111,6 +112,7 @@ public class ConditionalInference {
 			// sort by m, then decreasing score
 			Arrays.sort(es, new Comparator<Edge>() {
 				public int compare(Edge e1, Edge e2) {
+					System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 					int c = e1.m - e2.m;
 					if (c != 0) return c;
 					double d = e2.score - e1.score;

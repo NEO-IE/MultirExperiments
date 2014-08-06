@@ -120,12 +120,12 @@ public class DocumentExtractor {
 				}
 			}
 		}
-		
+			
 		for(Pair<String,Double> extr: extractions){
 			String extrString = extr.first;
 			Double score = extr.second;
-			
-			System.out.println("sg : " + extrString + "\t" + score);
+			//System.out.println("->" + extrString);
+			System.out.println(extrString.split("\n")[0] + "\t" + score);
 		}
 	}
 	
