@@ -1,0 +1,27 @@
+##Default Feature Generation##
+
+Takes as input : 
+1. The sentence and Document
+2. arg1 and 2 start and end offset
+3. arg1Id and arg2Id : FreeBase
+
+
+Step1:
+
+The first step is to take up the file containing matchings and generate a list of SententialArgumentPair. A SententialArgumentPair is defined as follows : 
+	    private Integer sentID;
+		private Pair<Integer,Integer> arg1Offsets;
+		private Pair<Integer,Integer> arg2Offsets;
+		private List<String> relations;
+		private String arg1ID;
+		private String arg2ID;
+		private String partitionID;
+
+Note that all of this information is available in the matching file.
+
+Step2:
+
+Note that there could be several matchings in a sentence. The next step is to collect matchings by the sentence in which they appear. To this end, we use the following data structure to store them : 
+Map<Integer,List<SententialArgumentPair>> sapMap = new HashMap<>();
+
+This is a map from the sentence id to the list of sentential argument pairs that are there in that sentence.

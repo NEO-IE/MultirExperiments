@@ -27,7 +27,8 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 			Integer arg2EndOffset, String arg1ID, String arg2ID, CoreMap sentence, Annotation document) {
 		
 		List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
-		
+		System.out.println(tokens);
+		System.out.println("arg1 id : " + arg1ID + " arg2 id : " + arg2ID);
 		//initialize arguments
 		String[] tokenStrings = new String[tokens.size()];
 		String[] posTags = new String[tokens.size()];
@@ -51,6 +52,7 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 		for(int i =0; i < tokens.size(); i++){
 			
 			CoreLabel token = tokens.get(i);
+			System.out.println(token);
 			
 			//set the tokenString value
 			tokenStrings[i] =token.value();
@@ -64,8 +66,8 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 				posTags[i] = pos;
 			}
 			
-			int begOffset =token.get(SentenceRelativeCharacterOffsetBeginAnnotation.class);
-			int endOffset = token.get(SentenceRelativeCharacterOffsetEndAnnotation.class);
+			int begOffset = 0;//token.get(SentenceRelativeCharacterOffsetBeginAnnotation.class);
+			int endOffset = 0;//token.get(SentenceRelativeCharacterOffsetEndAnnotation.class);
 
 			// if the token matches the argument set the ner and argPos values
 			if(begOffset == arg1StartOffset){

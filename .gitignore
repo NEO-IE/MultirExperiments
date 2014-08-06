@@ -1,4 +1,6 @@
 /.classpath
+/bllip-parser-master/
+test.err
 /.project
 /.settings/
 /project/project/

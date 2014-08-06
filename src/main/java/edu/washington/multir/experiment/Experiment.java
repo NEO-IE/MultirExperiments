@@ -245,11 +245,15 @@ public class Experiment {
 		else{
 		  corpus.setCorpusToDefault();
 		}
+		while(true) {
+			System.out.println("Press any key to continue	"
+					+ "");
+			System.in.read();
 		
-		if(!filesExist(multirDirs)){
+		if(	!filesExist(multirDirs)){
 			for(String s : multirDirs){
 				File f = new File(s);
-				f.mkdirs();
+				f.mkdirs();	
 			}
 		}
 		
@@ -294,6 +298,7 @@ public class Experiment {
 		
 		if(useFiger){
 			FigerTypeUtils.close();
+		}
 		}
 	}
 

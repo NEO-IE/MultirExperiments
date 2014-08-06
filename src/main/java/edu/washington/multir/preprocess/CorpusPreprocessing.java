@@ -61,7 +61,7 @@ public class CorpusPreprocessing {
 	private static TreebankLanguagePack tlp = new PennTreebankLanguagePack();
 	private static GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
 	private static boolean initializedParser = false;
-	private static String BLLIP_PARSER_PATH = "/projects/WebWare6/Multir/MultirSystem/files/resources/bllip-parser";
+	private static String BLLIP_PARSER_PATH = "bllip-parser-master";
 
 	public static void main(String[] args) throws IOException, InterruptedException{
 		props.put("annotators", "pos,lemma,ner");

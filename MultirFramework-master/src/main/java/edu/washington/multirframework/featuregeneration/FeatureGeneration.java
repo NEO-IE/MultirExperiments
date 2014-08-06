@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
@@ -40,14 +39,18 @@ public class FeatureGeneration {
 		//initialize variables
     	
     	List<SententialArgumentPair> saps = getSaps(dsFileNames,featureFileNames);
+    	System.out.println("size of pairs " + saps.size() + "\n" + saps.get(0));
     	long end = System.currentTimeMillis();
     	System.out.println("Sentential Argument Pair collection took " + (end-start) + "milliseconds");
     	
     	//get map from SentID to Sap
     	start = System.currentTimeMillis();
+    	//There can be several matchings in a sentence, collect them
     	Map<Integer,List<SententialArgumentPair>> sapMap = new HashMap<>();
     	for(SententialArgumentPair sap : saps){
     		Integer id = sap.sentID;
+    		if(id < 100)
+    		System.out.println("sentence id : " + id);
     		if(sapMap.containsKey(id)){
     			sapMap.get(id).add(sap);
     		}
@@ -58,7 +61,7 @@ public class FeatureGeneration {
     		}
     	}
     	end = System.currentTimeMillis();
-    	System.out.println("Map from sentence ids to saps created in " + (end-start) + "milliseconds");
+    	System.out.println("Map from sentence ids to saps created in " + (end-start) + " milliseconds");
     	
     	//initialize feature Writers
     	Map<String,BufferedWriter> writerMap = new HashMap<>();
@@ -75,8 +78,10 @@ public class FeatureGeneration {
     	start = System.currentTimeMillis();
     	while(di.hasNext()){
     		Annotation doc = di.next();
+    		
     		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
     		for(CoreMap sentence: sentences){
+    			//System.out.println(sentence);
     			Integer currSentID = sentence.get(SentGlobalID.class);
     			if(sapMap.containsKey(currSentID)){
     				List<SententialArgumentPair> sentenceSaps = sapMap.get(currSentID);
@@ -106,9 +111,10 @@ public class FeatureGeneration {
 	private void writeFeatures(List<SententialArgumentPair> currentSaps,
 			Annotation doc, CoreMap sentence,
 			Map<String, BufferedWriter> writerMap) throws IOException {
-		
+		System.out.println(currentSaps.size());
 		for(SententialArgumentPair sap : currentSaps){
 			BufferedWriter bw = writerMap.get(sap.partitionID);
+
 			List<String> features = fg.generateFeatures(sap.arg1Offsets.first,sap.arg1Offsets.second
 					,sap.arg2Offsets.first,sap.arg2Offsets.second,sap.arg1ID,sap.arg2ID,sentence,doc);
 			bw.write(makeFeatureString(sap,features)+"\n");

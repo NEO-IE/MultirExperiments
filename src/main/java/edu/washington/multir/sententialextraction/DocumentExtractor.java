@@ -125,7 +125,7 @@ public class DocumentExtractor {
 			String extrString = extr.first;
 			Double score = extr.second;
 			
-			System.out.println(extrString + "\t" + score);
+			System.out.println("sg : " + extrString + "\t" + score);
 		}
 	}
 	
@@ -541,12 +541,13 @@ public class DocumentExtractor {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException{
-		
-		DocumentExtractor de = new DocumentExtractor(args[0],
+		String args0 = "data/multir-extractor";
+		String testDir = "data/sgtest";
+		DocumentExtractor de = new DocumentExtractor(args0,
 				new DefaultFeatureGeneratorMinusDirMinusDep(), NERArgumentIdentification.getInstance(), DefaultSententialInstanceGeneration.getInstance());
+				
 		
-		String testDir = args[1];
-		File f = new File(args[1]);
+		File f = new File(testDir);
 		int count = 0;
 		for(File doc : f.listFiles()){
 			de.extractFromDocument(doc.getAbsolutePath());

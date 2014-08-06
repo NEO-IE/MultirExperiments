@@ -172,19 +172,24 @@ public class Corpus {
     	Annotation a = new Annotation("");
     	
     	//read in all specified sentenceInformation
+    	int i  = 0;
     	for(SentInformationI si : cis.sentenceInformation){
+    		if(i++ == 4) break;
     		String x = sentenceResults.getString(si.name());
     		si.read(x,a);
     	}
  
     	List<CoreLabel> tokens = a.get(CoreAnnotations.TokensAnnotation.class);
-
+    	return a;
+    	/*
     	//read in all specified tokenInformation
+    	i = 0;
     	for(TokenInformationI ti: cis.tokenInformation){
+    		if(i++ == 1) break;
     		String tokenInformation =sentenceResults.getString(ti.name());
     		ti.read(tokenInformation, tokens);
     	}
-    	return a;
+    	*/
 	}
 	
 	//CachingDocumentIterator reduces the number of SQL queries that 
