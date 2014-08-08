@@ -90,6 +90,7 @@ public class FeatureGenFromRawText {
 		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 		System.out.println(sentences.get(0).keySet());
 		for(CoreMap sentence : sentences) { //
+			System.out.println(sentence);
 			System.out.println(sentence.get(SentDependencyInformation.DependencyAnnotation.class));
 			for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
 		        // this is the text of the token
