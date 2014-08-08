@@ -15,6 +15,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.derby.tools.sysinfo;
 
 import scala.languageFeature.postfixOps;
 import edu.stanford.nlp.ling.CoreAnnotations;
@@ -242,7 +243,9 @@ public class CreateCorpusFromDocs {
 		String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
 
 		Annotation doc = cc.createTestString(targetFileStr, docName);
-		ArrayList<CorpusRow> rowSet = cc.createDerbyRowSet(doc, "doc1");
+		//ArrayList<CorpusRow> rowSet = cc.createDerbyRowSet(doc, "doc1");
+		System.out.println(cc.createDerbyRow(1, "sg", doc
+				.get(CoreAnnotations.SentencesAnnotation.class).get(0)));
 	}
 
 	/**
@@ -304,7 +307,7 @@ public class CreateCorpusFromDocs {
 					+ "|");
 		}
 		return new CorpusRow(sentId, docName, tokenInformation.toString()
-				.trim(), sentence.toString(), offSetInfo.toString().trim(),
+				.trim(), sentence.toString(), "",
 				depInfo.toString().trim(), "", "", nerInfo.toString().trim(),
 				offSetInfo.toString().trim(), posTagInfo.toString().trim(), "");
 	}

@@ -39,4 +39,18 @@ public class CorpusRow {
 		this.tokenPOSInformation = tokenPOSInformation;
 		this.tokenChunkInformation = tokenChunkInformation;
 	}
+	@Override
+	public String toString() {
+		return "CorpusRow [sentId=" + sentId + ", docName=" + docName
+				+ ", tokenInformation=" + tokenInformation
+				+ ", textInformation=" + textInformation
+				+ ", sentOffSetInformation=" + sentOffSetInformation
+				+ ", sentdependencyInformation=" + sentdependencyInformation
+				+ ", sentNELinkingInformation=" + sentNELinkingInformation
+				+ ", sentFreebaseInformation=" + sentFreebaseInformation
+				+ ", tokenNERInformation=" + tokenNERInformation
+				+ ", tokenOffsetInformation=" + tokenOffsetInformation
+				+ ", tokenPOSInformation=" + tokenPOSInformation
+				+ ", tokenChunkInformation=" + tokenChunkInformation + "]";
+	}
 }
