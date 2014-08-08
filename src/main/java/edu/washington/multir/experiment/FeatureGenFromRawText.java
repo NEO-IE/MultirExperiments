@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.List;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
@@ -14,6 +17,7 @@ import edu.washington.multirframework.argumentidentification.ArgumentIdentificat
 import edu.washington.multirframework.argumentidentification.DefaultSententialInstanceGeneration;
 import edu.washington.multirframework.argumentidentification.NERArgumentIdentification;
 import edu.washington.multirframework.argumentidentification.SententialInstanceGeneration;
+import edu.washington.multirframework.corpus.SentDependencyInformation;
 import edu.washington.multirframework.data.Argument;
 import edu.washington.multirframework.data.KBArgument;
 import edu.washington.multirframework.featuregeneration.DefaultFeatureGenerator;
@@ -79,8 +83,30 @@ public class FeatureGenFromRawText {
 		}
 	}
 	
-	public static void main(String args[]) {
-		FeatureGenFromRawText.getFeatures("Mongolia's trade with Russia has increased a lot", "doc");
+	public static void main(String args[]) throws IOException, InterruptedException {
+		String sent = "A brand new and bigger Air China was launched in Beijing on Monday .";
+		String docName = "doc";
+		Annotation doc = CorpusPreprocessing.getTestDocumentFromRawString(sent, docName);
+		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
+		System.out.println(sentences.get(0).keySet());
+		for(CoreMap sentence : sentences) { //
+			System.out.println(sentence.get(SentDependencyInformation.DependencyAnnotation.class));
+			for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
+		        // this is the text of the token
+		        String word = token.get(TextAnnotation.class);
+		        // this is the POS tag of the token
+		        String pos = token.get(PartOfSpeechAnnotation.class);
+		        // this is the NER label of the token
+		        String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+		     
+		        Integer startOffset = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+		        Integer endOffset = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+		        
+		        System.out.println(word + " POS " + pos + " NER " + ne + " " + startOffset + ":" + endOffset);
+		      }
+		}
+		
+		System.out.println(doc.keySet());
 	}
 	
 }

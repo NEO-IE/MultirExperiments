@@ -115,8 +115,10 @@ public class DocumentExtractor {
 				Pair<Triple<String,Double,Double>,Map<Integer,Double>> result = getPrediction(features,arg1,arg2,senText);
 				if(result !=null){
 					Triple<String,Double,Double> relationScoreTriple = getPrediction(features,arg1,arg2,senText).first;
-						String extractionString = arg1.getArgName() + " " + relationScoreTriple.first + " " + arg2.getArgName() + "\n" + senText;
+					if(!relationScoreTriple.first.equals("NA")) {	
+					String extractionString = arg1.getArgName() + " " + relationScoreTriple.first + " " + arg2.getArgName() + "\n" + senText;
 						extractions.add(new Pair<String,Double>(extractionString,relationScoreTriple.third));
+					}
 				}
 			}
 		}
@@ -552,7 +554,7 @@ public class DocumentExtractor {
 		for(File doc : f.listFiles()){
 			de.extractFromDocument(doc.getAbsolutePath());
 			System.out.println("Processed file " + count);
-			count ++;
+			count ++;			
 		}		
 	}
 

@@ -214,6 +214,7 @@ public class RawStringPreprocess {
 			targetRelations = new HashSet<String>(Arrays.asList(relations));
 			RawStringPreprocess rsp = new RawStringPreprocess("sgconfig.json");
 			Annotation a = CorpusPreprocessing.getTestDocumentFromRawString("Moscow is the capital of Russia", "doc1");
+			
 			List<CoreMap> sentences = a.get(CoreAnnotations.SentencesAnnotation.class);
 			DocumentExtractor de = new DocumentExtractor("data/multir-extractor", rsp.fg, rsp.ai, rsp.sigs.get(0));
 			/*

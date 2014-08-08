@@ -244,7 +244,7 @@ public class CorpusPreprocessing {
 	}
 	
 
-	private static String cjPreprocessSentence(String sentenceTokensText) {
+	static String cjPreprocessSentence(String sentenceTokensText) {
 		String[] toks = sentenceTokensText.split(" ");
 		if (toks.length <= 120) {
 			return "<s> " +sentenceTokensText+ " </s>\n";
@@ -283,7 +283,7 @@ public class CorpusPreprocessing {
 				.endPosition());
 	}
 
-	private static List<String> cleanDocument(String documentString) {
+	static List<String> cleanDocument(String documentString) {
 		Matcher m = ldcPattern.matcher(documentString);
 		if(m.find()){
 			return getXMLParagraphs(documentString);
@@ -322,7 +322,7 @@ public class CorpusPreprocessing {
 	public static Annotation getTestDocumentFromRawString(String documentString,String docName) throws IOException, InterruptedException{
 		
 		if(pipeline == null){
-			props.put("annotators", "tokenize,ssplit,pos,lemma,ner");
+			props.put("annotators", "tokenize,ssplit,pos,parse,lemma,ner");
 			props.put("sutime.binders","0");
 			pipeline = new StanfordCoreNLP(props,false);
 		}
