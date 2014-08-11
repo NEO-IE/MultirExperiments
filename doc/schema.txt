@@ -1,0 +1,37 @@
+A typical row in the corpus looks as follows :
+
+ij(CONNECTION1)> describe sentencetable;
+COLUMN_NAME
+|TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+SENTID              |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+DOCNAME             |VARCHAR  |NULL|NULL|128   |NULL      |256       |YES
+SENTTOKENSINFORMATI&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+SENTTEXTINFORMATION |VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+SENTOFFSETINFORMATI&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+SENTDEPENDENCYINFOR&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+SENTNAMEDENTITYLINK&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+SENTFREEBASENOTABLE&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+TOKENNERINFORMATION |VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+TOKENOFFSETINFORMAT&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+TOKENPOSINFORMATION |VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+TOKENCHUNKINFORMATI&|VARCHAR  |NULL|NULL|20000 |NULL      |40000     |YES
+
+ij(CONNECTION1)> select * from sentencetable where sentid=1;
+
+
+1          |
+XIN__ENG__20021028.0184.LDC2007T07|
+
+An example follows :
+
+A brand new and bigger Air China was launched in Beijing on Monday .|
+A brand new and bigger Air China was launched in Beijing on Monday.|
+257 324 |
+7 det 1|7 nn 2|7 amod 3|3 cc 4|3 conj 5|7 nn 6|9 nsubjpass 7|9 auxpass 8|0 root 9|9 prep 10|10 pobj 11|9 prep 12|12 pobj 13     |
+8 9 Ship__naming__and__launching null 0.030186754 5 7 Air__China /m/01rjgp 0.8786364 10 11 Beijing /m/01914 0.8106947 1 2 Brand&|5 7 /aviation/airline
+/m/01rjgp 10 11 /location/citytown /m/01914 6 7 /location/country /m/0d05w3 |
+O O O O O O LOCATION O O O LOCATION O DATE O |
+0:1 2:7 8:11 12:15 16:22 23:26 27:32 33:36 37:45 46:48 49:56 57:59 60:66 66:67 |
+DT NN JJ CC JJR NNP NNP VBD VBN IN NNP IN NNP . |
+B-NP I-NP I-NP O B-NP I-NP I-NP B-VP I-VP B-PP B-NP B-PP B-NP O
