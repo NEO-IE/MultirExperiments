@@ -41,7 +41,7 @@ public class CountryMarker {
 			int nl = vars[0].length();
 			// inflections of country names will never involve more than 2 last
 			// chars
-			if (nl > 2) {
+			if (nl > 3) {
 				// save the characters we have churned out
 				String suffix = vars[0].substring(nl - 2, nl);
 				vars[0] = vars[0].substring(0, nl - 2);
@@ -52,9 +52,11 @@ public class CountryMarker {
 			}
 
 			freeBaseMapping.put(vars[0].toLowerCase(), vars[1]);
-
+			
 		}
 		countryList = new HashSet<String>(freeBaseMapping.keySet());
+		//"US/USA gets special treatment as always
+		
 		br.close();
 	}
 
@@ -70,11 +72,27 @@ public class CountryMarker {
 		StringBuilder entityLinkString = new StringBuilder();
 		int wordOffSet = 0;
 		String words[] = sentence.split(" ");
+		String popularAbbrList[] = {"USA", "UK", "US"};
+		HashSet<String> popularAbbrSet = new HashSet<>();
+		for(String str : popularAbbrList) {
+			popularAbbrSet.add(str);
+		}
+		
 		// for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
 		// String word = token.get(TextAnnotation.class);
 		for (String word : words) {
 			int wl = word.length();
 			int suffixEnd = 2;
+			if(wl <= 3) { // US perhaps?
+				if (popularAbbrSet.contains(word)) { // we have a country match
+					String entityName = word;
+					String linkingString = wordOffSet + " " + (wordOffSet + 1)
+							+ " " + WordUtils.capitalize(entityName) + " "
+							+ freeBaseMapping.get(word.toLowerCase()) + " 1 ";
+					entityLinkString.append(linkingString);
+				}
+				continue;
+			}
 			while (suffixEnd < (wl -  2)) {
 				String keyWord = word.substring(0, wl - suffixEnd);
 				suffixEnd++;
@@ -97,11 +115,12 @@ public class CountryMarker {
 		/**
 		 * This is a tester for the country tagger
 		 */
+		
 		String countriesFile = "meta/country_freebase_mapping";
 		CountryMarker cmr = new CountryMarker(countriesFile);
 		System.out
 				.println(cmr
-						.getEntityLinkString("Air China is progressing fast with Indians and Portugese music"));
+						.getEntityLinkString("Air China is progressing fast with Indians and Portugese music How will UK and USA react to this"));
 
 	}
 }
