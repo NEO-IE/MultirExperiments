@@ -9,15 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import org.apache.commons.lang3.text.WordUtils;
-
-import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
-import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.util.CoreMap;
 
 public class CountryMarker {
 	/**
@@ -52,11 +48,11 @@ public class CountryMarker {
 			}
 
 			freeBaseMapping.put(vars[0].toLowerCase(), vars[1]);
-			
+
 		}
 		countryList = new HashSet<String>(freeBaseMapping.keySet());
-		//"US/USA gets special treatment as always
-		
+		// "US/USA gets special treatment as always
+
 		br.close();
 	}
 
@@ -68,54 +64,69 @@ public class CountryMarker {
 	 * (will be) painfully slow, find out another way of doing this
 	 */
 
-	String getEntityLinkString(String sentence) {
+	ArrayList<String> getEntityLinkInformation(String sentence) {
 		StringBuilder entityLinkString = new StringBuilder();
+		StringBuilder typeStringBuilder = new StringBuilder();
+		ArrayList<String> res = new ArrayList<String>();
 		int wordOffSet = 0;
 		String words[] = sentence.split(" ");
-		String popularAbbrList[] = {"USA", "UK", "US"};
+		String popularAbbrList[] = { "USA", "UK", "US" };
 		HashSet<String> popularAbbrSet = new HashSet<>();
-		for(String str : popularAbbrList) {
+		for (String str : popularAbbrList) {
 			popularAbbrSet.add(str);
 		}
-		
+
 		// for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
 		// String word = token.get(TextAnnotation.class);
 		for (String word : words) {
 			int wl = word.length();
 			int suffixEnd = 2;
-			if(wl <= 3) { // US perhaps?
+			if (wl <= 3) { // US perhaps?
 				if (popularAbbrSet.contains(word)) { // we have a country match
 					String entityName = word;
+					String freeBaseId = freeBaseMapping.get(word.toLowerCase());
 					String linkingString = wordOffSet + " " + (wordOffSet + 1)
 							+ " " + WordUtils.capitalize(entityName) + " "
-							+ freeBaseMapping.get(word.toLowerCase()) + " 1 ";
+							+ freeBaseId + " 1 ";
 					entityLinkString.append(linkingString);
+					
+					String typeString = wordOffSet + " " + (wordOffSet + 1)
+							+ "/location/country " + freeBaseId + " ";
+					typeStringBuilder.append(typeString);
 				}
 				continue;
 			}
-			while (suffixEnd < (wl -  2)) {
+			while (suffixEnd < (wl - 2)) {
 				String keyWord = word.substring(0, wl - suffixEnd);
 				suffixEnd++;
 				keyWord = keyWord.toLowerCase(); // map keys are lower case
 				if (countryList.contains(keyWord)) { // we have a country match
-					String entityName = keyWord + completeNameMapping.get(keyWord);
+					String entityName = keyWord
+							+ completeNameMapping.get(keyWord);
+					String freeBaseId = freeBaseMapping.get(keyWord);
 					String linkingString = wordOffSet + " " + (wordOffSet + 1)
 							+ " " + WordUtils.capitalize(entityName) + " "
-							+ freeBaseMapping.get(keyWord) + " 1 ";
+							+ freeBaseId + " 1 ";
 					entityLinkString.append(linkingString);
+					String typeString = wordOffSet + " " + (wordOffSet + 1)
+							+ "/location/country " + freeBaseId + " ";
+					typeStringBuilder.append(typeString);
 					break;
 				}
 			}
 			wordOffSet++;
 		}
-		return entityLinkString.toString();
+		res.add(entityLinkString.toString());
+		
+		res.add(typeStringBuilder.toString());
+		return res;
 	}
 
 	public static void main(String args[]) throws IOException {
 		/**
 		 * This is a tester for the country tagger
 		 */
-		
+
 		String countriesFile = "meta/country_freebase_mapping";
 		CountryMarker cmr = new CountryMarker(countriesFile);
 		System.out
