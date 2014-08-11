@@ -57,7 +57,9 @@ public class CreateCorpusFromDocs {
 	private static boolean initializedParser = false;
 	private static String BLLIP_PARSER_PATH = "bllip-parser-master";
 	private static StanfordCoreNLP pipeline; // the annotator pipeline
-
+/**
+ * This is done to avoid loading the pipeline for each doc, which takes up a lot of time
+ */
 	public CreateCorpusFromDocs() {
 		Properties props = new Properties();
 		props.put("annotators", "tokenize,ssplit,pos,lemma,ner");
@@ -193,45 +195,7 @@ public class CreateCorpusFromDocs {
 		return doc;
 	}
 
-	/**
-	 * This function takes the newly obtained document string and cleans the
-	 * paragraphs. The code is lifted from CorpusPreprocessing.java TODO: One of
-	 * these 2 classes should be deleted
-	 * 
-	 * @param documentString
-	 * @param docName
-	 * @throws IOException
-	 */
-	void cleanParagraphs(String documentString, String docName)
-			throws IOException {
-		List<String> paragraphs = CorpusPreprocessing
-				.cleanDocument(documentString);
-		StringBuilder docTextBuilder = new StringBuilder();
-		for (String par : paragraphs) {
-			docTextBuilder.append(par);
-			docTextBuilder.append("\n");
-		}
-		documentString = docTextBuilder.toString().trim();
-	}
 
-	/**
-	 * This method creates the temporary files needed for bllip-parser to work
-	 * 
-	 * @param documentString
-	 * @param docName
-	 * @throws IOException
-	 */
-	void setup(String documentString, String docName) throws IOException {
-
-		File cjInputFile = File.createTempFile(docName, "cjinput");
-		File cjOutputFile = File.createTempFile(docName, "cjoutput");
-		cjOutputFile.deleteOnExit();
-		cjInputFile.deleteOnExit();
-
-		BufferedWriter bw = new BufferedWriter(new FileWriter(cjInputFile));
-
-		Annotation doc = new Annotation(documentString);
-	}
 
 	public static void main(String args[]) throws IOException,
 			InterruptedException {
@@ -286,7 +250,7 @@ public class CreateCorpusFromDocs {
 			String word = token.get(TextAnnotation.class);
 			// this is the POS tag of the token
 			String pos = token.get(PartOfSpeechAnnotation.class);
-			// this is the NER label of the token
+			// this is the NER label of the token	
 			String ne = token
 					.get(CoreAnnotations.NamedEntityTagAnnotation.class);
 
@@ -296,7 +260,7 @@ public class CreateCorpusFromDocs {
 					.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
 			posTagInfo.append(pos + " ");
 			nerInfo.append(ne + " ");
-			tokenInformation.append(word);
+			tokenInformation.append(word + " ");
 			offSetInfo.append(startOffset + ":" + endOffset + " ");
 			// System.out.println(word + " POS " + pos + " NER " + ne + " " +
 			// startOffset + ":" + endOffset);

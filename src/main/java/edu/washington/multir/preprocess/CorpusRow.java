@@ -41,16 +41,16 @@ public class CorpusRow {
 	}
 	@Override
 	public String toString() {
-		return "CorpusRow [sentId=" + sentId + ", docName=" + docName
-				+ ", tokenInformation=" + tokenInformation
-				+ ", textInformation=" + textInformation
-				+ ", sentOffSetInformation=" + sentOffSetInformation
-				+ ", sentdependencyInformation=" + sentdependencyInformation
-				+ ", sentNELinkingInformation=" + sentNELinkingInformation
-				+ ", sentFreebaseInformation=" + sentFreebaseInformation
-				+ ", tokenNERInformation=" + tokenNERInformation
-				+ ", tokenOffsetInformation=" + tokenOffsetInformation
-				+ ", tokenPOSInformation=" + tokenPOSInformation
-				+ ", tokenChunkInformation=" + tokenChunkInformation + "]";
+		return  sentId + " \n" + docName
+				+ " \n" + tokenInformation
+				+ " \n" + textInformation
+				+ " \n" + sentOffSetInformation
+				+ " \n" + sentdependencyInformation
+				+ " \n" + sentNELinkingInformation
+				+ " \n" + sentFreebaseInformation
+				+ " \n" + tokenNERInformation
+				+ " \n" + tokenOffsetInformation
+				+ " \n" + tokenPOSInformation
+				+ " \n" + tokenChunkInformation + "]";
 	}
 }
