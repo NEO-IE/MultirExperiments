@@ -1,0 +1,684 @@
+United States of America	/m/09c7w0	/en/united_states
+Germany	/m/0345h	/en/germany
+Australia	/m/0chghy	/en/australia
+Iran	/m/03shp	/en/iran
+United Kingdom	/m/07ssc	/en/united_kingdom
+Hong Kong	/m/03h64	/en/hong_kong
+Iceland	/m/03rj0	/en/iceland
+France	/m/0f8l9c	/en/france
+India	/m/03rk0	/en/india
+Canada	/m/0d060g	/en/canada
+Russia	/m/06bnz	/en/russia
+Japan	/m/03_3d	/en/japan
+Italy	/m/03rjj	/en/italy
+Philippines	/m/05v8c	/en/philippines
+South Africa	/m/0hzlz	/en/south_africa
+Thailand	/m/07f1x	/en/thailand
+Poland	/m/05qhw	/en/poland
+England	/m/02jx1	/en/england
+Republic of Ireland	/m/03rt9	/en/republic_of_ireland
+Brazil	/m/015fr	/en/brazil
+Argentina	/m/0jgd	/en/argentina
+Belgium	/m/0154j	/en/belgium
+Netherlands	/m/059j2	/en/netherlands
+Denmark	/m/0k6nt	/en/denmark
+Sweden	/m/0d0vqn	/en/sweden
+Turkey	/m/01znc_	/en/turkey
+Venezuela	/m/07ylj	/en/venezuela
+North Korea	/m/05b7q	/en/north_korea
+South Korea	/m/06qd3	/en/south_korea
+Mexico	/m/0b90_r	/en/mexico
+Czechoslovakia	/m/01mk6	/en/czechoslovakia
+Russian Empire	/m/0cdbq	/en/russian_empire
+New Zealand	/m/0ctw_b	/en/new_zealand
+Lithuania	/m/04gzd	/en/lithuania
+Spain	/m/06mkj	/en/spain
+West Germany	/m/082fr	/en/west_germany
+Singapore	/m/06t2t	/en/singapore
+Norway	/m/05b4w	/en/norway
+Czech Republic	/m/01mjq	/en/czech_republic
+Croatia	/m/01pj7	/en/croatia
+Slovakia	/m/06npd	/en/slovakia
+Morocco	/m/04wgh	/en/morocco
+Luxembourg	/m/04g61	/en/luxembourg
+Pakistan	/m/05sb1	/en/pakistan
+Finland	/m/02vzc	/en/finland
+Switzerland	/m/06mzp	/en/switzerland
+Weimar Republic	/m/084n_	/en/weimar_republic
+Botswana	/m/0166v	/en/botswana
+Malaysia	/m/09pmkv	/en/malaysia
+Egypt	/m/02k54	/en/egypt
+Hungary	/m/03gj2	/en/hungary
+Andorra	/m/0hg5	/en/andorra
+United Arab Emirates	/m/0j1z8	/en/united_arab_emirates
+Afghanistan	/m/0jdd	/en/afghanistan
+Antigua and Barbuda	/m/0l3h	/en/antigua_and_barbuda
+Anguilla	/m/0n3g	/en/anguilla
+Albania	/m/0jdx	/en/albania
+Armenia	/m/0jgx	/en/armenia
+Netherlands Antilles	/m/05byy	/en/netherlands_antilles
+Angola	/m/0j4b	/en/angola
+American Samoa	/m/0h8d	/en/american_samoa
+Austria	/m/0h7x	/en/austria
+Aruba	/m/0j11	/en/aruba
+Azerbaijan	/m/0jhd	/en/azerbaijan
+Bosnia and Herzegovina	/m/0166b	/en/bosnia_and_herzegovina
+Barbados	/m/0162v	/en/barbados
+Bangladesh	/m/0162b	/en/bangladesh
+Burkina Faso	/m/01699	/en/burkina_faso
+Bulgaria	/m/015qh	/en/bulgaria
+Bahrain	/m/0161c	/en/bahrain
+Burundi	/m/0169t	/en/burundi
+Benin	/m/0164v	/en/benin
+Bermuda	/m/0165b	/en/bermuda
+Brunei	/m/0167v	/en/brunei
+Bolivia	/m/0165v	/en/bolivia
+Bahamas	/m/0160w	/en/the_bahamas
+Bhutan	/m/07bxhl	/en/bhutan
+Belarus	/m/0163v	/en/belarus
+Belize	/m/0164b	/en/belize
+Cocos (Keeling) Islands	/m/01p6l	/en/cocos_islands
+Central African Republic	/m/01nyl	/en/central_african_republic
+Congo	/m/01rxw	/en/republic_of_the_congo
+Côte d’Ivoire	/m/0fv4v	/en/cote_divoire
+Cook Islands	/m/020p1	/en/cook_islands
+Chile	/m/01p1v	/en/chile
+Cameroon	/m/01nln	/en/cameroon
+China	/m/0d05w3	/en/china
+Colombia	/m/01ls2	/en/colombia
+Costa Rica	/m/01p8s	/en/costa_rica
+Serbia	/m/077qn	/en/serbia
+Cuba	/m/0d04z6	/en/cuba
+Cape Verde	/m/01nqj	/en/cape_verde
+Christmas Island	/m/01p5l	/en/christmas_island
+Cyprus	/m/01ppq	/en/cyprus
+Djibouti	/m/027jk	/en/djibouti
+Dominica	/m/027nb	/en/dominica
+Dominican Republic	/m/027rn	/en/dominican_republic
+Algeria	/m/0h3y	/en/algeria
+Ecuador	/m/02k1b	/en/ecuador
+Estonia	/m/02kmm	/en/estonia
+Western Sahara	/m/082qk	/en/western_sahara
+Eritrea	/m/02khs	/en/eritrea
+Ethiopia	/m/019pcs	/en/ethiopia
+Fiji	/m/02wt0	/en/fiji
+Falkland Islands	/m/02wmy	/en/falkland_islands
+Federated States of Micronesia	/m/03188	/en/federated_states_of_micronesia
+Grenada	/m/035yg	/en/grenada
+Georgia	/m/0d0kn	/wikipedia/es/Georgia
+Guernsey	/m/0366c	/en/guernsey
+Ghana	/m/035dk	/en/ghana
+Gibraltar	/m/035hm	/en/gibraltar
+Greenland	/m/035v3	/en/greenland
+Gambia	/m/0hdx8	/en/the_gambia
+Guinea	/m/03676	/en/guinea
+Guadeloupe	/m/037nm	/en/guadeloupe
+Equatorial Guinea	/m/02kcz	/en/equatorial_guinea
+Greece	/m/035qy	/en/greece
+South Georgia and the South Sandwich Islands	/m/06tnn	/en/south_georgia_and_the_south_sandwich_islands
+Guatemala	/m/0345_	/en/guatemala
+Guam	/m/034tl	/en/guam
+Guinea-Bissau	/m/036b_	/en/guinea-bissau
+Guyana	/m/034m8	/en/guyana
+Honduras	/m/03h2c	/en/honduras
+Haiti	/m/03gyl	/en/haiti
+Indonesia	/m/03ryn	/en/indonesia
+Israel	/m/03spz	/en/israel
+Isle of Man	/m/03t1s	/en/isle_of_man
+British Indian Ocean Territory	/m/0168b	/en/british_indian_ocean_territory
+Iraq	/m/0d05q4	/en/iraq
+Jersey	/m/03_xj	/en/jersey
+Jamaica	/m/03_r3	/en/jamaica
+Jordan	/m/03__y	/en/jordan
+Kenya	/m/019rg5	/en/kenya
+Cambodia	/m/01xbgx	/en/cambodia
+Kiribati	/m/047t_	/en/kiribati
+Comoros	/m/01n6c	/en/comoros
+Saint Kitts and Nevis	/m/06ryl	/en/saint_kitts_and_nevis
+Kuwait	/m/047yc	/en/kuwait
+Cayman Islands	/m/01nty	/en/cayman_islands
+Kazakhstan	/m/047lj	/en/kazakhstan
+Laos	/m/04hhv	/en/laos
+Lebanon	/m/04hqz	/en/lebanon
+Saint Lucia	/m/06s0l	/en/saint_lucia
+Liechtenstein	/m/04j53	/en/liechtenstein
+Sri Lanka	/m/06m_5	/en/sri_lanka
+Liberia	/m/04hzj	/en/liberia
+Lesotho	/m/04hvw	/en/lesotho
+Latvia	/m/04g5k	/en/latvia
+Libya	/m/04gqr	/en/libya
+Monaco	/m/04w58	/en/monaco
+Moldova	/m/04w4s	/en/moldova
+Madagascar	/m/04sj3	/en/madagascar
+Marshall Islands	/m/04v6v	/en/marshall_islands
+Republic of Macedonia	/m/0bjv6	/en/republic_of_macedonia
+Mali	/m/04v09	/en/mali
+Mongolia	/m/04w8f	/en/mongolia
+Macau	/m/04thp	/en/macau
+Northern Mariana Islands	/m/05cnr	/en/northern_mariana_islands
+Martinique	/m/04vg8	/en/martinique
+Mauritania	/m/04vjh	/en/mauritania
+Montserrat	/m/04wcf	/en/montserrat
+Malta	/m/04v3q	/en/malta
+Mauritius	/m/04vs9	/en/mauritius
+Maldives	/m/04ty8	/en/maldives
+Malawi	/m/04tr1	/en/malawi
+Mozambique	/m/04wlh	/en/mozambique
+Namibia	/m/05bmq	/en/namibia
+New Caledonia	/m/05c17	/en/new_caledonia
+Niger	/m/05cc1	/en/niger
+Norfolk Island	/m/05cqm	/en/norfolk_island
+Nigeria	/m/05cgv	/en/nigeria
+Nicaragua	/m/05c74	/en/nicaragua
+Nepal	/m/016zwt	/en/nepal
+Nauru	/m/05br2	/en/nauru
+Niue	/m/05b2h	/en/niue
+Oman	/m/05l8y	/en/oman
+Panama	/m/05qx1	/en/panama
+Peru	/m/016wzw	/en/peru
+French Polynesia	/m/02wzv	/en/french_polynesia
+Papua New Guinea	/m/05qkp	/en/papua_new_guinea
+Saint Pierre and Miquelon	/m/06s4c	/en/saint-pierre_and_miquelon
+Pitcairn Islands	/m/05vd5	/en/pitcairn_islands
+Puerto Rico	/m/05r7t	/en/puerto_rico
+Portugal	/m/05r4w	/en/portugal
+Paraguay	/m/05v10	/en/paraguay
+Qatar	/m/0697s	/en/qatar
+Romania	/m/06c1y	/en/romania
+Rwanda	/m/06dfg	/en/rwanda
+Saudi Arabia	/m/01z215	/en/saudi_arabia
+Solomon Islands	/m/01n8qg	/en/solomon_islands
+Seychelles	/m/06sw9	/en/seychelles
+Sudan	/m/06tw8	/en/sudan
+Slovenia	/m/06t8v	/en/slovenia
+Sierra Leone	/m/06s_2	/en/sierra_leone
+San Marino	/m/06sff	/en/san_marino
+Senegal	/m/06srk	/en/senegal
+Somalia	/m/06tgw	/en/somalia
+Suriname	/m/06nnj	/en/suriname
+São Tomé and Príncipe	/m/0j681	/en/sao_tome_and_principe
+El Salvador	/m/02k8k	/en/el_salvador
+Syria	/m/06vbd	/en/syria
+Swaziland	/m/06v36	/en/swaziland
+Turks and Caicos Islands	/m/07fr_	/en/turks_and_caicos_islands
+Chad	/m/01p1b	/en/chad
+Togo	/m/07f5x	/en/togo
+Tajikistan	/m/07dvs	/en/tajikistan
+Tokelau	/m/07f9q	/en/tokelau
+Turkmenistan	/m/01c4pv	/en/turkmenistan
+Tunisia	/m/07fj_	/en/tunisia
+Tonga	/m/07fb6	/en/tonga
+Trinidad and Tobago	/m/09lxtg	/en/trinidad_and_tobago
+Tuvalu	/m/07fsv	/en/tuvalu
+Tanzania	/m/07dzf	/en/tanzania
+Ukraine	/m/07t21	/en/ukraine
+Uganda	/m/07tp2	/en/uganda
+Uruguay	/m/07twz	/en/uruguay
+Uzbekistan	/m/07t_x	/en/uzbekistan
+Vatican City	/m/07ytt	/en/vatican_city
+Saint Vincent and the Grenadines	/m/06s6l	/en/saint_vincent_and_the_grenadines
+British Virgin Islands	/m/0168t	/en/british_virgin_islands
+United States Virgin Islands	/m/07ww5	/en/united_states_virgin_islands
+Vietnam	/m/01crd5	/en/vietnam
+Vanuatu	/m/07z5n	/en/vanuatu
+Wallis and Futuna	/m/082nw	/en/wallis_and_futuna
+Yemen	/m/01z88t	/en/yemen
+Mayotte	/m/04vws	/en/mayotte
+Zambia	/m/088vb	/en/zambia
+Zimbabwe	/m/088q4	/en/zimbabwe
+Myanmar	/m/04xn_	/en/myanmar
+Montenegro	/m/056vv	/en/montenegro
+Palau	/m/05tr7	/en/palau
+Northern Ireland	/m/05bcl	/en/northern_ireland
+Scotland	/m/06q1r	/en/scotland
+Wales	/m/0j5g9	/en/wales
+Samoa	/m/06s9y	/en/samoa
+Democratic Republic of the Congo	/m/088xp	/en/democratic_republic_of_the_congo
+Timor-Leste	/m/02lx0	/en/east_timor
+United States Minor Outlying Islands	/m/07x4w	/en/united_states_minor_outlying_islands
+Yugoslavia	/m/087vz	/en/yugoslavia
+Kingdom of the Netherlands	/m/049nq	/en/kingdom_of_the_netherlands
+Somaliland	/m/0dkly	/en/somaliland
+Bonaire	/m/0rdr4	/en/bonaire
+Puntland	/m/01hywq	/en/puntland
+Austria-Hungary	/m/012m_	/en/austria-hungary
+Gabon	/m/03548	/en/gabon
+Faroe Islands	/m/02w9s	/en/faroe_islands
+Sparta	/m/09472	/en/sparta
+German Democratic Republic	/m/03f2w	/en/german_democratic_republic
+Mandatory Palestine	/m/0h44w	/wikipedia/fr/Palestine_mandataire
+Western Sahara	/m/0gn8n	/en/sahrawi_arab_democratic_republic
+Iraqi Kurdistan	/m/0329by	/en/iraqi_kurdistan
+Åland Islands	/m/014mxp	/en/aland
+Transnistria	/m/02122k	/en/transnistria
+Saint Barthélemy	/m/0h7f9	/en/saint-barthelemy
+Northern Cyprus	/m/01nx28	/en/turkish_republic_of_northern_cyprus
+Taiwan	/m/06f32	/en/republic_of_china
+Kingdom of Hungary	/m/03l5m1	/en/kingdom_of_hungary
+Collectivity of Saint Martin	/m/02phy_9	/wikipedia/it/Saint-Martin_$0028Francia$0029
+Holy Roman Empire	/m/03gk2	/en/holy_roman_empire
+Provisional Revolutionary Government of the Republic of South Vietnam	/m/0hv_0	/en/republic_of_south_vietnam
+Kingdom of Great Britain	/m/014tss	/en/kingdom_of_great_britain
+Macedonia	/m/0bk25	/en/macedon
+Darfur Regional Authority	/m/03d5b9c	/en/transitional_darfur_regional_authority
+Squamish Nation	/m/0gqqyt	/en/s_wxwu7mesh_ulh_uxwumixw
+Sint Maarten	/m/02phz12	/en/sint_maarten
+Independent Republic of Zulia	/m/0417l2t	/en/independent_republic_of_zulia
+Northland State	/m/02z473c	/en/northland_state
+Kingdom of England	/m/024pcx	/en/kingdom_of_england
+Roman Empire	/m/06cmp	/en/roman_empire
+Mercia	/m/09n_7	/en/mercia
+Wessex	/m/084gz	/en/wessex
+Ottoman Empire	/m/05kyr	/en/ottoman_empire
+Union of South Africa	/m/0c4b8	/en/union_of_south_africa
+Territory of New Guinea	/m/09wfqp	/en/territory_of_new_guinea
+Territory of Papua and New Guinea	/m/026wtlf	/en/territory_of_papua_and_new_guinea
+Rhodesia	/m/06jnv	/en/rhodesia
+Kingdom of the Two Sicilies	/m/0d0q4	/en/two_sicilies
+Roman Republic	/m/06frc	/en/roman_republic
+Second Polish Republic	/m/03pn9	/en/second_polish_republic
+French First Republic	/m/0gtzp	/en/french_first_republic
+Federal Republic of Yugoslavia	/m/018j0w	/en/federal_republic_of_yugoslavia
+Kingdom of Italy	/m/05jt5h	/wikipedia/it_id/786960
+Kingdom of Ireland	/m/016jz3	/en/kingdom_of_ireland
+Seljuk Empire	/m/02z62v1	/en/great_seljuq_empire
+Rashidun Caliphate	/m/02wvgjs	/en/rashidun_empire
+Abbasid Caliphate	/m/0d7c8	/en/abbasid
+Western Roman Empire	/m/02jbz2	/en/western_roman_empire
+Spanish Empire	/m/01s47p	/en/spanish_empire
+Kingdom of Bohemia	/m/0410vqb	/en/kingdom_of_bohemia
+Kosovo	/m/04fh3	/en/kosovo
+Mongol Empire	/m/01jv68	/en/mongol_empire
+Southern Rhodesia	/m/01ptlk	/en/southern_rhodesia
+German Empire	/m/03b79	/en/german_empire
+Nazi Germany	/m/059z0	/en/nazi_germany
+Crown of Aragon	/m/03f4n1	/en/crown_of_aragon
+Kingdom of Aragon	/m/02srrt	/en/kingdom_of_aragon
+Ptolemaic Kingdom	/m/02vkl1t	/en/ptolemaic_kingdom
+Classical Athens	/m/03nmzqx	/en/classical_athens
+Kingdom of Albania	/m/06857n	/en/kingdom_of_albania
+Republic of Hawaii	/m/019kzh	/en/republic_of_hawaii
+Czechoslovak Socialist Republic	/m/05yt6l	/en/czechoslovak_socialist_republic
+Great Moravia	/m/01q6c7	/en/great_moravia
+Dahomey	/m/02fdq	/en/dahomey
+Kingdom of Prussia	/m/01k6y1	/en/kingdom_of_prussia
+Wallachia	/m/0cgs4	/en/wallachia
+Kingdom of Naples	/m/01m41_	/en/kingdom_of_naples
+Kingdom of Navarre	/m/033bdl	/en/kingdom_of_navarre
+Kingdom of Judah	/m/04frh	/en/kingdom_of_judah
+Confederate States of America	/m/020d5	/en/confederate_states_of_america
+Grand Duchy of Moscow	/m/0c83z	/en/muscovy
+Kingdom of Romania	/m/01rdm0	/en/kingdom_of_romania
+Serbia and Montenegro	/m/06swt	/en/serbia_and_montenegro
+Palestinian territories	/m/0nyg5	/en/palestinian_territories
+Neustria	/m/0kjkd	/en/neustria
+Austrasia	/m/0gytv	/en/austrasia
+Caliphate of Córdoba	/m/04q7yp	/en/caliph_of_cordoba
+Papal States	/m/0g6k2	/en/papal_states
+Islamic Emirate of Afghanistan	/m/01x31l	/en/islamic_emirate_of_afghanistan
+Kievan Rus'	/m/0c81v	/en/kievan_rus
+Armenian Soviet Socialist Republic	/m/021hrn	/en/armenian_ssr
+Duchy of Normandy	/m/021dh6	/en/duchy_of_normandy
+Buganda	/m/01rgp4	/en/buganda
+Kingdom of Sicily	/m/02zqdb	/en/kingdom_of_sicily
+Soviet Union	/m/05vz3zq	/en/soviet_union
+Kingdom of Scotland	/m/025ndl	/en/kingdom_of_scotland
+Byzantine Empire	/m/017cw	/en/byzantine_empire
+Kingdom of Iraq	/m/02p717m	/en/kingdom_of_iraq
+Austrian Empire	/m/01nhhz	/en/austrian_empire
+Russian Soviet Federative Socialist Republic	/m/01mzwp	/en/russian_sfsr
+Kingdom of Italy	/m/02psqkz	/en/kingdom_of_italy
+German Reich	/m/01qlyt	/en/deutsches_reich
+Empire of Japan	/m/0193qj	/en/empire_of_japan
+Kingdom of Bulgaria	/m/03bxbql	/en/kingdom_of_bulgaria
+Federation of Malaya	/m/01s8rk	/en/federation_of_malaya
+Kingdom of Hawaii	/m/01hlvc	/en/kingdom_of_hawaii
+Kingdom of the Lombards	/m/047glq0	/en/kingdom_of_the_lombards
+First French Empire	/m/01flgk	/en/first_french_empire
+Swedish Empire	/m/01fvhp	/en/swedish_empire
+Union between Sweden and Norway	/m/01fvt8	/en/union_between_sweden_and_norway
+Svalbard and Jan Mayen	/m/01glxj	/en/svalbard_and_jan_mayen
+Belarusian People's Republic	/m/03msdy	/en/belarusian_national_republic
+Government of the Autonomous Republic of Abkhazia	/m/0fsx89	/en/government_of_abkhazia-in-exile
+Provisional Administrative Entity of South Ossetia	/m/04jphc5	/en/provisional_administrative_entity_of_south_ossetia
+Royal Lao Government in Exile	/m/03gxwc5	/en/royal_lao_government_in_exile
+Republic of Serbian Krajina Government in Exile	/m/09dbj3	/en/republic_of_serbian_krajina_government_in_exile
+Chechen Republic of Ichkeria	/m/0dfrl8	/en/chechen_republic_of_ichkeria
+Republic of Cabinda	/m/025tnp1	/en/republic_of_cabinda
+Republic of the South Moluccas	/m/0809tnt	/en/south_moluccas
+Dutch Republic	/m/0dv0z	/en/dutch_republic
+Former Qin	/m/025f9x	/en/former_qin
+Former Liang	/m/029q70	/en/former_liang
+Former Yan	/m/03253k	/en/former_yan
+Lordship of Ireland	/m/016t0_	/en/lordship_of_ireland
+Duchy of Burgundy	/m/03bw_lf	/en/duchy_of_burgundy
+Kingdom of Galicia	/m/091kpm	/en/kingdom_of_galicia
+Francia	/m/01s5vl	/en/frankish_empire
+Republic of Upper Volta	/m/0bpc2	/en/upper_volta
+Mataram Sultanate	/m/04gd3n	/en/mataram_sultanate
+Surakarta Sultanate	/m/0bvq4qx	/wikipedia/en_title/Surakarta_Sunanate
+Majapahit	/m/015mb5	/en/majapahit_empire
+Srivijaya	/m/023kxh	/en/srivijaya
+Medang Kingdom	/m/06yyft	/en/mataram_kingdom
+Malacca sultanate	/m/015n7b	/en/malacca_sultanate
+Slovak Republic	/m/07hj4m	/en/slovak_republic
+Grand Duchy of Hesse	/m/0263n6m	/en/grand_duchy_of_hesse
+Grand Duchy of Frankfurt	/m/01lkc7	/en/grand_duchy_of_frankfurt
+Duchy of Oldenburg	/m/022gbs	/wikipedia/ja_id/1054796
+Grand Duchy of Würzburg	/m/04f76ph	/en/grand_duchy_of_wurzburg
+Grand Duchy of Cracow	/m/0drhsx	/en/grand_duchy_of_krakow
+Grand Duchy of Posen	/m/0219hq	/en/grand_duchy_of_poznan
+Grand Duchy of Tuscany	/m/0327fc	/en/grand_duchy_of_tuscany
+Grand Duchy of Finland	/m/02zbz5	/en/grand_duchy_of_finland
+Grand Duchy of Saxe-Weimar-Eisenach	/m/02sb2_	/en/saxe-weimar-eisenach
+Grand Duchy of Lithuania	/m/021hd9	/en/grand_duchy_of_lithuania
+Grand Duchy of Mecklenburg-Strelitz	/m/0dlrr	/en/mecklenburg-strelitz
+Grand Duchy of Mecklenburg-Schwerin	/m/013py0	/en/mecklenburg-schwerin
+Principality of Wales	/m/0576g9	/en/principality_of_wales
+Republic of Venice	/m/02wm6l	/en/republic_of_venice
+Kingdom of Bavaria	/m/02vkbz_	/en/kingdom_of_bavaria
+United Arab Republic	/m/0c75f	/en/united_arab_republic
+New France	/m/0152tq	/en/new_france
+Kingdom of Serbia	/m/025scy1	/en/kingdom_of_serbia
+Kingdom of Yugoslavia	/m/01hs96	/en/kingdom_of_yugoslavia
+Principality of Serbia	/m/0821k6	/en/serbian_principality
+Kingdom of Travancore	/m/0153fg	/en/travancore
+Kingdom of Montenegro	/m/08_lvz	/en/kingdom_of_montenegro
+Principality of Montenegro	/m/09yxr7	/en/principality_of_montenegro
+Kingdom of Greece	/m/088q1s	/en/kingdom_of_greece
+Akkadian Empire	/m/0q_7	/en/akkad
+Babylonia	/m/0cn3b	/en/babylonia
+Assyria	/m/0wmn	/en/assyria
+Ancient Thebes	/m/03qmj4z	/en/ancient_thebes
+Emirate of Sicily	/m/0bd46l	/en/emirate_of_sicily
+Electorate of Brunswick-Lüneburg	/m/03nlzvh	/en/electorate_of_hanover
+Kingdom of Hanover	/m/03nljq4	/en/kingdom_of_hanover
+Kingdom of Croatia-Slavonia	/m/08t9sy	/en/kingdom_of_croatia-slavonia
+Republic of Genoa	/m/02q14r	/en/republic_of_genoa
+Russian Provisional Government	/m/0276wv	/en/russian_provisional_government
+Empire of Brazil	/m/01nr2h	/en/brazilian_empire
+Zaire	/m/0k5vl	/en/zaire
+Georgian Soviet Socialist Republic	/m/0247my	/en/georgian_ssr
+Abkhazia	/m/011jw	/en/abkhazia
+Dual monarchy of England and France	/m/05zth5b	/en/dual_monarchy_of_england_and_france
+Presidencies of British India	/m/02660pr	/en/presidencies_of_british_india
+Bourbon Spain	/m/05pq3_	/en/enlightenment_spain
+Kingdom of France	/m/0cn_tpv	/en/kingdom_of_france
+Tuvan People's Republic	/m/01dfxs	/en/tuvinian_peoples_republic
+Republika Srpska	/m/01yw4d	/en/republika_srpska
+South Sudan	/m/05rznz	/en/southern_sudan
+Nagorno-Karabakh Republic	/m/03gq3bp	/en/nagorno_karabakh_republic
+Duchy of Pomerania	/m/047gls8	/en/duchy_of_pomerania
+Caribbean Netherlands	/m/0bwhs8r	/wikipedia/en_title/Caribbean_Netherlands
+Curaçao	/m/0hbgh	/en/curacao
+Saint Helena, Ascension and Tristan da Cunha	/m/080pfr5	/en/saint_helena_ascension_and_tristan_da_cunha
+Babylon	/m/01cyh	/en/babylon
+Duchy of Parma	/m/0327cv	/en/duchy_of_parma
+Kingdom of Etruria	/m/05crmm	/en/kingdom_of_etruria
+Duchy of Lucca	/m/05jfjr	/en/duchy_of_lucca
+Cameroun	/m/01n9lb	/en/cameroun
+Socialist Federal Republic of Yugoslavia	/m/01rhrd	/en/socialist_federal_republic_of_yugoslavia
+First East Turkestan Republic	/m/05ktw4	/en/first_east_turkestan_republic
+Zulu Kingdom	/m/03gwrmk	/en/zulu_empire
+Kingdom of Croatia	/m/025scyf	/en/kingdom_of_croatia
+Kingdom of Portugal	/m/0285m87	/en/kingdom_of_portugal
+Kingdom of Albania	/m/02qr7wt	/en/albanian_kingdom
+Second French Empire	/m/01fmy9	/en/second_french_empire
+Second Empire of Haiti	/m/0bm9hr0	/wikipedia/pt/Imp$00E9rio_do_Haiti_$00281849-1859$0029
+Central African Empire	/m/017xm_	/en/central_african_empire
+Kingdom of Haiti	/m/02qtqw3	/en/kingdom_of_haiti
+First Empire of Haiti	/m/02qvwbf	/en/empire_of_haiti
+Kingdom of Araucanía and Patagonia	/m/03mv1t	/en/kingdom_of_araucania_and_patagonia
+Roman Kingdom	/m/06gb8	/en/roman_kingdom
+Commonwealth of England	/m/0210n	/en/commonwealth_of_england
+Francoist Spain	/m/01qzg7	/en/spanish_state
+Gran Colombia	/m/0dkz7x	/en/greater_colombia
+Mengjiang	/m/01chw7	/en/mengjiang
+Provisional Government of the Republic of China	/m/0fr_p6	/en/provisional_government_of_the_republic_of_china
+Great Way Government	/m/062nd7	/en/dadao_government
+State of Burma	/m/027g22f	/en/state_of_burma
+Reformed Government of the Republic of China	/m/0bp_lt	/en/reformed_government_of_the_republic_of_china
+East Hebei Autonomous Council	/m/0gy327	/en/east_hebei_autonomous_council
+Empire of Vietnam	/m/0cmhqw	/en/empire_of_vietnam
+Second Philippine Republic	/m/026kfv4	/en/second_philippine_republic
+Reorganized National Government of China	/m/0600ws	/en/wang_jingwei_government
+Italian Social Republic	/m/01tsff	/en/italian_social_republic
+Kingdom of Poland	/m/02z1d_	/wikipedia/pt_id/2063920
+Kingdom of Lithuania	/m/02qsqfw	/wikipedia/it_id/1396109
+Albania under Italy	/m/0gl6_x_	/m/0gl6_x_
+Manchukuo	/m/0fctx	/en/manchukuo
+Duchy of Courland and Semigallia	/m/02qwksb	/wikipedia/ru/$041A$0443$0440$043B$044F$043D$0434$0441$043A$043E$0435_$0433$0435$0440$0446$043E$0433$0441$0442$0432$043E_$00281918$0029
+Albanian Kingdom	/m/02x6nmy	/en/albania_under_nazi_germany
+Independent State of Croatia	/m/02105m	/en/independent_state_of_croatia
+Azerbaijan People's Government	/m/04q2f_	/en/azerbaijan_peoples_government
+Far Eastern Republic	/m/01xnfl	/en/far_eastern_republic
+Nedić's Serbia	/m/0cy11n	/en/nedics_serbia
+Italian governorate of Montenegro	/m/026wsdl	/en/independent_state_of_montenegro
+Hellenic State	/m/080f5w6	/en/hellenic_state
+Principality of the Pindus	/m/07l4p4	/en/pindus-macedonian_principality
+Belarusian Central Rada	/m/08z6cq	/en/belarusian_central_rada
+Quisling regime	/m/07kgrwt	/en/quisling_regime
+Mongolian People's Republic	/m/01w32b	/en/peoples_republic_of_mongolia
+Second East Turkestan Republic	/m/06r2sz	/en/second_east_turkestan_republic
+Finnish Democratic Republic	/m/02hv1_	/en/finnish_democratic_republic
+Estonian Soviet Socialist Republic	/m/0pyvq	/en/estonian_ssr
+Latvian Soviet Socialist Republic	/m/021hqs	/en/latvian_ssr
+Lithuanian Soviet Socialist Republic	/m/0247nt	/en/lithuanian_ssr
+People's Republic of Mozambique	/m/0642x_w	/en/peoples_republic_of_mozambique
+Republic of Afghanistan	/m/02hjn	/en/daouds_republic_of_afghanistan
+Democratic Republic of Afghanistan	/m/0dbpy	/en/democratic_republic_of_afghanistan
+South Yemen	/m/035hr8	/en/peoples_democratic_republic_of_yemen
+Yemen Arab Republic	/m/035hqw	/en/yemen_arab_republic
+People's Democratic Republic of Ethiopia	/m/05tbkd	/en/peoples_democratic_republic_of_ethiopia
+Derg	/m/03sjst	/en/derg
+People's Socialist Republic of Albania	/m/02y_7v4	/en/socialist_peoples_republic_of_albania
+People's Republic of Angola	/m/0642vvl	/en/peoples_republic_of_angola
+Socialist Republic of Romania	/m/01rdn4	/en/communist_romania
+People's Republic of Benin	/m/0fsfyj	/en/peoples_republic_of_benin
+Bukharan People's Soviet Republic	/m/06yd7h	/en/bukharan_peoples_soviet_republic
+Emirate of Bukhara	/m/08gycq	/en/emirate_of_bukhara
+People's Republic of Bulgaria	/m/03gq4p7	/en/peoples_republic_of_bulgaria
+People's Republic of the Congo	/m/0642vnz	/en/peoples_republic_of_the_congo
+People's Republic of Hungary	/m/0dd7dt	/en/peoples_republic_of_hungary
+Polish People's Republic	/m/01zs00	/en/peoples_republic_of_poland
+People's Republic of Kampuchea	/m/04rhsb	/en/peoples_republic_of_kampuchea
+Democratic Kampuchea	/m/02pc51s	/wikipedia/de_id/4215612
+Federal State of Austria	/m/0gk_bb2	/wikipedia/en_title/Federal_State_of_Austria
+Estado Novo	/m/02rwc2	/en/estado_novo
+Somali Democratic Republic	/m/0b76bv9	/en/somali_democratic_republic
+Emirate of Afghanistan	/m/03d5qx7	/en/emirate_of_afghanistan
+Ostikanate of Arminiya	/m/02rlr58	/en/the_emirate_of_armenia
+Emirate of Bari	/m/03x_mkb	/en/emirate_of_bari
+Emirate of Beihan	/m/07n_x0	/en/emirate_of_beihan
+Emirate of Crete	/m/076zg63	/en/emirate_of_crete
+Emirate of Granada	/m/04lglk0	/en/emirate_of_granada
+Principality of Hutt River	/m/015psd	/en/hutt_river_province_principality
+Biafra	/m/0c3fp	/en/biafra
+United Kingdom of the Netherlands	/m/0dtzv	/en/united_kingdom_of_the_netherlands
+South Vietnam	/m/0g8bw	/en/south_vietnam
+South Ossetia	/m/01v51r	/en/south_ossetia
+Soviet occupation zone	/m/033fcj	/en/soviet_occupation_zone
+Azania	/m/04bhng	/en/azania
+Mangkunegaran Palace	/m/0277lxc	/en/mangkunegaran
+British Guiana	/m/01c995	/en/british_guiana
+Joseon	/m/01vz08	/en/joseon_dynasty
+Sigavé	/m/0chhn2	/en/sigave
+Alo	/m/02666g6	/en/tu_a
+Kingdom of Baguirmi	/m/0527gf	/en/kingdom_of_baguirmi
+Ouaddai Empire	/m/09p8gf	/en/ouaddai_kingdom
+Aussa Sultanate	/m/0f7s2y	/en/afar_sultanate
+British Raj	/m/0bq0p9	/en/british_raj
+Uvea	/m/0dsdnm5	/wikipedia/en_title/Uvea_$0028Wallis_and_Futuna$0029
+Republic of Kosovo	/m/0gg9r39	/authority/iso/3166-1/alpha-2/XK
+Ukrainian SSR	/m/0212ny	/en/ukrainian_ssr
+Ciskei	/m/022p4v	/en/ciskei
+Transkei	/m/016p5p	/en/transkei
+Gazankulu	/m/065skb	/en/gazankulu
+KaNgwane	/m/065qw6	/en/kangwane
+Bophuthatswana	/m/016bbl	/en/bophuthatswana
+KwaNdebele	/m/065qr4	/en/kwandebele
+KwaZulu	/m/03w64k	/en/kwazulu
+Lebowa	/m/03pc9t	/en/lebowa
+QwaQwa	/m/01ds_f	/en/qwaqwa
+Venda	/m/022p8v	/en/venda
+Damaraland	/m/068jzd	/en/damaraland
+Bushmanland	/m/067w_w	/en/bushmanland
+East Caprivi	/m/0697zd	/en/east_caprivi
+Hereroland	/m/0686hz	/en/hereroland
+Kaokoland	/m/02lcpl	/en/kaokoland
+Kavangoland	/m/068s0p	/en/kavangoland
+Namaland	/m/068sk8	/en/namaland
+Ovamboland	/m/0686v3	/en/ovamboland
+Rehoboth	/m/068s7d	/wikipedia/bg/$0420$0438$0445$043E$0431$043E$0442_$0028$0431$0430$043D$0442$0443$0441$0442$0430$043D$0029
+Tswanaland	/m/068jzv	/en/tswanaland
+United Kingdom, with Dependencies and Territories	/m/0hzc9md	/base/aareas/location/uk_dominion
+Republic of China	/m/0h66xzc	/wikipedia/fr/Premi$00E8re_R$00E9publique_chinoise
+Kyrgyzstan	/m/0jt3tjf	/en/kyrgyzstan
+Cilicia	/m/0k0gz	/en/cilicia
+County of Flanders	/m/0bd3d3	/wikipedia/bg_id/99976
+Konbaung dynasty of Myanmar	/m/0j_lykf	/m/0j_lykf
+Imperial State of Iran	/m/0j_z3j0	/m/0j_z3j0
+State of Palestine	/m/01k0p4	/en/state_of_palestine
+Song	/m/0k07y43	/m/0k07y43
+Dutch East Indies	/m/0fl1l	/en/dutch_east_indies
+Tsardom of Russia	/m/0276pfz	/en/tsardom_of_russia
+Uzbek Soviet Socialist Republic	/m/0247pq	/en/uzbek_ssr
+Dominion of Newfoundland	/m/033nj_	/en/dominion_of_newfoundland
+Congress Poland	/m/020zwd	/en/congress_poland
+Kingdom of Poland	/m/08pns6	/en/kingdom_of_poland
+Shěn	/m/0pb4_wn	/wikipedia/en_title/Sh$011Bn_$0028state$0029
+Protectorate of Bohemia and Moravia	/m/026_dt	/en/protectorate_of_bohemia_and_moravia
+Mughal Empire	/m/0q307	/en/mughal_empire
+United States, with Territories	/m/0hzc9m5	/base/aareas/location/us_dominion
+Byelorussian Soviet Socialist Republic	/m/01bpjh	/en/byelorussian_ssr
+Duchy of Milan	/m/03276d	/en/duchy_of_milan
+Brandenburg-Prussia	/m/01k6xp	/en/brandenburg-prussia
+Prussia	/m/020g9r	/en/prussia
+Duchy of Saxony	/m/01n45v	/en/duchy_of_saxony
+Gozo	/m/0rpgpql	/wikipedia/en_title/Gozo_$00281798$20131800$0029
+Epirus	/m/06_xh9z	/wikipedia/en_title/Epirus_$0028ancient_state$0029
+Pattin	/m/0swmmbv	/wikipedia/en_title/Pattin
+Hunnic Empire	/m/04qcd9	/en/hunnic_empire
+Kingdom of Aksum	/m/02x7wz	/en/kingdom_of_aksum
+Qin	/m/01_fxk	/en/qin
+British Hong Kong	/m/0czf5w5	/wikipedia/zh-tw/$9999$6E2F$6B96$6C11$5730$53F2
+Polish–Lithuanian Commonwealth	/m/01ycx0	/en/polish-lithuanian_commonwealth
+Republic of Florence	/m/0642wmq	/en/republic_of_florence
+Empire of the Great Qing	/m/0v4lvkh	/m/0v4lvkh
+Kingdom of Saxony	/m/0327rz	/en/kingdom_of_saxony
+Samanid Empire	/m/03g27_	/en/samanid
+Siam	/m/0vb3knz	/dataworld/freeq/job_cda7faf7-5b7e-4728-b83b-09ff10ee0ade_var_122_gbgh
+Sunda Kingdom	/m/03hjwmj	/en/sunda_kingdom
+Ur	/m/07w5c	/en/ur
+Kingdom of Israel	/m/04fry	/en/kingdom_of_israel
+Moldavia	/m/0cgm9	/en/moldavia
+Yue	/m/047fxf	/wikipedia/ja/$8D8A
+Shu Han	/m/01pjmk	/en/shu_han
+Khedivate of Egypt	/m/0cmbvnz	/wikipedia/en_title/Khedivate_of_Egypt
+Karamanids	/m/02n6vb	/en/karamanoglu
+First Czechoslovak Republic	/m/03x_j2f	/en/czechoslovak_republic
+Umayyad Caliphate	/m/0d7bt	/en/umayyad
+Kingdom of Egypt	/m/02pjsp9	/en/kingdom_of_egypt
+Ayutthaya Kingdom	/m/0160d1	/en/ayutthaya_kingdom
+Kingdom of Croatia	/m/02rww6_	/wikipedia/es/Croacia_bajo_la_dinast$00EDa_Habsburgo
+Principality of Transylvania	/m/02wvd8v	/en/principality_of_transylvania
+Kingdom of Hejaz	/m/088dfn	/en/kingdom_of_hejaz
+Singhasari	/m/03b49t	/en/singhasari
+Dacian Kingdom	/m/0vsy37w	/dataworld/freeq/job_76bec8ba-6724-4aa5-9f49-a85a27a24a64_var_121y9ngk
+North Vietnam	/m/0g970	/en/north_vietnam
+Demak Sultanate	/m/0br9kd	/en/sultanate_of_demak
+Kara-Khanid Khanate	/m/019qyv	/en/kara-khanid_khanate
+Kingdom of Israel	/m/0577_c	/en/united_monarchy
+Almohad Caliphate	/m/0d7g1	/en/almohad
+French Indochina	/m/0dpsx	/en/french_indochina
+Grand Duchy of Baden	/m/02vk54l	/en/grand_duchy_of_baden
+Kingdom of Württemberg	/m/03m3qw2	/en/kingdom_of_wurttemberg
+Pandya Nadu	/m/06vrjj	/en/pandya_nadu
+Chola Empire	/m/0wddjkt	/m/0wddjkt
+Chera Kingdom	/m/0wddpgl	/m/0wddpgl
+Denmark–Norway	/m/0288qk	/en/denmark-norway
+German Confederation	/m/011xsj	/en/german_confederation
+Province of Pennsylvania	/m/02gff1	/en/province_of_pennsylvania
+First Bulgarian Empire	/m/086b7g	/en/first_bulgarian_empire
+Korean Empire	/m/01y7qw	/en/korean_empire
+Kingdom of Jerusalem	/m/0493p	/en/kingdom_of_jerusalem
+Kingdom of Commagene	/m/02y_7qg	/en/kingdom_of_commagene
+Duchy of Masovia	/m/04wfzp	/en/duchy_of_masovia
+Kingdom of Galicia–Volhynia	/m/02zj27	/en/halych-volhynia
+Huo	/m/0wxtm1d	/dataworld/freeq/job_fe78308a-a639-40d8-9a0f-68bd5c1305df_var_en_wikipedia_org_wiki_Huo_$0028state$0029
+West Ukrainian People's Republic	/m/02m_yt	/en/west_ukrainian_national_republic
+Cossack Hetmanate	/m/06b9cl	/en/cossack_hetmanate
+Transcaucasian Socialist Federative Soviet Republic	/m/0212rm	/en/transcaucasian_sfsr
+Hungarian Republic	/m/04n062t	/en/second_hungarian_republic
+First Austrian Republic	/m/07jp7c	/en/first_austrian_republic
+Chu	/m/03t7hf	/wikipedia/it_id/1635804
+Moldavian Soviet Socialist Republic	/m/0212ng	/en/moldavian_ssr
+Sasanian Empire	/m/0fb9h3	/en/sassanid_empire
+Portuguese Empire	/m/01hk04	/en/portuguese_empire
+Electorate of Saxony	/m/0g78xc	/en/electorate_of_saxony
+Latvian Socialist Soviet Republic	/m/02vpqh5	/en/latvian_socialist_soviet_republic
+Kingdom of Castile	/m/0384_p	/en/kingdom_of_castile
+Hungarian Democratic Republic	/m/02vkk02	/en/hungarian_democratic_republic
+Kingdom of Serbia	/m/0dgpsvs	/wikipedia/en_title/Kingdom_of_Serbia_$0028medieval$0029
+Moravian Serbia	/m/02ppx6y	/en/moravian_serbia
+Principality of Koknese	/m/03gy2hy	/en/principality_of_kukenois
+Second Spanish Republic	/m/0d77wh	/en/second_spanish_republic
+French Third Republic	/m/01h3dj	/en/french_third_republic
+Serbian Grand Principality	/m/0gyr794	/wikipedia/en_title/Serbian_Grand_Principality
+Free City of Lübeck	/m/0h6rdy	/wikipedia/pt_id/2516622
+Free City of Danzig	/m/02dhnr	/en/free_city_of_danzig
+Saxe-Coburg and Gotha	/m/01f0_j	/en/saxe-coburg_and_gotha
+Republic of Ragusa	/m/08ffy5	/en/republic_of_ragusa
+Hungarian Soviet Republic	/m/03l5sx	/en/hungarian_soviet_republic
+Socialist Republic of Bosnia and Herzegovina	/m/0c_kgs	/en/socialist_republic_of_bosnia_and_herzegovina
+Socialist Republic of Croatia	/m/038m5g	/en/croatia_in_the_second_yugoslavia
+Habsburg Monarchy	/m/040vgd	/en/habsburg_monarchy
+Sikh Empire	/m/08yh2w	/en/sikh_confederacy
+Sukerchakia Misl	/m/03r2_m	/en/sukerchakia
+Ukrainian State	/m/0344tq	/en/hetmanate
+Second Hellenic Republic	/m/04n7pzz	/en/second_hellenic_republic
+Old Swiss Confederacy	/m/0gm9hg	/en/old_swiss_confederacy
+Kingdom of Lombardy–Venetia	/m/05jhh2	/en/kingdom_of_lombardy-venetia
+Visigothic Kingdom	/m/03bx_2q	/en/visigothic_kingdom
+Bruneian Empire	/m/02rd5dq	/en/bruneian_empire
+Provisional Government of the Republic of China	/m/0gkxl5k	/wikipedia/en_title/Provisional_Government_of_the_Republic_of_China_$00281912$0029
+Habsburg Netherlands	/m/03c8mkv	/en/habsburg_netherlands
+Anuradhapura Kingdom	/m/06zqjqb	/en/anuradhapura_kingdom
+Liang	/m/0ffprt	/en/king_of_liang
+Socialist Republic of Serbia	/m/02p9dxn	/en/socialist_republic_of_serbia
+Melayu Kingdom	/m/0gh4mj	/en/melayu_kingdom
+Alamannia	/m/0423jj	/en/alamannia
+Irish Free State	/m/0bsw2	/en/irish_free_state
+United Provinces of Central Italy	/m/07mbmr	/en/united_provinces_of_central_italy
+Kingdom of Piedmont-Sardinia	/m/02pbxk6	/en/kingdom_of_piedmont_sardinia
+Crown of Castile	/m/0cjltc	/en/crown_of_castile
+Yamatai	/m/0749b3	/en/yamataikoku
+British America	/m/02p89zz	/en/british_america
+Tajik Soviet Socialist Republic	/m/0247p8	/en/tajik_ssr
+Kingdom of Denmark	/m/04_1l2q	/en/kingdom_of_denmark
+Socialist Republic of Slovenia	/m/02qjx63	/en/socialist_republic_of_slovenia
+Governorate of Livonia	/m/08hn6h	/en/riga_governorate
+Portuguese Mozambique	/m/0ccsc	/en/portuguese_east_africa
+Landgraviate of Hesse-Kassel	/m/01m3dv	/en/hesse-kassel
+Electorate of Cologne	/m/01lkc_	/en/archbishopric_of_cologne
+Sogdia	/m/0n9fg	/en/sogdiana
+Latin Empire	/m/017j5t	/en/latin_empire
+Bishopric of Speyer	/m/02p5jlr	/en/bishopric_of_speyer
+Kingdom of Hungary	/m/010gd0x8	/m/010gd0x8
+British Ceylon	/m/027nwcy	/en/british_ceylon
+Kingdom of Sardinia	/m/01tdpv	/en/kingdom_of_sardinia
+Min	/m/0651n6	/en/min
+Italy	/m/010w_jg5	/m/010w_jg5
+Muscat and Oman	/m/066wg_	/en/muscat_and_oman
+Azerbaijan Soviet Socialist Republic	/m/0247nc	/en/azerbaijan_ssr
+United States of America	/m/0114l97w	/m/0114l97w
+South Korea	/m/010xczvl	/dataworld/freeq/job_e413a379-b278-4271-aa0c-360d52512446_var_en_wikipedia_org_wiki_Free_Korea
+German East Africa	/m/01b_kn	/en/german_east_africa
+Turkmen Soviet Socialist Republic	/m/01cf4l	/en/turkmen_ssr
+Oudh State	/m/010xdhyg	/dataworld/freeq/job_e413a379-b278-4271-aa0c-360d52512446_var_en_wikipedia_org_wiki_Oudh_State
+Kirghiz Soviet Socialist Republic	/m/02ccsw	/en/kyrgyz_ssr
+Japan	/m/011g652c	/m/011g652c
+Republic of the Congo	/m/03cgg6r	/wikipedia/en_title/Republic_of_the_Congo_$0028L$00E9opoldville$0029
+Republic of German-Austria	/m/0g4zwv	/en/german_austria
+Balhae	/m/02j3kf	/en/balhae
+Austria-Hungary	/m/011j_7t_	/m/011j_7t_

@@ -15,9 +15,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.derby.tools.sysinfo;
 
-import scala.languageFeature.postfixOps;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
@@ -205,11 +203,15 @@ public class CreateCorpusFromDocs {
 		FileInputStream fisTargetFile = new FileInputStream(new File(docName));
 
 		String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
-
 		Annotation doc = cc.createTestString(targetFileStr, docName);
+		
+		boolean debug = true;
+		while(debug) {
+			CorpusRow c = cc.createDerbyRow(1, "sg", doc
+					.get(CoreAnnotations.SentencesAnnotation.class).get(0));
 		//ArrayList<CorpusRow> rowSet = cc.createDerbyRowSet(doc, "doc1");
-		System.out.println(cc.createDerbyRow(1, "sg", doc
-				.get(CoreAnnotations.SentencesAnnotation.class).get(0)));
+		System.out.println(c);
+		}
 	}
 
 	/**
