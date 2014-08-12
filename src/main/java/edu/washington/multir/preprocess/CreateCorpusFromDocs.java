@@ -55,11 +55,15 @@ public class CreateCorpusFromDocs {
 	private static boolean initializedParser = false;
 	private static String BLLIP_PARSER_PATH = "bllip-parser-master";
 	private static StanfordCoreNLP pipeline; // the annotator pipeline
+	private CountryMarker cnmarker;
+	private static String COUNTRIES_FILE =  "meta/country_freebase_mapping";
 /**
  * This is done to avoid loading the pipeline for each doc, which takes up a lot of time
+ * @throws IOException 
  */
-	public CreateCorpusFromDocs() {
+	public CreateCorpusFromDocs() throws IOException {
 		Properties props = new Properties();
+		cnmarker = new CountryMarker(COUNTRIES_FILE);
 		props.put("annotators", "tokenize,ssplit,pos,lemma,ner");
 		props.put("sutime.binders", "0");
 		pipeline = new StanfordCoreNLP(props, false);
@@ -272,9 +276,10 @@ public class CreateCorpusFromDocs {
 			depInfo.append(deps.first + " " + deps.second + " " + deps.third
 					+ "|");
 		}
+		ArrayList<String> linkInformation = cnmarker.getEntityLinkInformation(sentence.toString());
 		return new CorpusRow(sentId, docName, tokenInformation.toString()
 				.trim(), sentence.toString(), "",
-				depInfo.toString().trim(), "", "", nerInfo.toString().trim(),
+				depInfo.toString().trim(), linkInformation.get(0), linkInformation.get(1), nerInfo.toString().trim(),
 				offSetInfo.toString().trim(), posTagInfo.toString().trim(), "");
 	}
 }

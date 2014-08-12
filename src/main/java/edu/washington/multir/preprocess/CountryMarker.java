@@ -65,7 +65,7 @@ public class CountryMarker {
 	 */
 
 	ArrayList<String> getEntityLinkInformation(String sentence) {
-		StringBuilder entityLinkString = new StringBuilder();
+		StringBuilder entityLinkStringBuilder = new StringBuilder();
 		StringBuilder typeStringBuilder = new StringBuilder();
 		ArrayList<String> res = new ArrayList<String>();
 		int wordOffSet = 0;
@@ -88,7 +88,7 @@ public class CountryMarker {
 					String linkingString = wordOffSet + " " + (wordOffSet + 1)
 							+ " " + WordUtils.capitalize(entityName) + " "
 							+ freeBaseId + " 1 ";
-					entityLinkString.append(linkingString);
+					entityLinkStringBuilder.append(linkingString);
 					
 					String typeString = wordOffSet + " " + (wordOffSet + 1)
 							+ "/location/country " + freeBaseId + " ";
@@ -107,7 +107,7 @@ public class CountryMarker {
 					String linkingString = wordOffSet + " " + (wordOffSet + 1)
 							+ " " + WordUtils.capitalize(entityName) + " "
 							+ freeBaseId + " 1 ";
-					entityLinkString.append(linkingString);
+					entityLinkStringBuilder.append(linkingString);
 					String typeString = wordOffSet + " " + (wordOffSet + 1)
 							+ "/location/country " + freeBaseId + " ";
 					typeStringBuilder.append(typeString);
@@ -116,8 +116,7 @@ public class CountryMarker {
 			}
 			wordOffSet++;
 		}
-		res.add(entityLinkString.toString());
-		
+		res.add(entityLinkStringBuilder.toString());
 		res.add(typeStringBuilder.toString());
 		return res;
 	}
@@ -131,7 +130,7 @@ public class CountryMarker {
 		CountryMarker cmr = new CountryMarker(countriesFile);
 		System.out
 				.println(cmr
-						.getEntityLinkString("Air China is progressing fast with Indians and Portugese music How will UK and USA react to this"));
+						.getEntityLinkInformation("Air China is progressing fast with Indians and Portugese music How will UK and USA react to this"));
 
 	}
 }
