@@ -39,18 +39,23 @@ public class CorpusRow {
 		this.tokenPOSInformation = tokenPOSInformation;
 		this.tokenChunkInformation = tokenChunkInformation;
 	}
-	@Override
-	public String toString() {
-		return  sentId + "\n" + docName
-				+ "\n" + tokenInformation
-				+ "\n" + textInformation
-				+ "\n" + sentOffSetInformation
-				+ "\n" + sentdependencyInformation
-				+ "\n" + sentNELinkingInformation
-				+ "\n" + sentFreebaseInformation
-				+ "\n" + tokenNERInformation
-				+ "\n" + tokenOffsetInformation
-				+ "\n" + tokenPOSInformation
-				+ "\n" + tokenChunkInformation + "]";
+	
+	/**
+	 * 
+	 * @param SEP separator
+	 * @return corpus row separated by SEP
+	 */
+	public String stringSep(String SEP) {
+		return  sentId + SEP + docName
+				+ SEP + tokenInformation
+				+ SEP + textInformation
+				+ SEP + sentOffSetInformation
+				+ SEP + sentdependencyInformation
+				+ SEP + sentNELinkingInformation
+				+ SEP + sentFreebaseInformation
+				+ SEP + tokenNERInformation
+				+ SEP + tokenOffsetInformation
+				+ SEP + tokenPOSInformation
+				+ SEP + tokenChunkInformation ;
 	}
 }

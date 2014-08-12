@@ -96,7 +96,7 @@ public class CountryMarker {
 				}
 				continue;
 			}
-			while (suffixEnd < (wl - 2)) {
+			while (suffixEnd < (wl - 5)) {
 				String keyWord = word.substring(0, wl - suffixEnd);
 				suffixEnd++;
 				keyWord = keyWord.toLowerCase(); // map keys are lower case

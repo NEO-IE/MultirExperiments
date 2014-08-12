@@ -37,6 +37,7 @@ import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Triple;
+import edu.washington.multir.development.Preprocess;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentDocNameInformation.SentDocName;
 import edu.washington.multirframework.corpus.SentDependencyInformation;
 import edu.washington.multirframework.corpus.SentOffsetInformation.SentStartOffset;
@@ -205,19 +206,49 @@ public class CreateCorpusFromDocs {
 	public static void main(String args[]) throws IOException,
 			InterruptedException {
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		String docName = "data/sgtest/testdoc1.txt";
-
-		FileInputStream fisTargetFile = new FileInputStream(new File(docName));
-
-		String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
-		Annotation doc = cc.createTestString(targetFileStr, docName);
-		
+		String corpusPath = "data/sgtest";
+		String outputFile = "derbyFlatFile";
+		cc.preprocessCorpus(corpusPath, outputFile);
+	}
+	
+	/**
+	 * Preprocess Corpus takes path to a directory where the files reside, iterates over them and 
+	 * attaches meta data to each of the docs. The schema in which we need each of the sentences is 
+	 * as shown in meta/schema.txt
+	 * @param path : Path to the input corpus
+	 * @throws IOException 
+	 * @throws InterruptedException 
+	 */
+	
+	void preprocessCorpus(String path, String outputFile) throws IOException, InterruptedException {
+		File inputFiles[] = new File(path).listFiles();
+		ArrayList<CorpusRow> rowSet = new ArrayList<CorpusRow>();
 		boolean debug = true;
 		while(debug) {
-			CorpusRow c = cc.createDerbyRow(1, "sg", doc
-					.get(CoreAnnotations.SentencesAnnotation.class).get(0));
-		//ArrayList<CorpusRow> rowSet = cc.createDerbyRowSet(doc, "doc1");
-		System.out.println(c);
+		for(File inputFile : inputFiles) {
+
+			String docName = inputFile.getName();
+			FileInputStream fisTargetFile = new FileInputStream(inputFile);
+			System.out.println("Processing " + inputFile.getAbsolutePath());
+			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
+			Annotation doc =createTestString(targetFileStr, docName);
+			List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
+			int sentId = 1;
+			for(CoreMap sentence : sentences) {
+				System.out.println("\t sentence : " + sentId + " : " + sentence);
+				rowSet.add(createDerbyRow(sentId++, docName, sentence));
+			}
+		}
+		
+		File outFile = new File(outputFile);
+		outFile.createNewFile();
+		String SEP = "\t";
+		BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
+		for(CorpusRow cr : rowSet) {
+			bw.write(cr.stringSep(SEP) + "\n");
+		}
+		System.out.println("Results Written to " + outputFile);
+		bw.close();
 		}
 	}
 
