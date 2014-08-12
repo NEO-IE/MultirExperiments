@@ -10,12 +10,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 
+import scala.actors.threadpool.Arrays;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
@@ -30,6 +32,7 @@ import edu.stanford.nlp.trees.GrammaticalStructure;
 import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.PennTreebankLanguagePack;
 import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.trees.TreeCoreAnnotations.TreeAnnotation;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
 import edu.stanford.nlp.util.CoreMap;
@@ -64,7 +67,7 @@ public class CreateCorpusFromDocs {
 	public CreateCorpusFromDocs() throws IOException {
 		Properties props = new Properties();
 		cnmarker = new CountryMarker(COUNTRIES_FILE);
-		props.put("annotators", "tokenize,ssplit,pos,lemma,ner");
+		props.put("annotators", "tokenize,ssplit,pos,lemma,parse,ner");
 		props.put("sutime.binders", "0");
 		pipeline = new StanfordCoreNLP(props, false);
 	}
@@ -245,12 +248,18 @@ public class CreateCorpusFromDocs {
 	 */
 	CorpusRow createDerbyRow(Integer sentId, String docName, CoreMap sentence) {
 		StringBuilder depInfo = new StringBuilder();
+		String targetedChunks[] = {"NP", "VP", "PP"};
+		HashSet<String> targetChunk = new HashSet<String>(Arrays.asList(targetedChunks));
 		StringBuilder offSetInfo = new StringBuilder();
 		StringBuilder nerInfo = new StringBuilder();
 		StringBuilder posTagInfo = new StringBuilder();
 		StringBuilder tokenInformation = new StringBuilder();
+		Integer sentBeginOffSet = sentence.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+		Integer sentEndOffSet = sentence.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+		Tree t = sentence.get(TreeAnnotation.class);
 		List<Triple<Integer, String, Integer>> depInfoTripleList = sentence
 				.get(SentDependencyInformation.DependencyAnnotation.class);
+	
 		for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
 			// this is the text of the token
 			String word = token.get(TextAnnotation.class);
@@ -259,7 +268,7 @@ public class CreateCorpusFromDocs {
 			// this is the NER label of the token	
 			String ne = token
 					.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-
+		
 			Integer startOffset = token
 					.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
 			Integer endOffset = token
@@ -276,10 +285,38 @@ public class CreateCorpusFromDocs {
 			depInfo.append(deps.first + " " + deps.second + " " + deps.third
 					+ "|");
 		}
+		/*
+		 * Get typing information
+		 */
 		ArrayList<String> linkInformation = cnmarker.getEntityLinkInformation(sentence.toString());
+		/*
+		 * Get chunking information
+		 */
+		StringBuilder chunkBuilder = new StringBuilder();
+		
+		String currPhrase = "", prevPharse = "X";
+		boolean newPhrase = false;
+		for (Tree child: t) {
+			if(child.isPhrasal() && targetChunk.contains(child.value())) { //if this is a phrase we are interested in
+				currPhrase = child.value();
+				if(!currPhrase.equals(prevPharse)) {
+					prevPharse = currPhrase;
+					newPhrase = true;
+				}
+			} else if(child.isLeaf()) {
+				if(newPhrase) {
+					chunkBuilder.append("B-" + currPhrase + " ");
+					newPhrase = false;
+				} else {
+					chunkBuilder.append("I-" + currPhrase + " ");
+				}
+			}
+		}
+
+	
 		return new CorpusRow(sentId, docName, tokenInformation.toString()
-				.trim(), sentence.toString(), "",
+				.trim(), sentence.toString(), sentBeginOffSet + " " + sentEndOffSet,
 				depInfo.toString().trim(), linkInformation.get(0), linkInformation.get(1), nerInfo.toString().trim(),
-				offSetInfo.toString().trim(), posTagInfo.toString().trim(), "");
+				offSetInfo.toString().trim(), posTagInfo.toString().trim(), chunkBuilder.toString());
 	}
 }
