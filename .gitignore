@@ -20,4 +20,6 @@ derby.log
 /doc/*.log
 /doc/*.aux
 /doc/*.backup
-
+/sgconfig.json
+/derbyFlatFile
+/*.dump

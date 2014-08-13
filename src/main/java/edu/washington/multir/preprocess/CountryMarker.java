@@ -80,7 +80,7 @@ public class CountryMarker {
 		// String word = token.get(TextAnnotation.class);
 		for (String word : words) {
 			int wl = word.length();
-			int suffixEnd = 2;
+			int rightTrimLen = 2;
 			if (wl <= 3) { // US perhaps?
 				if (popularAbbrSet.contains(word)) { // we have a country match
 					String entityName = word;
@@ -96,10 +96,12 @@ public class CountryMarker {
 				}
 				continue;
 			}
-			while (suffixEnd < (wl - 5)) {
-				String keyWord = word.substring(0, wl - suffixEnd);
-				suffixEnd++;
+			while (rightTrimLen <= (wl - 4)) {
+				String keyWord = word.substring(0, wl - rightTrimLen);
+				
+				rightTrimLen++;
 				keyWord = keyWord.toLowerCase(); // map keys are lower case
+				//System.out.println(keyWord);
 				if (countryList.contains(keyWord)) { // we have a country match
 					String entityName = keyWord
 							+ completeNameMapping.get(keyWord);
@@ -130,7 +132,7 @@ public class CountryMarker {
 		CountryMarker cmr = new CountryMarker(countriesFile);
 		System.out
 				.println(cmr
-						.getEntityLinkInformation("Air China is progressing fast with Indians and Portugese music How will UK and USA react to this"));
+						.getEntityLinkInformation("Israeli officials have voiced fears that the import of materials like cement into the strip could be used to re-store the network of tunnels destroyed during the conflict and which Palestinian fighters have used to infiltrate Israel ."));
 
 	}
 }
