@@ -41,6 +41,7 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Triple;
 import edu.washington.multir.preprocess.marker.CountryMarker;
 import edu.washington.multir.preprocess.marker.Marking;
+import edu.washington.multir.preprocess.marker.MarkingUtils;
 import edu.washington.multir.preprocess.marker.NumberMarker;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentDocNameInformation.SentDocName;
 import edu.washington.multirframework.corpus.SentDependencyInformation;
@@ -329,8 +330,10 @@ public class CreateCorpusFromDocs {
 		/*
 		 * Get typing information
 		 */
-		ArrayList<Marking> countriesFound = cnMarker.mark(sentence.toString());
-		ArrayList<Marking> numbersFound = numMarker.mark(sentence.toString());
+		ArrayList<ArrayList<Marking>> markingsList = new ArrayList<ArrayList<Marking>>();
+		markingsList.add(cnMarker.mark(sentence.toString()));
+		markingsList.add(numMarker.mark(sentence.toString()));
+		ArrayList<String> linkTypeInfo = MarkingUtils.getMarkingStrings(MarkingUtils.mergeMarkings(markingsList));
 		/*
 		 * Get chunking information
 		 */
@@ -358,7 +361,7 @@ public class CreateCorpusFromDocs {
 	
 		return new CorpusRow(sentId, docName, tokenInformation.toString()
 				.trim(), sentence.toString(), sentBeginOffSet + " " + sentEndOffSet,
-				depInfo.toString().trim(), "", "", nerInfo.toString().trim(),
+				depInfo.toString().trim(), linkTypeInfo.get(MarkingUtils.LINKOFFSET), linkTypeInfo.get(MarkingUtils.TYPEOFFSET), nerInfo.toString().trim(),
 				offSetInfo.toString().trim(), posTagInfo.toString().trim(), chunkBuilder.toString());
 	}
 }

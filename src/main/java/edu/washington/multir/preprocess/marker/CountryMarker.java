@@ -88,9 +88,8 @@ public class CountryMarker implements Marker{
 					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
 					res.add(m);
 				}
-				wordOffSet++;
-				continue;
-			}
+		
+			} else {
 			while (rightTrimLen <= (wl - 4)) {
 				String keyWord = word.substring(0, wl - rightTrimLen);
 				
@@ -105,6 +104,7 @@ public class CountryMarker implements Marker{
 					res.add(m);
 					break;
 				}
+			}
 			}
 			wordOffSet++;
 		}

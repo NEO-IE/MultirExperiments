@@ -3,10 +3,7 @@ package edu.washington.multir.preprocess.marker;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.PriorityQueue;
-
-import scala.collection.script.Start;
 
 /**
  * This class contains code to handle the markings. Eg. Sorting, deleting, merging etc
@@ -15,7 +12,7 @@ import scala.collection.script.Start;
  */
 public class MarkingUtils {
 	public static final int LINKOFFSET = 0;
-	public static final int TYPEOFFSET = 0;
+	public static final int TYPEOFFSET = 1;
 	
 	/**
 	 * This function merges the marking on the basis of the start offset attribute
@@ -51,8 +48,8 @@ public class MarkingUtils {
 		StringBuilder linkStringBuilder = new StringBuilder();
 		StringBuilder typeStringBuilder = new StringBuilder();
 		for(Marking m : markings) {
-			linkStringBuilder.append(m.getLinkString());
-			typeStringBuilder.append(m.getTypeString());
+			linkStringBuilder.append(m.getLinkString() + " ");
+			typeStringBuilder.append(m.getTypeString() + " ");
 		}
 		ArrayList<String> res = new ArrayList<String>();
 		res.add(linkStringBuilder.toString());
@@ -78,10 +75,12 @@ public class MarkingUtils {
 		ArrayList<ArrayList<Marking>> markingsList = new ArrayList<ArrayList<Marking>>();
 		markingsList.add(cnmarker.mark(sentence));
 		markingsList.add(nm.mark(sentence));
-		MarkingUtils.listNames(markingsList.get(0));
-		MarkingUtils.listNames(markingsList.get(1));
-		MarkingUtils.listNames(MarkingUtils.mergeMarkings(markingsList));
-		System.out.println(MarkingUtils.mergeMarkings(markingsList));
+	//	MarkingUtils.listNames(markingsList.get(0));
+	//	MarkingUtils.listNames(markingsList.get(1));
+	//	MarkingUtils.listNames(MarkingUtils.mergeMarkings(markingsList));
+		for(String m : MarkingUtils.getMarkingStrings(MarkingUtils.mergeMarkings(markingsList))) {
+			System.out.println(m);
+		}
 	}
 
 }
