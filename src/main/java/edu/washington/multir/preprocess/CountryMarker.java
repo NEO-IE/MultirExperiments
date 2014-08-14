@@ -90,8 +90,8 @@ public class CountryMarker {
 							+ freeBaseId + " 1 ";
 					entityLinkStringBuilder.append(linkingString);
 					
-					String typeString = wordOffSet + " " + (wordOffSet + 1)
-							+ " /location/country " + freeBaseId + " ";
+					String typeString = wordOffSet + " " + (wordOffSet + 1) + " " 
+							+ "/location/country " + freeBaseId + " ";
 					typeStringBuilder.append(typeString);
 				}
 				continue;
@@ -111,7 +111,7 @@ public class CountryMarker {
 							+ freeBaseId + " 1 ";
 					entityLinkStringBuilder.append(linkingString);
 					String typeString = wordOffSet + " " + (wordOffSet + 1)
-							+ "/location/country " + freeBaseId + " ";
+							+ " /location/country " + freeBaseId + " ";
 					typeStringBuilder.append(typeString);
 					break;
 				}

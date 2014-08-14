@@ -209,7 +209,7 @@ public class CreateCorpusFromDocs {
 			InterruptedException {
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
 		String corpusPath = "data/sgtest";
-		String outputFile = "derbyFlatFile";
+		String outputFile = "data/derbyFlatFile";
 		cc.preprocessCorpus(corpusPath, outputFile);
 	}
 	
@@ -227,6 +227,7 @@ public class CreateCorpusFromDocs {
 		ArrayList<CorpusRow> rowSet = new ArrayList<CorpusRow>();
 		boolean debug = true;
 		while(debug) {
+			debug = false;
 		for(File inputFile : inputFiles) {
 
 			String docName = inputFile.getName();
@@ -241,7 +242,6 @@ public class CreateCorpusFromDocs {
 				rowSet.add(createDerbyRow(sentId++, docName, sentence));
 			}
 		}
-		
 		File outFile = new File(outputFile);
 		String SEP = "\t";
 		PrintWriter bw = new PrintWriter(new FileOutputStream(outFile));
