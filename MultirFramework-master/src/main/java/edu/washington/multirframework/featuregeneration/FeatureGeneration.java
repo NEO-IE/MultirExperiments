@@ -39,7 +39,7 @@ public class FeatureGeneration {
 		//initialize variables
     	
     	List<SententialArgumentPair> saps = getSaps(dsFileNames,featureFileNames);
-    	//System.out.println("size of pairs " + saps.size() + "\n" + saps.get(0));
+    	System.out.println("size of pairs " + saps.size() + "\n" + saps.get(0));
     	long end = System.currentTimeMillis();
     	System.out.println("Sentential Argument Pair collection took " + (end-start) + "milliseconds");
     	
@@ -81,9 +81,10 @@ public class FeatureGeneration {
     		
     		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
     		for(CoreMap sentence: sentences){
-    			//System.out.println(sentence);
+    				
     			Integer currSentID = sentence.get(SentGlobalID.class);
     			if(sapMap.containsKey(currSentID)){
+    				System.out.println(sentence);
     				List<SententialArgumentPair> sentenceSaps = sapMap.get(currSentID);
     				writeFeatures(sentenceSaps,doc,sentence,writerMap);
     			}

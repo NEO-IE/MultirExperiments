@@ -39,10 +39,7 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 			depParents[i] = -1;
 		}
 		
-		
 		String[] depTypes = new String[tokens.size()];
-		
-		
 		String arg1ner = "";
 		String arg2ner = "";
 		int[] arg1Pos = new int[2];
@@ -66,8 +63,8 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 				posTags[i] = pos;
 			}
 			
-			int begOffset = 0;//token.get(SentenceRelativeCharacterOffsetBeginAnnotation.class);
-			int endOffset = 0;//token.get(SentenceRelativeCharacterOffsetEndAnnotation.class);
+			int begOffset = token.get(SentenceRelativeCharacterOffsetBeginAnnotation.class);
+			int endOffset = token.get(SentenceRelativeCharacterOffsetEndAnnotation.class);
 
 			// if the token matches the argument set the ner and argPos values
 			if(begOffset == arg1StartOffset){
@@ -80,9 +77,7 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 			
 			if(endOffset == arg1EndOffset){
 				arg1Pos[1] = i;
-			}
-			
-			
+			}	
 			if(begOffset == arg2StartOffset){
 				String ner = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
 				if(ner != null){
@@ -95,8 +90,6 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 				arg2Pos[1] = i;
 			}
 		}
-		
-
 		//dependency conversions..
 		List<Triple<Integer,String,Integer>> dependencyData = sentence.get(DependencyAnnotation.class);
 		if(dependencyData != null){
@@ -123,14 +116,9 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 		else{
 			return new ArrayList<String>();
 		}
-		
 		//add 1 to end Pos values
 		arg1Pos[1] += 1;
-		arg2Pos[1] += 1;
-
-			
-		
-		
+		arg2Pos[1] += 1;	
 		return originalMultirFeatures(tokenStrings, posTags, depParents, depTypes, arg1Pos, arg2Pos, arg1ner, arg2ner);
 	}
 	

@@ -91,7 +91,7 @@ public class CountryMarker {
 					entityLinkStringBuilder.append(linkingString);
 					
 					String typeString = wordOffSet + " " + (wordOffSet + 1)
-							+ "/location/country " + freeBaseId + " ";
+							+ " /location/country " + freeBaseId + " ";
 					typeStringBuilder.append(typeString);
 				}
 				continue;
