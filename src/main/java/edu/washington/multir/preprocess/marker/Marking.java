@@ -20,7 +20,7 @@ public class Marking implements Comparable<Marking> {
 	}
 	public static final String COUNTRY = "/location/country";
 	public static final String NUMBER = "/neo/number";
-	int startOffset, endOffset;
+	Integer startOffset, endOffset;
 	String entityName, freebaseId;
 	double markingConfidence;
 	String markingType;
@@ -40,5 +40,22 @@ public class Marking implements Comparable<Marking> {
 		} else {
 			return 1;
 		}
+	}
+	/**
+	 * Returns the string in the format required for the column SENTNAMEDENTITYLINKINGINFO
+	 * @return
+	 */
+	public String getLinkString() {
+		String res = startOffset + " " + endOffset + " " + entityName + " " + freebaseId + " " + markingConfidence;
+		return res;
+	}
+	
+	/**
+	 * Returns the string that can be directly fed to the freebasenotable column of the derby db
+	 * @return
+	 */
+	public String getTypeString() {
+		String res = startOffset + " " + endOffset + " " + markingType + " " + freebaseId;
+		return res;
 	}
 }

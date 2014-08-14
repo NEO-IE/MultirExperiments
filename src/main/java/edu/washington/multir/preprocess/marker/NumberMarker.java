@@ -16,7 +16,7 @@ public class NumberMarker implements Marker {
 			
 			Matcher m = p.matcher(word);
 			if(m.find()) {
-				numbers.add(new Marking(i, i, m.group(), m.group(), 1, Marking.NUMBER));
+				numbers.add(new Marking(i, i + 1, m.group(), m.group(), 1, Marking.NUMBER));
 			}
 			i++;
 		}
