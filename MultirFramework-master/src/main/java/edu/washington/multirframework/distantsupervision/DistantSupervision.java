@@ -41,7 +41,7 @@ public class DistantSupervision {
 		this.nec = nec;
 	}
 
-	public void run(String outputFileName,KnowledgeBase kb, Corpus c) throws SQLException, IOException{
+	public void run(String outputFileName,KnowledgeBase kb, Corpus c) throws SQLException, IOException, NullPointerException{
     	long start = System.currentTimeMillis();
     	PrintWriter dsWriter = new PrintWriter(BufferedIOUtils.getBufferedWriter(new File(outputFileName)));
 		Iterator<Annotation> di = c.getDocumentIterator();
@@ -50,6 +50,9 @@ public class DistantSupervision {
 		long timeSpentInQueries = 0;
 		while(di.hasNext()){
 			Annotation d = di.next();
+			if(null == d) {
+				System.out.println(d);
+			}
 			List<CoreMap> sentences = d.get(CoreAnnotations.SentencesAnnotation.class);
 
 			List<NegativeAnnotation> documentNegativeExamples = new ArrayList<>();
