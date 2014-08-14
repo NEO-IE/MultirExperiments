@@ -3,7 +3,7 @@
  * This class marks countries in a piece of text
  * This is used to fill the entity linking column in freebase
  */
-package edu.washington.multir.preprocess;
+package edu.washington.multir.preprocess.marker;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-public class CountryMarker {
+public class CountryMarker implements Marker{
 	/**
 	 * We maintain 3 forms of every country : a) India, Indi and Ind which has
 	 * no space in its name. Some of the variations like US, USA were hardcoded
@@ -34,6 +34,7 @@ public class CountryMarker {
 		freeBaseMapping = new HashMap<String, String>();
 		while ((countryName = br.readLine()) != null) {
 			String vars[] = countryName.split("\t");
+			String oriName = vars[0];
 			int nl = vars[0].length();
 			// inflections of country names will never involve more than 2 last
 			// chars
@@ -42,11 +43,11 @@ public class CountryMarker {
 				String suffix = vars[0].substring(nl - 2, nl);
 				vars[0] = vars[0].substring(0, nl - 2);
 				completeNameMapping.put(vars[0].toLowerCase(), suffix);
-				// need this because chinese must be stored as China, their
+				// need this because chinese must be stored as China in the derby, their
 				// Freebase entry
 
 			}
-
+			freeBaseMapping.put(oriName, vars[1]);
 			freeBaseMapping.put(vars[0].toLowerCase(), vars[1]);
 
 		}
@@ -64,10 +65,9 @@ public class CountryMarker {
 	 * (will be) painfully slow, find out another way of doing this
 	 */
 
-	ArrayList<String> getEntityLinkInformation(String sentence) {
-		StringBuilder entityLinkStringBuilder = new StringBuilder();
-		StringBuilder typeStringBuilder = new StringBuilder();
-		ArrayList<String> res = new ArrayList<String>();
+	@Override
+	public ArrayList<Marking> mark(String sentence) {
+		ArrayList<Marking> res = new ArrayList<Marking>();
 		int wordOffSet = 0;
 		String words[] = sentence.split(" ");
 		String popularAbbrList[] = { "USA", "UK", "US" };
@@ -85,17 +85,11 @@ public class CountryMarker {
 				if (popularAbbrSet.contains(word)) { // we have a country match
 					String entityName = word;
 					String freeBaseId = freeBaseMapping.get(word.toLowerCase());
-					String linkingString = wordOffSet + " " + (wordOffSet + 1)
-							+ " " + WordUtils.capitalize(entityName) + " "
-							+ freeBaseId + " 1 ";
-					entityLinkStringBuilder.append(linkingString);
-					
-					String typeString = wordOffSet + " " + (wordOffSet + 1)
-							+ "/location/country " + freeBaseId + " ";
-					typeStringBuilder.append(typeString);
+					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
+					res.add(m);
 				}
-				continue;
-			}
+		
+			} else {
 			while (rightTrimLen <= (wl - 4)) {
 				String keyWord = word.substring(0, wl - rightTrimLen);
 				
@@ -106,20 +100,14 @@ public class CountryMarker {
 					String entityName = keyWord
 							+ completeNameMapping.get(keyWord);
 					String freeBaseId = freeBaseMapping.get(keyWord);
-					String linkingString = wordOffSet + " " + (wordOffSet + 1)
-							+ " " + WordUtils.capitalize(entityName) + " "
-							+ freeBaseId + " 1 ";
-					entityLinkStringBuilder.append(linkingString);
-					String typeString = wordOffSet + " " + (wordOffSet + 1)
-							+ "/location/country " + freeBaseId + " ";
-					typeStringBuilder.append(typeString);
+					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
+					res.add(m);
 					break;
 				}
 			}
+			}
 			wordOffSet++;
 		}
-		res.add(entityLinkStringBuilder.toString());
-		res.add(typeStringBuilder.toString());
 		return res;
 	}
 
@@ -127,12 +115,8 @@ public class CountryMarker {
 		/**
 		 * This is a tester for the country tagger
 		 */
-
 		String countriesFile = "meta/country_freebase_mapping";
 		CountryMarker cmr = new CountryMarker(countriesFile);
-		System.out
-				.println(cmr
-						.getEntityLinkInformation("Israeli officials have voiced fears that the import of materials like cement into the strip could be used to re-store the network of tunnels destroyed during the conflict and which Palestinian fighters have used to infiltrate Israel ."));
-
+		System.out.println(cmr.mark("Israeli officials have voiced Indian fears that the import of materials like cement into the strip could be used to re-store the network of tunnels destroyed during the conflict and which Palestinian fighters have used to infiltrate Israel ."));
 	}
 }

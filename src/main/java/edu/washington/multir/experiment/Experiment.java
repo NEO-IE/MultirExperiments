@@ -247,15 +247,16 @@ public class Experiment {
 		}
 		boolean debug = true;
 		while(debug) {
-		debug=false;
+		//debug=false;
 		if(	!filesExist(multirDirs)){
-			for(String s : multirDirs){
+			for(String s : multirDirs){	
 				File f = new File(s);
 				f.mkdirs();	
 			}
 		}
 		
-		if(oldFeatureFiles != null){
+		if(oldFeatureFiles != null)
+		{
 			if(oldFeatureFiles.size() > 0){
 			 runFeedbackExperiment(corpus);
 			}

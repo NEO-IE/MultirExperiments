@@ -81,9 +81,10 @@ public class FeatureGeneration {
     		
     		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
     		for(CoreMap sentence: sentences){
-    			//System.out.println(sentence);
+    				
     			Integer currSentID = sentence.get(SentGlobalID.class);
     			if(sapMap.containsKey(currSentID)){
+    				System.out.println(sentence);
     				List<SententialArgumentPair> sentenceSaps = sapMap.get(currSentID);
     				writeFeatures(sentenceSaps,doc,sentence,writerMap);
     			}
