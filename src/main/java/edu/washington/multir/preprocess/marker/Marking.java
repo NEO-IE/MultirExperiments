@@ -7,7 +7,7 @@ package edu.washington.multir.preprocess.marker;
  * @author aman
  *
  */
-public class Marking {
+public class Marking implements Comparable<Marking> {
 	public Marking(int startOffset, int endOffset, String entityName,
 			String freebaseId, double markingConfidence, String markingType) {
 		super();
@@ -31,5 +31,14 @@ public class Marking {
 				+ freebaseId + ", markingConfidence=" + markingConfidence
 				+ ", markingType=" + markingType + "]";
 	}
-
+	@Override
+	public int compareTo(Marking arg0) {
+		assert(startOffset != arg0.startOffset); //or we are doing something really wrong
+		// TODO Auto-generated method stub
+		if(startOffset < arg0.startOffset) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
 }

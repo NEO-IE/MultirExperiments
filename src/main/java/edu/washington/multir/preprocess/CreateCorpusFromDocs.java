@@ -39,8 +39,9 @@ import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Triple;
-import edu.washington.multir.development.Preprocess;
 import edu.washington.multir.preprocess.marker.CountryMarker;
+import edu.washington.multir.preprocess.marker.Marking;
+import edu.washington.multir.preprocess.marker.NumberMarker;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentDocNameInformation.SentDocName;
 import edu.washington.multirframework.corpus.SentDependencyInformation;
 import edu.washington.multirframework.corpus.SentOffsetInformation.SentStartOffset;
@@ -62,18 +63,25 @@ public class CreateCorpusFromDocs {
 	private static boolean initializedParser = false;
 	private static String BLLIP_PARSER_PATH = "bllip-parser-master";
 	private static StanfordCoreNLP pipeline; // the annotator pipeline
-	private CountryMarker cnmarker;
 	private static String COUNTRIES_FILE =  "meta/country_freebase_mapping";
+	
+	/*
+	 * The markers are our entity linkers for this sample exercise
+	 */
+	private CountryMarker cnMarker;
+	private NumberMarker numMarker;
+	
 /**
  * This is done to avoid loading the pipeline for each doc, which takes up a lot of time
  * @throws IOException 
  */
 	public CreateCorpusFromDocs() throws IOException {
 		Properties props = new Properties();
-		cnmarker = new CountryMarker(COUNTRIES_FILE);
+		cnMarker = new CountryMarker(COUNTRIES_FILE);
 		props.put("annotators", "tokenize,ssplit,pos,lemma,parse,ner");
 		props.put("sutime.binders", "0");
 		pipeline = new StanfordCoreNLP(props, false);
+		numMarker = new NumberMarker();
 	}
 
 	Annotation createTestString(String documentString, String docName)
@@ -321,7 +329,8 @@ public class CreateCorpusFromDocs {
 		/*
 		 * Get typing information
 		 */
-		ArrayList<String> linkInformation = cnmarker.getEntityLinkInformation(sentence.toString());
+		ArrayList<Marking> countriesFound = cnMarker.mark(sentence.toString());
+		ArrayList<Marking> numbersFound = numMarker.mark(sentence.toString());
 		/*
 		 * Get chunking information
 		 */
@@ -349,7 +358,7 @@ public class CreateCorpusFromDocs {
 	
 		return new CorpusRow(sentId, docName, tokenInformation.toString()
 				.trim(), sentence.toString(), sentBeginOffSet + " " + sentEndOffSet,
-				depInfo.toString().trim(), linkInformation.get(0), linkInformation.get(1), nerInfo.toString().trim(),
+				depInfo.toString().trim(), "", "", nerInfo.toString().trim(),
 				offSetInfo.toString().trim(), posTagInfo.toString().trim(), chunkBuilder.toString());
 	}
 }

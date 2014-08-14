@@ -85,7 +85,7 @@ public class CountryMarker implements Marker{
 				if (popularAbbrSet.contains(word)) { // we have a country match
 					String entityName = word;
 					String freeBaseId = freeBaseMapping.get(word.toLowerCase());
-					Marking m = new Marking(wordOffSet, wordOffSet, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
+					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
 					res.add(m);
 				}
 				continue;
@@ -100,7 +100,7 @@ public class CountryMarker implements Marker{
 					String entityName = keyWord
 							+ completeNameMapping.get(keyWord);
 					String freeBaseId = freeBaseMapping.get(keyWord);
-					Marking m = new Marking(wordOffSet, wordOffSet, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
+					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
 					res.add(m);
 					break;
 				}
