@@ -40,6 +40,7 @@ import edu.stanford.nlp.trees.TypedDependency;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Triple;
 import edu.washington.multir.development.Preprocess;
+import edu.washington.multir.preprocess.marker.CountryMarker;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentDocNameInformation.SentDocName;
 import edu.washington.multirframework.corpus.SentDependencyInformation;
 import edu.washington.multirframework.corpus.SentOffsetInformation.SentStartOffset;

@@ -39,7 +39,7 @@ public class FeatureGeneration {
 		//initialize variables
     	
     	List<SententialArgumentPair> saps = getSaps(dsFileNames,featureFileNames);
-    	System.out.println("size of pairs " + saps.size() + "\n" + saps.get(0));
+    	//System.out.println("size of pairs " + saps.size() + "\n" + saps.get(0));
     	long end = System.currentTimeMillis();
     	System.out.println("Sentential Argument Pair collection took " + (end-start) + "milliseconds");
     	
