@@ -15,6 +15,8 @@ import java.util.HashSet;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import scala.actors.threadpool.Arrays;
+
 public class CountryMarker implements Marker{
 	/**
 	 * We maintain 3 forms of every country : a) India, Indi and Ind which has
@@ -25,11 +27,15 @@ public class CountryMarker implements Marker{
 	HashMap<String, String> freeBaseMapping;
 	HashMap<String, String> completeNameMapping;
 	HashSet<String> countryList;
+	String[] popularAbbrList = { "USA", "UK", "US" };
+	HashSet<String> popularAbbrSet;
+
 
 	public CountryMarker(String countriesFile) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(new File(
 				countriesFile)));
 		String countryName = null;
+		popularAbbrSet = new HashSet<String>(Arrays.asList(popularAbbrList));
 		completeNameMapping = new HashMap<String, String>();
 		freeBaseMapping = new HashMap<String, String>();
 		while ((countryName = br.readLine()) != null) {
@@ -70,12 +76,7 @@ public class CountryMarker implements Marker{
 		ArrayList<Marking> res = new ArrayList<Marking>();
 		int wordOffSet = 0;
 		String words[] = sentence.split(" ");
-		String popularAbbrList[] = { "USA", "UK", "US" };
-		HashSet<String> popularAbbrSet = new HashSet<>();
-		for (String str : popularAbbrList) {
-			popularAbbrSet.add(str);
-		}
-
+		
 		// for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
 		// String word = token.get(TextAnnotation.class);
 		for (String word : words) {
@@ -89,6 +90,11 @@ public class CountryMarker implements Marker{
 					res.add(m);
 				}
 		
+			} else if(countryList.contains(word)) { //exact match?
+				String freeBaseId = freeBaseMapping.get(word);
+				Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(word), freeBaseId, 1, Marking.COUNTRY);
+				res.add(m);
+			
 			} else {
 			while (rightTrimLen <= (wl - 4)) {
 				String keyWord = word.substring(0, wl - rightTrimLen);
@@ -117,6 +123,7 @@ public class CountryMarker implements Marker{
 		 */
 		String countriesFile = "meta/country_freebase_mapping";
 		CountryMarker cmr = new CountryMarker(countriesFile);
-		System.out.println(cmr.mark("Israeli officials have voiced Indian fears that the import of materials like cement into the strip could be used to re-store the network of tunnels destroyed during the conflict and which Palestinian fighters have used to infiltrate Israel ."));
+		//System.out.println(cmr.mark("Israeli officials have voiced Indian fears that the import of materials like cement into the strip could be used to re-store the network of tunnels destroyed during the conflict and which Palestinian fighters have used to infiltrate Israel ."));
+		System.out.println(cmr.mark("Aruba has a GDP of 1330167550"));
 	}
 }

@@ -63,6 +63,9 @@ public class DistantSupervision {
 				//argument identification
 				List<Argument> arguments =  ai.identifyArguments(d,sentence);
 				//sentential instance generation
+				if(arguments.size() == 2) {
+				//	System.out.println(arguments);
+				}
 				List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(arguments, sentence);
 				//relation matching
 				List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = 

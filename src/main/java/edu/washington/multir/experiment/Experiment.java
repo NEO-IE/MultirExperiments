@@ -247,7 +247,7 @@ public class Experiment {
 		}
 		boolean debug = true;
 		while(debug) {
-		//debug=false;
+		debug=false;
 		if(	!filesExist(multirDirs)){
 			for(String s : multirDirs){	
 				File f = new File(s);

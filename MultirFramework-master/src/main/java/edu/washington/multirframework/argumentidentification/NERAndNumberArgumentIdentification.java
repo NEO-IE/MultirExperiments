@@ -20,17 +20,17 @@ import edu.washington.multirframework.data.Argument;
  * @author jgilme1
  *
  */
-public class NERArgumentIdentification implements ArgumentIdentification {
+public class NERAndNumberArgumentIdentification implements ArgumentIdentification {
 
 	//only NER Types considered
 	private static String[] relevantNERTypes = {"ORGANIZATION", "PERSON", "LOCATION"};
 	
-	private static NERArgumentIdentification instance = null;
+	private static NERAndNumberArgumentIdentification instance = null;
 	
 	
-	private NERArgumentIdentification(){}
-	public static NERArgumentIdentification getInstance(){
-		if(instance == null) instance = new NERArgumentIdentification();
+	private NERAndNumberArgumentIdentification(){}
+	public static NERAndNumberArgumentIdentification getInstance(){
+		if(instance == null) instance = new NERAndNumberArgumentIdentification();
 		return instance;
 		}
 	
@@ -102,7 +102,11 @@ public class NERArgumentIdentification implements ArgumentIdentification {
 				return true;
 			}
 		}
-		return false;
+		boolean isNumber = token.toString().matches("-?\\d+(\\.\\d+)?");
+		if(isNumber) {
+			System.out.println(token);
+		}
+		return isNumber;
 		
 	}
 }

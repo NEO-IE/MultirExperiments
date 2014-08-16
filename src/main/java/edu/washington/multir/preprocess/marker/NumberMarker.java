@@ -13,14 +13,12 @@ public class NumberMarker implements Marker {
 		String words[] = sentence.split(" ");
 		int i = 0;
 		for(String word : words) {
-			
 			Matcher m = p.matcher(word);
 			if(m.find()) {
 				numbers.add(new Marking(i, i + 1, m.group(), m.group(), 1, Marking.NUMBER));
 			}
 			i++;
 		}
-		
 		return numbers;
 	}
 	public static void main(String args[]) {

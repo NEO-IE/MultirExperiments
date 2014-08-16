@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.jsoup.Jsoup;
 
 import scala.actors.threadpool.Arrays;
 import edu.stanford.nlp.ling.CoreAnnotations;
@@ -218,9 +219,22 @@ public class CreateCorpusFromDocs {
 	public static void main(String args[]) throws IOException,
 			InterruptedException {
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		String corpusPath = "data/sgtest";
-		String outputFile = "data/derbyFlatFile";
+		boolean debug = true;
+		while(debug) {
+			debug = false;
+		String corpusPath = "/mnt/a99/d0/aman/MultirExperiments/data/intent";
+		String outputFile = "data/derbyFlatFile2";
 		cc.preprocessCorpus(corpusPath, outputFile);
+		}
+	}
+	
+	/**
+	 * This function is used to process the html corpus
+	 * @param htmlText
+	 * @return
+	 */
+	public String html2text(String htmlText) {
+	    return Jsoup.parse(htmlText).text();
 	}
 	
 	/**
@@ -234,21 +248,25 @@ public class CreateCorpusFromDocs {
 	
 	void preprocessCorpus(String path, String outputFile) throws IOException, InterruptedException {
 		File inputFiles[] = new File(path).listFiles();
+		if(inputFiles == null) {
+			return;
+		}
 		ArrayList<CorpusRow> rowSet = new ArrayList<CorpusRow>();
 		boolean debug = true;
 		while(debug) {
 			debug = false;
+			int sentId = 1;
 		for(File inputFile : inputFiles) {
-
 			String docName = inputFile.getName();
 			FileInputStream fisTargetFile = new FileInputStream(inputFile);
 			System.out.println("Processing " + inputFile.getAbsolutePath());
 			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
+			targetFileStr = html2text(targetFileStr);
 			Annotation doc =createTestString(targetFileStr, docName);
 			List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
-			int sentId = 1;
+			
 			for(CoreMap sentence : sentences) {
-				System.out.println("\t sentence : " + sentId + " : " + sentence);
+				//System.out.println("\t sentence : " + sentId + " : " + sentence);
 				rowSet.add(createDerbyRow(sentId++, docName, sentence));
 			}
 		}
@@ -287,7 +305,7 @@ public class CreateCorpusFromDocs {
 	 * @param sentence
 	 *            : The annotated sentence
 	 * @return
-	 */
+	 */	
 	CorpusRow createDerbyRow(Integer sentId, String docName, CoreMap sentence) {
 		StringBuilder depInfo = new StringBuilder();
 		String targetedChunks[] = {"NP", "VP", "PP"};
@@ -329,6 +347,7 @@ public class CreateCorpusFromDocs {
 		}
 		/*
 		 * Get typing information
+		 * TODO: See if passing 	
 		 */
 		ArrayList<ArrayList<Marking>> markingsList = new ArrayList<ArrayList<Marking>>();
 		markingsList.add(cnMarker.mark(sentence.toString()));
