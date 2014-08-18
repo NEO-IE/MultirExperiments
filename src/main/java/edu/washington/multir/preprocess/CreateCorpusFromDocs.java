@@ -227,8 +227,8 @@ public class CreateCorpusFromDocs {
 		boolean debug = true;
 		while(debug) {
 			debug = false;
-		String corpusPath = "/mnt/a99/d0/aman/prunedDocs";
-		String outputFile = "data/derbyFlatFile2";
+		String corpusPath = "/mnt/a99/d0/aman/pruned-nw";
+		String outputFile = "data/derbyFlatFile3";
 		cc.preprocessCorpus(corpusPath, outputFile);
 		}
 	}
@@ -256,38 +256,38 @@ public class CreateCorpusFromDocs {
 		if(inputFiles == null) {
 			return;
 		}
-
-		ArrayList<CorpusRow> rowSet = new ArrayList<CorpusRow>();
+		File outFile = new File(outputFile);
+		PrintWriter bw = new PrintWriter(new FileOutputStream(outFile));
+		String SEP = "\t";
+			
+		
 		boolean debug = true;
 		while(debug) {
 			debug = false;
 			int sentId = 1;
-		for(File inputFile : inputFiles) {
-			String docName = inputFile.getName();
-			FileInputStream fisTargetFile = new FileInputStream(inputFile);
-			System.out.println("Processing " + inputFile.getAbsolutePath());
-			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
-			targetFileStr = html2text(targetFileStr);
-			long startTime = System.nanoTime();
-			Annotation doc =createTestString(targetFileStr, docName);
-			long endTime = System.nanoTime();
-			System.out.println("Processing Finished, Time: " + (endTime - startTime) / NANO);
-			List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
+			for(File inputFile : inputFiles) {
+				String docName = inputFile.getName();
+				FileInputStream fisTargetFile = new FileInputStream(inputFile);
+				System.out.println("Processing " + inputFile.getAbsolutePath());
+				String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
+				targetFileStr = html2text(targetFileStr);
+				long startTime = System.nanoTime();
+				Annotation doc =createTestString(targetFileStr, docName);
+				long endTime = System.nanoTime();
+				System.out.println("Processing Finished, Time: " + (endTime - startTime) / NANO);
+				List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 			
-			for(CoreMap sentence : sentences) {
-				//System.out.println("\t sentence : " + sentId + " : " + sentence);
-				rowSet.add(createDerbyRow(sentId++, docName, sentence));
+				for(CoreMap sentence : sentences) {
+					//System.out.println("\t sentence : " + sentId + " : " + sentence);
+					bw.write(createDerbyRow(sentId++, docName, sentence).stringSep(SEP) + "\n");
+					
+				}
 			}
-		}
-		File outFile = new File(outputFile);
-		String SEP = "\t";
-		PrintWriter bw = new PrintWriter(new FileOutputStream(outFile));
-		for(CorpusRow cr : rowSet) {
-			bw.write(cr.stringSep(SEP) + "\n");
+
 		}
 		System.out.println("Results Written to " + outputFile);
 		bw.close();
-		}
+		
 	}
 
 	/**
