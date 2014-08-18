@@ -245,19 +245,18 @@ public class Experiment {
 		else{
 		  corpus.setCorpusToDefault();
 		}
-		while(true) {
-			System.out.println("Press any key to continue	"
-					+ "");
-			System.in.read();
-		
+		boolean debug = true;
+		while(debug) {
+		debug=false;
 		if(	!filesExist(multirDirs)){
-			for(String s : multirDirs){
+			for(String s : multirDirs){	
 				File f = new File(s);
 				f.mkdirs();	
 			}
 		}
 		
-		if(oldFeatureFiles != null){
+		if(oldFeatureFiles != null)
+		{
 			if(oldFeatureFiles.size() > 0){
 			 runFeedbackExperiment(corpus);
 			}
@@ -268,6 +267,8 @@ public class Experiment {
 		
 		//if distant supervision hasnt been run yet
 		if(runDS){
+			try {
+				
 			System.err.println("Running DS");
 			runFG = true;
 			if(DSFiles.size() > 1){
@@ -277,6 +278,11 @@ public class Experiment {
 			else{
 				DistantSupervision ds = new DistantSupervision(ai, sigs.get(0), rm, nec);
 				ds.run(DSFiles.get(0), kb, corpus);
+			}
+			}
+			catch(Exception e) {
+				System.out.println("Caught Exception");
+				continue;
 			}
 		}
 		

@@ -259,7 +259,99 @@ in the KB and finally, it will be written down in the file specified by dsFiles.
 
 
 
+\chapter{Feature Generation}
 
+\subsection{Starting}
+The process of feature generation starts from 
+\begin{lstlisting}[language=java]
+public void run(List<String> dsFileNames, List<String> featureFileNames, Corpus c, CorpusInformationSpecification cis)
+\end{lstlisting}
+
+The first argument contains the list of matchings. You will expect that being here means that dsFileNames have been populated. 
+The second argument is the list of files where the corresponding features have to be written.
+Next we have objects that help in getting corpus information.
+
+Once in run, the major step is 
+
+\begin{lstlisting}[language=java]
+List<SententialArgumentPair> saps = getSaps(dsFileNames,featureFileNames);
+\end{lstlisting}
+This is familiar sentential argument pair from distance supervision. Argument pairs again are an abstraction that 
+contains types, offsets, the sentence id and other similar information. 
+
+\subsection{Storing entity pairs in each sentence}
+We next populate the following data structure : 
+
+\begin{lstlisting}[language=java]
+Map<Integer,List<SententialArgumentPair>> sapMap = new HashMap<>();
+\end{lstlisting}
+
+This is a mapping which given a sentene number, returns all the arguments that are there in that sentence. 
+
+We then start iterating over the corpus. Recall that this is the same corpus that was used during distance supervision. 
+\begin{lstlisting}[language=java]
+//iterate over corpus
+    	Iterator<Annotation> di = c.getDocumentIterator();
+    	int docCount =0;
+    	start = System.currentTimeMillis();
+    	while(di.hasNext()){
+    		Annotation doc = di.next();
+\end{lstlisting}
+
+\begin{lstlisting}[language=java]
+
+    		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
+    		for(CoreMap sentence: sentences){
+    				
+    			Integer currSentID = sentence.get(SentGlobalID.class);
+    			if(sapMap.containsKey(currSentID)){
+    				System.out.println(sentence);
+    				List<SententialArgumentPair> sentenceSaps = sapMap.get(currSentID);
+    				writeFeatures(sentenceSaps,doc,sentence,writerMap);
+    			}
+    		}
+    		docCount++;
+\end{lstlisting}
+The above piece of code iterates over the corpus sentence by sentence.
+For a given sentence, the map created in the above step is used to extract all the entity pairs that
+exists in a particular sentence. 
+if a sentence has some entity pairs, we extract all of them and then call writeFeatures, supplying the list
+of entity pairs just extracted.
+Lets now see how things look in writeFeatures()
+
+
+\subsection{Writing features to files : writeFeatures()}
+
+\begin{lstlisting}[language=java]
+ for(SententialArgumentPair sap : currentSaps){
+			BufferedWriter bw = writerMap.get(sap.partitionID);
+
+			List<String> features = fg.generateFeatures(sap.arg1Offsets.first,sap.arg1Offsets.second
+					,sap.arg2Offsets.first,sap.arg2Offsets.second,sap.arg1ID,sap.arg2ID,sentence,doc);
+			bw.write(makeFeatureString(sap,features)+"\n");
+		}
+\end{lstlisting}
+The features are based upon the entity pairs that exists in a sentence. Thus, MultiR iterates over the list of entity pairs and 
+iterates over them one by one, calling generateFeatures() for each of these entities. 
+
+\subsection{Generating Features}
+We will be discussing the generateFeatures() function of the default feature generator here. The signature of the function looks as follows :
+
+\begin{lstlisting}[language=java]
+public List<String> generateFeatures(Integer arg1StartOffset,
+			Integer arg1EndOffset, Integer arg2StartOffset,
+			Integer arg2EndOffset, String arg1ID, String arg2ID, CoreMap sentence, Annotation document) {
+\end{lstlisting}
+
+The generate features function is supplied with information like offset and IDs of the entities that form the pair, the sentence and the document involved. 
+Also supplied are the annotated sentence. 
+Then we iterate over the sentence token by token, and it is checked whether the current token is one of the argument. 
+Next up, we iterate over the dependency parse information and record it into an array. 
+
+Finally, a call is made to the OriginalMultirFeatureGenerator()
+\begin{lstlisting}[language=java]
+ originalMultirFeatures(tokenStrings, posTags, depParents, depTypes, arg1Pos, arg2Pos, arg1ner, arg2ner);
+\end{lstlisting}
 
 
 

@@ -3,23 +3,21 @@
  * This class marks countries in a piece of text
  * This is used to fill the entity linking column in freebase
  */
-package edu.washington.multir.preprocess;
+package edu.washington.multir.preprocess.marker;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
-import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.util.CoreMap;
+import scala.actors.threadpool.Arrays;
 
-public class CountryMarker {
+public class CountryMarker implements Marker{
 	/**
 	 * We maintain 3 forms of every country : a) India, Indi and Ind which has
 	 * no space in its name. Some of the variations like US, USA were hardcoded
@@ -29,15 +27,20 @@ public class CountryMarker {
 	HashMap<String, String> freeBaseMapping;
 	HashMap<String, String> completeNameMapping;
 	HashSet<String> countryList;
+	String[] popularAbbrList = { "USA", "UK", "US" };
+	HashSet<String> popularAbbrSet;
+
 
 	public CountryMarker(String countriesFile) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(new File(
 				countriesFile)));
 		String countryName = null;
+		popularAbbrSet = new HashSet<String>(Arrays.asList(popularAbbrList));
 		completeNameMapping = new HashMap<String, String>();
 		freeBaseMapping = new HashMap<String, String>();
 		while ((countryName = br.readLine()) != null) {
 			String vars[] = countryName.split("\t");
+			String oriName = vars[0];
 			int nl = vars[0].length();
 			// inflections of country names will never involve more than 2 last
 			// chars
@@ -46,17 +49,17 @@ public class CountryMarker {
 				String suffix = vars[0].substring(nl - 2, nl);
 				vars[0] = vars[0].substring(0, nl - 2);
 				completeNameMapping.put(vars[0].toLowerCase(), suffix);
-				// need this because chinese must be stored as China, their
+				// need this because chinese must be stored as China in the derby, their
 				// Freebase entry
 
 			}
-
+			freeBaseMapping.put(oriName, vars[1]);
 			freeBaseMapping.put(vars[0].toLowerCase(), vars[1]);
-			
+
 		}
 		countryList = new HashSet<String>(freeBaseMapping.keySet());
-		//"US/USA gets special treatment as always
-		
+		// "US/USA gets special treatment as always
+
 		br.close();
 	}
 
@@ -68,59 +71,59 @@ public class CountryMarker {
 	 * (will be) painfully slow, find out another way of doing this
 	 */
 
-	String getEntityLinkString(String sentence) {
-		StringBuilder entityLinkString = new StringBuilder();
+	@Override
+	public ArrayList<Marking> mark(String sentence) {
+		ArrayList<Marking> res = new ArrayList<Marking>();
 		int wordOffSet = 0;
 		String words[] = sentence.split(" ");
-		String popularAbbrList[] = {"USA", "UK", "US"};
-		HashSet<String> popularAbbrSet = new HashSet<>();
-		for(String str : popularAbbrList) {
-			popularAbbrSet.add(str);
-		}
 		
 		// for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
 		// String word = token.get(TextAnnotation.class);
 		for (String word : words) {
 			int wl = word.length();
-			int suffixEnd = 2;
-			if(wl <= 3) { // US perhaps?
+			int rightTrimLen = 2;
+			if (wl <= 3) { // US perhaps?
 				if (popularAbbrSet.contains(word)) { // we have a country match
 					String entityName = word;
-					String linkingString = wordOffSet + " " + (wordOffSet + 1)
-							+ " " + WordUtils.capitalize(entityName) + " "
-							+ freeBaseMapping.get(word.toLowerCase()) + " 1 ";
-					entityLinkString.append(linkingString);
+					String freeBaseId = freeBaseMapping.get(word.toLowerCase());
+					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
+					res.add(m);
 				}
-				continue;
-			}
-			while (suffixEnd < (wl -  2)) {
-				String keyWord = word.substring(0, wl - suffixEnd);
-				suffixEnd++;
+		
+			} else if(countryList.contains(word)) { //exact match?
+				String freeBaseId = freeBaseMapping.get(word);
+				Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(word), freeBaseId, 1, Marking.COUNTRY);
+				res.add(m);
+			
+			} else {
+			while (rightTrimLen <= (wl - 4)) {
+				String keyWord = word.substring(0, wl - rightTrimLen);
+				
+				rightTrimLen++;
 				keyWord = keyWord.toLowerCase(); // map keys are lower case
+				//System.out.println(keyWord);
 				if (countryList.contains(keyWord)) { // we have a country match
-					String entityName = keyWord + completeNameMapping.get(keyWord);
-					String linkingString = wordOffSet + " " + (wordOffSet + 1)
-							+ " " + WordUtils.capitalize(entityName) + " "
-							+ freeBaseMapping.get(keyWord) + " 1 ";
-					entityLinkString.append(linkingString);
+					String entityName = keyWord
+							+ completeNameMapping.get(keyWord);
+					String freeBaseId = freeBaseMapping.get(keyWord);
+					Marking m = new Marking(wordOffSet, wordOffSet + 1, WordUtils.capitalize(entityName), freeBaseId, 1, Marking.COUNTRY);
+					res.add(m);
 					break;
 				}
 			}
+			}
 			wordOffSet++;
 		}
-		return entityLinkString.toString();
+		return res;
 	}
 
 	public static void main(String args[]) throws IOException {
 		/**
 		 * This is a tester for the country tagger
 		 */
-		
 		String countriesFile = "meta/country_freebase_mapping";
 		CountryMarker cmr = new CountryMarker(countriesFile);
-		System.out
-				.println(cmr
-						.getEntityLinkString("Air China is progressing fast with Indians and Portugese music How will UK and USA react to this"));
-
+		//System.out.println(cmr.mark("Israeli officials have voiced Indian fears that the import of materials like cement into the strip could be used to re-store the network of tunnels destroyed during the conflict and which Palestinian fighters have used to infiltrate Israel ."));
+		System.out.println(cmr.mark("Aruba has a GDP of 1330167550"));
 	}
 }
