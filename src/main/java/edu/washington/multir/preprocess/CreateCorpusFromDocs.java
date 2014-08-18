@@ -55,6 +55,7 @@ public class CreateCorpusFromDocs {
 	private static Pattern ldcPattern = Pattern.compile("<DOCID>\\s+.+LDC");
 	private static Pattern xmlParagraphPattern = Pattern
 			.compile("<P>((?:[\\s\\S](?!<P>))+)</P>");
+	final int NANO = 1000000000;
 	private static LexedTokenFactory<CoreLabel> ltf = new CoreLabelTokenFactory(
 			true);
 	private static WordToSentenceProcessor<CoreLabel> sen = new WordToSentenceProcessor<CoreLabel>();
@@ -80,7 +81,7 @@ public class CreateCorpusFromDocs {
 	public CreateCorpusFromDocs() throws IOException {
 		Properties props = new Properties();
 		cnMarker = new CountryMarker(COUNTRIES_FILE);
-		props.put("annotators", "tokenize,ssplit,pos,lemma,parse,ner");
+		props.put("annotators", "tokenize,ssplit,pos,parse,lemma,ner");
 		props.put("sutime.binders", "0");
 		pipeline = new StanfordCoreNLP(props, false);
 		numMarker = new NumberMarker();
@@ -110,8 +111,12 @@ public class CreateCorpusFromDocs {
 
 		Annotation doc = new Annotation(docText);
 		// get pos and ner information from stanford processing
+		//Check if its really this that's taking time
+		System.out.println("Starting annotation using coreNLP");
+		long startTime = System.nanoTime();
 		pipeline.annotate(doc);
-
+		long endTime = System.nanoTime();
+		System.out.println("SFU CoreNLP took : " + (endTime - startTime) / NANO + " seconds");
 		for (CoreMap sentence : doc
 				.get(CoreAnnotations.SentencesAnnotation.class)) {
 			StringBuilder tokenStringBuilder = new StringBuilder();
@@ -222,7 +227,7 @@ public class CreateCorpusFromDocs {
 		boolean debug = true;
 		while(debug) {
 			debug = false;
-		String corpusPath = "/mnt/a99/d0/aman/MultirExperiments/data/intent";
+		String corpusPath = "/mnt/a99/d0/aman/prunedDocs";
 		String outputFile = "data/derbyFlatFile2";
 		cc.preprocessCorpus(corpusPath, outputFile);
 		}
@@ -251,6 +256,7 @@ public class CreateCorpusFromDocs {
 		if(inputFiles == null) {
 			return;
 		}
+
 		ArrayList<CorpusRow> rowSet = new ArrayList<CorpusRow>();
 		boolean debug = true;
 		while(debug) {
@@ -262,7 +268,10 @@ public class CreateCorpusFromDocs {
 			System.out.println("Processing " + inputFile.getAbsolutePath());
 			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
 			targetFileStr = html2text(targetFileStr);
+			long startTime = System.nanoTime();
 			Annotation doc =createTestString(targetFileStr, docName);
+			long endTime = System.nanoTime();
+			System.out.println("Processing Finished, Time: " + (endTime - startTime) / NANO);
 			List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 			
 			for(CoreMap sentence : sentences) {
@@ -308,6 +317,7 @@ public class CreateCorpusFromDocs {
 	 */	
 	CorpusRow createDerbyRow(Integer sentId, String docName, CoreMap sentence) {
 		StringBuilder depInfo = new StringBuilder();
+		
 		String targetedChunks[] = {"NP", "VP", "PP"};
 		HashSet<String> targetChunk = new HashSet<String>(Arrays.asList(targetedChunks));
 		StringBuilder offSetInfo = new StringBuilder();
