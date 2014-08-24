@@ -2,6 +2,7 @@ package edu.washington.multir.sententialextraction;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -87,11 +88,10 @@ public class DocumentExtractor {
 		}
 	}
 	
-	public void extractFromDocument(String pathToDocument) throws IOException, InterruptedException{
+	public void extractFromDocument(String pathToDocument, PrintWriter resWriter) throws IOException, InterruptedException{
 		
 		Annotation doc = CorpusPreprocessing.getTestDocument(pathToDocument);
 		List<Pair<String,Double>> extractions = new ArrayList<>();
-		
 		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 		for(CoreMap s : sentences){
 			String senText = s.get(CoreAnnotations.TextAnnotation.class);
@@ -114,7 +114,7 @@ public class DocumentExtractor {
 								arg1ID,arg2ID,s, doc);
 				Pair<Triple<String,Double,Double>,Map<Integer,Double>> result = getPrediction(features,arg1,arg2,senText);
 				if(result !=null){
-					Triple<String,Double,Double> relationScoreTriple = getPrediction(features,arg1,arg2,senText).first;
+					Triple<String,Double,Double> relationScoreTriple = getPrediction(features,arg1,arg2,senText).first; //seriously? Why not use result.first?
 					if(!relationScoreTriple.first.equals("NA")) {	
 					String extractionString = arg1.getArgName() + " " + relationScoreTriple.first + " " + arg2.getArgName() + "\n" + senText;
 						extractions.add(new Pair<String,Double>(extractionString,relationScoreTriple.third));
@@ -127,7 +127,7 @@ public class DocumentExtractor {
 			String extrString = extr.first;
 			Double score = extr.second;
 			//System.out.println("->" + extrString);
-			System.out.println(extrString.split("\n")[0] + "\t" + score);
+			resWriter.write(extrString.split("\n")[0] + "\t" + score + "\n");
 		}
 	}
 	
@@ -548,13 +548,19 @@ public class DocumentExtractor {
 		DocumentExtractor de = new DocumentExtractor(args0,
 				new DefaultFeatureGeneratorMinusDirMinusDep(), NERArgumentIdentification.getInstance(), DefaultSententialInstanceGeneration.getInstance());
 				
-		
+		PrintWriter pw = new PrintWriter(new File("sg_nw_fm_res"));
 		File f = new File(testDir);
 		int count = 0;
 		for(File doc : f.listFiles()){
-			de.extractFromDocument(doc.getAbsolutePath());
-			System.out.println("Processed file " + count);
-			count ++;			
-		}		
+			try {
+				de.extractFromDocument(doc.getAbsolutePath(), pw);
+				System.out.println("Processed file " + count);
+				count ++;			
+					
+			} catch(Exception e) {
+				//keep calm
+			}
+		}
+		pw.close();
 	}
 }

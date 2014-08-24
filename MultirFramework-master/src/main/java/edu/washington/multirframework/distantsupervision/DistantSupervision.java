@@ -51,6 +51,7 @@ public class DistantSupervision {
 		while(di.hasNext()){
 			Annotation d = di.next();
 			if(null == d) {
+				
 				System.out.println(d);
 			}
 			List<CoreMap> sentences = d.get(CoreAnnotations.SentencesAnnotation.class);

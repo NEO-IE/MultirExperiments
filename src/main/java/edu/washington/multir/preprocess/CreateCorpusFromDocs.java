@@ -21,6 +21,7 @@ import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 
 import scala.actors.threadpool.Arrays;
+import edu.knowitall.tool.chunk.ChunkedToken;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
@@ -80,6 +81,7 @@ public class CreateCorpusFromDocs {
  */
 	public CreateCorpusFromDocs() throws IOException {
 		Properties props = new Properties();
+	
 		cnMarker = new CountryMarker(COUNTRIES_FILE);
 		props.put("annotators", "tokenize,ssplit,pos,parse,lemma,ner");
 		props.put("sutime.binders", "0");
@@ -114,7 +116,13 @@ public class CreateCorpusFromDocs {
 		//Check if its really this that's taking time
 		System.out.println("Starting annotation using coreNLP");
 		long startTime = System.nanoTime();
-		pipeline.annotate(doc);
+		try {
+			pipeline.annotate(doc);
+				
+		} catch(Exception e) {
+			bw.close();
+			return null;
+		}
 		long endTime = System.nanoTime();
 		System.out.println("SFU CoreNLP took : " + (endTime - startTime) / NANO + " seconds");
 		for (CoreMap sentence : doc
@@ -223,12 +231,14 @@ public class CreateCorpusFromDocs {
 
 	public static void main(String args[]) throws IOException,
 			InterruptedException {
+		Object posTokens;
+		
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
 		boolean debug = true;
 		while(debug) {
 			debug = false;
-		String corpusPath = "/mnt/a99/d0/aman/pruned-nw";
-		String outputFile = "data/derbyFlatFile3";
+		String corpusPath = "/mnt/a99/d0/aman/pruned-cp";
+		String outputFile = "data/derbyFlatFile4";
 		cc.preprocessCorpus(corpusPath, outputFile);
 		}
 	}
@@ -273,6 +283,9 @@ public class CreateCorpusFromDocs {
 				targetFileStr = html2text(targetFileStr);
 				long startTime = System.nanoTime();
 				Annotation doc =createTestString(targetFileStr, docName);
+				if(null == doc) {
+					continue;
+				}
 				long endTime = System.nanoTime();
 				System.out.println("Processing Finished, Time: " + (endTime - startTime) / NANO);
 				List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
