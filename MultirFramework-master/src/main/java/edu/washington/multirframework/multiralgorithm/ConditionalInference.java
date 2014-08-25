@@ -7,7 +7,7 @@ public class ConditionalInference {
 
 	public static Parse infer(MILDocument doc,
 			Scorer parseScorer, Parameters params) {
-	
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		int numMentions = doc.numMentions;
 		
 		Parse parse = new Parse();

@@ -1,7 +1,10 @@
 package edu.washington.multirframework.multiralgorithm;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.derby.tools.sysinfo;
 
 
 public class FullInference {
@@ -12,7 +15,7 @@ public class FullInference {
 		Parse parse = new Parse();
 		parse.doc = doc;
 		parse.Z = new int[doc.numMentions];
-		
+	
 		//parse.allScores = new double[doc.numMentions][params.model.numRelations];
 		
 		parseScorer.setParameters(params);
@@ -132,7 +135,7 @@ public class FullInference {
 		Parse parse = new Parse();
 		parse.doc = doc;
 		parse.Z = new int[doc.numMentions];
-		
+	
 		parse.allScores = new double[doc.numMentions][params.model.numRelations];
 		
 		parseScorer.setParameters(params);
@@ -140,6 +143,7 @@ public class FullInference {
 		Viterbi viterbi = new Viterbi(params.model, parseScorer);
 		
 		double[] scores = new double[params.model.numRelations];
+		
 		for (int i=0; i < scores.length; i++) scores[i] = Double.NEGATIVE_INFINITY;
 		boolean[] binaryYs = new boolean[params.model.numRelations];
 		int numYs = 0;
@@ -155,10 +159,11 @@ public class FullInference {
 				binaryYs[p.state] = true;
 				numYs++;
 			}
-			
+	
 			if (p.score > scores[parse.Z[m]])
 				scores[parse.Z[m]] = p.score;
 			parse.allScores[m] = p.scores;
+			System.out.println(Arrays.toString(p.scores));
 		}
 
 		// parse.y is an array the size of the number of relations that

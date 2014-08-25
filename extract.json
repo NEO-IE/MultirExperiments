@@ -8,7 +8,7 @@
   "fg" :
 "edu.washington.multirframework.featuregeneration.DefaultFeatureGenerator",
   "ai" :
-"edu.washington.multirframework.argumentidentification.NERAndNumberArgumentIdentification",
+"edu.washington.multirframework.argumentidentification.NERArgumentIdentification",
   "rm" :
 "edu.washington.multirframework.argumentidentification.NERRelationMatching",
   "nec" :

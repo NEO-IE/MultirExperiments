@@ -108,7 +108,13 @@ public class ExtractFromCorpus {
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("sg")));
-		System.out.println(getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw));
+		List<Extraction> extrs = getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
+		
+		List<Pair<String, Double>> scoreList = extrs.get(1).getFeatureScoreList();
+		
+		System.out.println(scoreList);
+		System.out.println(extrs.get(1).toString());
+		
 		bw.close();
 
 	}
@@ -178,7 +184,6 @@ public class ExtractFromCorpus {
 		List<Extraction> extrs = new ArrayList<Extraction>();
 		for (int i = 0; i < sigs.size(); i++) {
 			Iterator<Annotation> docs = c.getDocumentIterator();
-			System.out.println("->" + docs.next().toString());
 			SententialInstanceGeneration sig = sigs.get(i);
 			String modelPath = modelPaths.get(i);
 			DocumentExtractor de = new DocumentExtractor(modelPath, fg, ai, sig);

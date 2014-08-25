@@ -67,7 +67,7 @@ public class Experiment {
 	
 	public Experiment(){}
 	public Experiment(String propertiesFile) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
-
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		String jsonProperties = IOUtils.toString(new FileInputStream(new File(propertiesFile)));
 		Map<String,Object> properties = JsonReader.jsonToMaps(jsonProperties);
 		
@@ -79,7 +79,7 @@ public class Experiment {
 		if(train!=null){
 			if(train.equals("false")){
 				this.train = false;
-			}
+			}	
 			else if(train.equals("true")){
 				this.train = true;
 			}
@@ -247,7 +247,7 @@ public class Experiment {
 		}
 		boolean debug = true;
 		while(debug) {
-		//debug=false;
+		debug=false;
 		if(	!filesExist(multirDirs)){
 			for(String s : multirDirs){	
 				File f = new File(s);
@@ -600,6 +600,7 @@ public class Experiment {
 	IllegalAccessException, ClassNotFoundException, IllegalArgumentException, 
 	InvocationTargetException, NoSuchMethodException, SecurityException, SQLException, 
 	InterruptedException, ExecutionException{
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Experiment e = new Experiment(args[0]);
 		e.runExperiment();
 	}

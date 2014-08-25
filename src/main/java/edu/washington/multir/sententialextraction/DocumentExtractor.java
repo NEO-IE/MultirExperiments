@@ -385,7 +385,7 @@ public class DocumentExtractor {
 		doc.arg1 = arg1.getArgName();
 		doc.arg2 = arg2.getArgName();
 		doc.Y = new int[1];
-		doc.numMentions = 1;// sentence level prediction
+		doc.numMentions = 1;// sentence level prediction just one sentence
 		doc.setCapacity(1);
 		SparseBinaryVector sv = doc.features[0] = new SparseBinaryVector();
 		

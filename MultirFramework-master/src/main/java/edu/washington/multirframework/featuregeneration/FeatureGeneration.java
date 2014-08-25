@@ -49,8 +49,6 @@ public class FeatureGeneration {
     	Map<Integer,List<SententialArgumentPair>> sapMap = new HashMap<>();
     	for(SententialArgumentPair sap : saps){
     		Integer id = sap.sentID;
-    		if(id < 100)
-    		System.out.println("sentence id : " + id);
     		if(sapMap.containsKey(id)){
     			sapMap.get(id).add(sap);
     		}
