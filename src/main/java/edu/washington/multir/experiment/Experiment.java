@@ -65,6 +65,7 @@ public class Experiment {
 	private Integer featureThreshold = 2;
 	private boolean strictNegativeGeneration = false;
 	
+	
 	public Experiment(){}
 	public Experiment(String propertiesFile) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
@@ -603,7 +604,7 @@ public class Experiment {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Experiment e = new Experiment(args[0]);
 		e.runExperiment();
-	}
+	}	
 
 
 }

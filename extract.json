@@ -1,7 +1,7 @@
 
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/corpus",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/taccorpus",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
@@ -14,9 +14,9 @@
   "nec" :
 "edu.washington.multirframework.distantsupervision.NegativeExampleCollectionByRatio",
   "necRatio" : "0.25",	
-  "kbRelFile" : "data/kb/freebasekb.tsv.gz",
-  "kbEntityFile" : "data/kb/entity-names-train.tsv.gz",
-  "targetRelFile" : "data/kb/target-relations.tsv",
+  "kbRelFile" : "data/tackb/freebasekb.tsv.gz",
+  "kbEntityFile" : "data/tackb/entity-names-train.tsv.gz",
+  "targetRelFile" : "data/tackb/target-relations.tsv",
   "typeRelMap" : null,
   "sigs" : [
 "edu.washington.multirframework.argumentidentification.DefaultSententialInstanceGeneration"

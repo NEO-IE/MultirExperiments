@@ -91,7 +91,7 @@ public class Corpus {
 	//getDocuments takes a list of docNames and gets all of the Annotation information
 	// from the corpus
 	private List<Annotation> getDocuments(List<String> docNames) throws SQLException{
-	
+		
 		ResultSet sentenceResults = cd.getSentenceRows(documentColumnName, docNames);
 		ResultSet documentResults = cd.getDocumentRows(documentColumnName, docNames);
 		
@@ -179,7 +179,13 @@ public class Corpus {
     	int i  = 0;
     	for(SentInformationI si : cis.sentenceInformation){
     		String x = sentenceResults.getString(si.name());
+    		
+    	//	System.out.println(si.toString() + " : " + x);
+    		try {
     		si.read(x,a);
+    		} catch(Exception e) {
+    			
+    		}
     	}
  
     	List<CoreLabel> tokens = a.get(CoreAnnotations.TokensAnnotation.class);

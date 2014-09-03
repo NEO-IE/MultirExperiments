@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import edu.washington.multirframework.corpus.CustomCorpusInformationSpecificatio
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentDocNameInformation.SentDocName;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentGlobalIDInformation.SentGlobalID;
 import edu.washington.multirframework.corpus.SentOffsetInformation.SentStartOffset;
+import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRelativeCharacterOffsetBeginAnnotation;
 import edu.washington.multirframework.data.Argument;
 import edu.washington.multirframework.data.Extraction;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
@@ -109,12 +111,14 @@ public class ExtractFromCorpus {
 		c.setCorpusToDefault();
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("sg")));
 		List<Extraction> extrs = getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
-		
-		List<Pair<String, Double>> scoreList = extrs.get(1).getFeatureScoreList();
-		
-		System.out.println(scoreList);
-		System.out.println(extrs.get(1).toString());
-		
+		PrintWriter pw = new PrintWriter("tac_extractions");
+		int extrCount = 1;
+		for(Extraction extr : extrs) {
+			pw.write(extr + " \n");
+			System.out.println("Extraction : " + extrCount);
+			extrCount += 1;
+		}
+		pw.close();
 		bw.close();
 
 	}
@@ -191,7 +195,6 @@ public class ExtractFromCorpus {
 			Map<String, Integer> rel2RelIdMap = de.getMapping().getRel2RelID();
 			Map<Integer, String> ftID2ftMap = ModelUtils
 					.getFeatureIDToFeatureMap(de.getMapping());
-
 			int docCount = 0;
 			while (docs.hasNext()) {
 				Annotation doc = docs.next();
@@ -221,7 +224,7 @@ public class ExtractFromCorpus {
 
 								String docName = sentence
 										.get(SentDocName.class);
-								String senText = sentence
+									String senText = sentence
 										.get(CoreAnnotations.TextAnnotation.class);
 								Integer sentNum = sentence
 										.get(SentGlobalID.class);
@@ -236,14 +239,19 @@ public class ExtractFromCorpus {
 						}
 					}
 				}
+				docCount++;
+				if (docCount % 100 == 0) {
+					System.out.println(docCount + " docs processed");
+					bw.flush();
+				}	
 			}
-			docCount++;
-			if (docCount % 100 == 0) {
-				System.out.println(docCount + " docs processed");
-				bw.flush();
-			}
+			
 		}
 		return EvaluationUtils.getUniqueList(extrs);
+	}
+	
+	private static double sigmoid(double score) {
+		return 1 / (1 + Math.exp(-score));
 	}
 	private List<String> getListProperty(Map<String, Object> properties,
 			String string) {

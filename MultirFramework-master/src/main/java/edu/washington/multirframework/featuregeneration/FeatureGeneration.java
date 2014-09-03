@@ -82,7 +82,7 @@ public class FeatureGeneration {
     				
     			Integer currSentID = sentence.get(SentGlobalID.class);
     			if(sapMap.containsKey(currSentID)){
-    				System.out.println(sentence);
+    				//System.out.println(sentence);
     				List<SententialArgumentPair> sentenceSaps = sapMap.get(currSentID);
     				writeFeatures(sentenceSaps,doc,sentence,writerMap);
     			}
@@ -110,7 +110,7 @@ public class FeatureGeneration {
 	private void writeFeatures(List<SententialArgumentPair> currentSaps,
 			Annotation doc, CoreMap sentence,
 			Map<String, BufferedWriter> writerMap) throws IOException {
-		System.out.println(currentSaps.size());
+		//System.out.println(currentSaps.size());
 		for(SententialArgumentPair sap : currentSaps){
 			BufferedWriter bw = writerMap.get(sap.partitionID);
 

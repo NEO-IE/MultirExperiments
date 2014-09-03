@@ -45,6 +45,9 @@ public class DistantSupervision {
     	long start = System.currentTimeMillis();
     	PrintWriter dsWriter = new PrintWriter(BufferedIOUtils.getBufferedWriter(new File(outputFileName)));
 		Iterator<Annotation> di = c.getDocumentIterator();
+		if(null == di) {
+			System.out.println("NULL");
+		}
 		int count =0;
 		long startms = System.currentTimeMillis();
 		long timeSpentInQueries = 0;
