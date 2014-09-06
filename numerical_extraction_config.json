@@ -1,6 +1,6 @@
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/taccorpus",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/sgnewdb",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
@@ -9,13 +9,13 @@
   "ai" :
 "edu.washington.multirframework.argumentidentification.NERAndNumberArgumentIdentification",
   "rm" :
-"edu.washington.multirframework.argumentidentification.NERRelationMatching",
+"edu.washington.multirframework.argumentidentification.NERNumberRelationMatching",
   "nec" :
 "edu.washington.multirframework.distantsupervision.NegativeExampleCollectionByRatio",
   "necRatio" : "0.25",	
   "kbRelFile" : "data/numericalkb/kb-facts-train.tsv.gz",
-  "kbEntityFile" : "data/tackb/entity-names-train.tsv.gz",
-  "targetRelFile" : "data/tackb/target-relations.tsv",
+  "kbEntityFile" : "data/numericalkb/entity-names-train.tsv.gz",
+  "targetRelFile" : "data/numericalkb/target-relations.tsv",
   "typeRelMap" : null,
   "sigs" : [
 "edu.washington.multirframework.argumentidentification.DefaultSententialInstanceGeneration"

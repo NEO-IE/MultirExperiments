@@ -214,6 +214,7 @@ public class ExtractFromCorpus {
 						if (extrResult != null) {
 							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
 							if (!extrScoreTriple.first.equals("NA")) {
+								System.out.println(extrResult);
 								Map<Integer, Double> featureScores = extrResult.second
 										.get(rel2RelIdMap
 												.get(extrResult.first.first));

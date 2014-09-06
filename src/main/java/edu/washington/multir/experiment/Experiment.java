@@ -49,7 +49,7 @@ public class Experiment {
 	private ArgumentIdentification ai;
 	private FeatureGenerator fg;
 	private List<SententialInstanceGeneration> sigs;
-	private List<String> DSFiles;
+	private List<String> DSFiles;				
 	private List<String> oldFeatureFiles;
 	private List<String> featureFiles;
 	private List<String> multirDirs;
