@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -30,7 +31,8 @@ public class NERAndNumberArgumentIdentification implements
 			"LOCATION" };
 
 	private static NERAndNumberArgumentIdentification instance = null;
-
+	
+	static Pattern numberPat;
 	HashSet<String> countryList;
 
 	private static final String countriesFileName = "data/numericalkb/countries_list";
@@ -47,6 +49,7 @@ public class NERAndNumberArgumentIdentification implements
 				countryList.add(countryName.toLowerCase());
 			}
 			br.close();
+			numberPat = Pattern.compile("^[\\+-]?\\d+([,\\.]\\d+)?([eE]-?\\d+)?$");
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -142,7 +145,7 @@ public class NERAndNumberArgumentIdentification implements
 		 * ) || token.toString().matches("\\d{4}-\\d{2}-\\d{2}") ) { return
 		 * true; }
 		 */
-		boolean isNumber = token.toString().matches("-?\\d+(\\.\\d+)?");
+		boolean isNumber = numberPat.matcher(token.toString()).matches();
 		if (isNumber) {
 			return true;
 		}

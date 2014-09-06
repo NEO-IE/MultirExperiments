@@ -91,17 +91,19 @@ public class NERNumberRelationMatching implements RelationMatching {
 			Set<String> relationsFound = new HashSet<String>();
 			List<String> arg1Ids = entityMap.get(arg1Name);
 			List<String> arg2Ids = entityMap.get(arg2Name);
-			if (null == arg1Ids && null == arg2Ids) {
+			if (null == arg1Ids && null == arg2Ids) { //useless
 				continue;
-			} else if (null == arg2Ids && isCountry(arg1Ids.get(0)) && isNumber(arg2Name)) { 
-				System.out.println(arg1Name + " - " + arg2Name);
-			} else if (null == arg1Ids && isCountry(arg2Ids.get(0)) && isNumber(arg1Name)) { 
+			} else if (null == arg2Ids && isCountry(arg1Ids.get(0)) && isNumber(arg2Name)) { //country and number 
+				System.out.println(arg1Name + " - " + arg2Name); 
+			} else if (null == arg1Ids && isCountry(arg2Ids.get(0)) && isNumber(arg1Name)) { //number and country 
 				System.out.println(arg2Name + " - " + arg1Name);
+			} else if(null == arg1Ids || null == arg2Ids) { //the non null entity is not a country
+				continue;
 			} else {
 				int countryArg = 0;
 				for (String arg1Id : arg1Ids) {
 					for (String arg2Id : arg2Ids) {
-						if ((countryArg = isCountryNumberPair(arg1Name, arg1Id, arg2Name, arg2Id)) != -1) {
+						if ((countryArg = isCountryNumberPair(arg1Name, arg1Id, arg2Name, arg2Id)) != -1) { //exact match
 							if (countryArg == 1) {
 								System.out.println(arg1Name + " - " + arg2Name);
 							} else {
