@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-import scala.actors.threadpool.Arrays;
+import edu.washington.multirframework.data.FuzzyFact;
 
 /**
  * In case of numerical relations, it makes sense to define fuzzy knowledge bases, 
@@ -22,29 +21,11 @@ public class FuzzyKnowledgeBase {
 	HashMap<String, ArrayList<FuzzyFact>> facts;
 	private static final String DELIM = "\t";
 	private static final String FACT_DELIM = ";";
-	private static final String ATTR_VAL_DELIM = ":";
-	private static final String VALS_DELIM = ",";
 	private static final int ENTITY_INDEX = 0;
 	private static final int FACTS_INDEX = 1;	
-	private static final int VALS_INDEX = 1;
-	private static final int ATTR_INDEX = 0;
+
 	
-	static class FuzzyFact{
-		String relName;
-		ArrayList<String> factList;
-		public FuzzyFact(String fuzzyFactString) {
-			
-				String factSplit[] = fuzzyFactString.split(ATTR_VAL_DELIM);
-				relName = factSplit[ATTR_INDEX];
-				factList = new ArrayList<String>(Arrays.asList(factSplit[VALS_INDEX].split(VALS_DELIM)));
-			}
-		
-		
-		@Override
-		public String toString() {
-			return relName + " - " + factList;
-		}
-	}
+	
 	
 	public FuzzyKnowledgeBase(String fuzzyKbFile) throws IOException {
 		facts = new HashMap<>();
@@ -54,9 +35,9 @@ public class FuzzyKnowledgeBase {
 			String entityId = factsLine.split(DELIM)[ENTITY_INDEX];
 			String factsSplit[] = factsLine.split(DELIM)[FACTS_INDEX].split(FACT_DELIM);
 			for(String fact : factsSplit) {
-				FuzzyFact f = new FuzzyFact(fact);
+		
 				if(null == facts.get(entityId)) {
-					ArrayList<FuzzyFact> arr = new ArrayList<FuzzyKnowledgeBase.FuzzyFact>();
+					ArrayList<FuzzyFact> arr = new ArrayList<FuzzyFact>();
 					arr.add(new FuzzyFact(fact));
 					facts.put(entityId, arr);
 				} else {
@@ -65,6 +46,7 @@ public class FuzzyKnowledgeBase {
 		
 			}
 		}
+		br.close();
 	}
 	
 	/**

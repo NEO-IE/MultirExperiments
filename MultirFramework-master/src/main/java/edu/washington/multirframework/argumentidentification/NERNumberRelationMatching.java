@@ -19,6 +19,7 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Pair;
 import edu.stanford.nlp.util.Triple;
 import edu.washington.multirframework.data.Argument;
+import edu.washington.multirframework.data.FuzzyFact;
 import edu.washington.multirframework.data.KBArgument;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;
 
@@ -145,5 +146,17 @@ public class NERNumberRelationMatching implements RelationMatching {
 
 	static boolean isNumber(String numberArg) {
 		return numberPat.matcher(numberArg).matches();
+	}
+	
+	/**
+	 * Takes an entityId, a number and iterates over all the relations of the number to see if there can be a 
+	 * match. 
+	 * TODO : This code should be moved to a class of its own. We plan to implement several methods like Gaussian matching etc. 
+	 * things may get out of hand pretty soon.
+	 * @param entityId
+	 * @param num
+	 */
+	void fuzzyMatch(String entityId, String num) {
+		//ArrayList<FuzzyFact> facts = 
 	}
 }
