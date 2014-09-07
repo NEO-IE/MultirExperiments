@@ -23,3 +23,4 @@ derby.log
 /sgconfig.json
 /derbyFlatFile
 /*.dump
+/sg*

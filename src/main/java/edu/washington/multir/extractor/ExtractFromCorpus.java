@@ -109,7 +109,7 @@ public class ExtractFromCorpus {
 		ExtractFromCorpus efc = new ExtractFromCorpus("extract.json");
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("sg")));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("sg_tac")));
 		List<Extraction> extrs = getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
 		PrintWriter pw = new PrintWriter("tac_extractions");
 		int extrCount = 1;
@@ -214,7 +214,7 @@ public class ExtractFromCorpus {
 						if (extrResult != null) {
 							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
 							if (!extrScoreTriple.first.equals("NA")) {
-								System.out.println(extrResult);
+								//System.out.println(extrResult);
 								Map<Integer, Double> featureScores = extrResult.second
 										.get(rel2RelIdMap
 												.get(extrResult.first.first));

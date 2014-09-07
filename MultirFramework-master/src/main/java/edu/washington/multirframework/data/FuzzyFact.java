@@ -11,15 +11,31 @@ public class FuzzyFact {
 	private static final String VALS_DELIM = ",";
 	
 	String relName;
-	ArrayList<String> factList;
+	ArrayList<Double> factList; //every number is a float
 	public FuzzyFact(String fuzzyFactString) {
 			String factSplit[] = fuzzyFactString.split(ATTR_VAL_DELIM);
 			relName = factSplit[ATTR_INDEX];
-			factList = new ArrayList<String>(Arrays.asList(factSplit[VALS_INDEX].split(VALS_DELIM)));
+			factList = new ArrayList<Double>(Arrays.asList(factSplit[VALS_INDEX].split(VALS_DELIM)));
 		}
 	
 	@Override
 	public String toString() {
 		return relName + " - " + factList;
 	}
+	
+	/**
+	 * finds out if the number num is matches this fact. Definition of match can be changed
+	 * @param num
+	 * @return
+	 */
+	public boolean isMatch(Double num) {
+		for(Double val : factList) {
+			if((val - 0.1 * val) <= val && val <= (val + 0.1 * val)) {
+				return true;
+			}
+		}
+		return false;
+	}
+		
+	
 }

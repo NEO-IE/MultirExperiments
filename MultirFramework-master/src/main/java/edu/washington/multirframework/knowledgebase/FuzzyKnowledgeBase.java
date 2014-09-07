@@ -18,7 +18,7 @@ import edu.washington.multirframework.data.FuzzyFact;
  */
 
 public class FuzzyKnowledgeBase {
-	HashMap<String, ArrayList<FuzzyFact>> facts;
+	private HashMap<String, ArrayList<FuzzyFact>> facts;
 	private static final String DELIM = "\t";
 	private static final String FACT_DELIM = ";";
 	private static final int ENTITY_INDEX = 0;
@@ -54,7 +54,7 @@ public class FuzzyKnowledgeBase {
 	 * @param entityId
 	 * @return
 	 */
-	ArrayList<FuzzyFact> getFactsForId(String entityId) {
+	public ArrayList<FuzzyFact> getFactsForId(String entityId) {
 		return facts.get(entityId);
 	}
 	

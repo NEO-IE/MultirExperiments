@@ -9,10 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.NumberUtils;
+import org.apache.derby.tools.sysinfo;
 
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
@@ -21,32 +20,29 @@ import edu.stanford.nlp.util.Triple;
 import edu.washington.multirframework.data.Argument;
 import edu.washington.multirframework.data.FuzzyFact;
 import edu.washington.multirframework.data.KBArgument;
+import edu.washington.multirframework.knowledgebase.FuzzyKnowledgeBase;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;
 
 public class NERNumberRelationMatching implements RelationMatching {
 
-	static HashMap<String, String> freeBaseMapping;
-	static HashSet<String> countryList;
-	static HashSet<String> countryIdList;
-	static Pattern numberPat;
-
-	static NERNumberRelationMatching instance;
-
-	private NERNumberRelationMatching() {
-
-	}
-
-	public static NERNumberRelationMatching getInstance() {
-		if (instance == null) {
-			instance = new NERNumberRelationMatching();
-		}
-		return instance;
-	}
-
+	private static HashMap<String, String> freeBaseMapping;
+	private static HashSet<String> countryList;
+	private static HashSet<String> countryIdList;
+	private static Pattern numberPat;
+	private static FuzzyKnowledgeBase fkb;
+	private static NERNumberRelationMatching instance;
+	private static final String fuzzyKbFile = "/mnt/a99/d0/aman/MultirExperiments/data/numericalkb/fuzzyKb.tsv";
+	/**
+	 * All the one time inits follow
+	 */
 	static {
-		numberPat = Pattern.compile("^[\\+-]?\\d+([,\\.]\\d+)?([eE]-?\\d+)?$");
-		String countriesFile = "data/countries_file";
 		try {
+			fkb = new FuzzyKnowledgeBase(fuzzyKbFile);
+
+			numberPat = Pattern
+					.compile("^[\\+-]?\\d+([,\\.]\\d+)?([eE]-?\\d+)?$");
+			String countriesFile = "data/countries_file";
+
 			BufferedReader br = new BufferedReader(new FileReader(new File(
 					countriesFile)));
 			String countryRecord = null;
@@ -57,18 +53,26 @@ public class NERNumberRelationMatching implements RelationMatching {
 				String vars[] = countryRecord.split("\t");
 				String countryName = vars[1].toLowerCase();
 				String countryId = vars[0];
-				// System.out.println(countryName);
+
 				freeBaseMapping.put(countryName, countryId);
 			}
 			countryList = new HashSet<String>(freeBaseMapping.keySet());
-			countryIdList = new HashSet<String>(freeBaseMapping.values());
-			// System.out.println(countryList);
-			// "US/USA gets special treatment as always
+			countryIdList = new HashSet<String>(freeBaseMapping.values());                                                                          
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private NERNumberRelationMatching() {
+
+	}
+
+	public static NERNumberRelationMatching getInstance() {
+		if (instance == null) {
+			instance = new NERNumberRelationMatching();
+		}
+		return instance;
 	}
 
 	@Override
@@ -89,31 +93,49 @@ public class NERNumberRelationMatching implements RelationMatching {
 			Argument arg2 = si.second;
 			String arg1Name = arg1.getArgName();
 			String arg2Name = arg2.getArgName();
-			Set<String> relationsFound = new HashSet<String>();
 			List<String> arg1Ids = entityMap.get(arg1Name);
 			List<String> arg2Ids = entityMap.get(arg2Name);
-			if (null == arg1Ids && null == arg2Ids) { //useless
+			String entityId = null, num = null;
+			if (null == arg1Ids && null == arg2Ids) { // useless
 				continue;
-			} else if (null == arg2Ids && isCountry(arg1Ids.get(0)) && isNumber(arg2Name)) { //country and number 
-				System.out.println(arg1Name + " - " + arg2Name); 
-			} else if (null == arg1Ids && isCountry(arg2Ids.get(0)) && isNumber(arg1Name)) { //number and country 
+			} else if (null == arg2Ids && isCountry(arg1Ids.get(0))
+					&& isNumber(arg2Name)) { // country and number
+				entityId = arg1Ids.get(0);
+				num = arg2Name;
+				System.out.println(arg1Name + " - " + arg2Name);
+			} else if (null == arg1Ids && isCountry(arg2Ids.get(0))
+					&& isNumber(arg1Name)) { // number and country
+				entityId = arg2Ids.get(0);
+				num = arg1Name;
+				
 				System.out.println(arg2Name + " - " + arg1Name);
-			} else if(null == arg1Ids || null == arg2Ids) { //the non null entity is not a country
+			} else if (null == arg1Ids || null == arg2Ids) { // the non null
+																// entity is not
+																// a country
 				continue;
 			} else {
 				int countryArg = 0;
 				for (String arg1Id : arg1Ids) {
 					for (String arg2Id : arg2Ids) {
-						if ((countryArg = isCountryNumberPair(arg1Name, arg1Id, arg2Name, arg2Id)) != -1) { //exact match
+						if ((countryArg = isCountryNumberPair(arg1Name, arg1Id,
+								arg2Name, arg2Id)) != -1) { // exact match
 							if (countryArg == 1) {
+								entityId = arg1Id;
+								num = arg2Name;
 								System.out.println(arg1Name + " - " + arg2Name);
 							} else {
+								entityId = arg2Id;
+								num = arg1Name;
 								System.out.println(arg2Name + " - " + arg1Name);
 							}
 						}
 					}
 				}
 			}
+			if((null != entityId) && (null != num) && fuzzyMatch(entityId, num)) {
+				System.out.println("Fuzzy Match! ! ! : " + entityId + " -> " + num);
+			}
+			
 		}
 		return distantSupervisionAnnotations;
 	}
@@ -123,7 +145,8 @@ public class NERNumberRelationMatching implements RelationMatching {
 	 * 
 	 * @return
 	 */
-	static int isCountryNumberPair(String arg1Name, String arg1Id, String arg2Name, String arg2Id) {
+	static int isCountryNumberPair(String arg1Name, String arg1Id,
+			String arg2Name, String arg2Id) {
 		boolean isPair = countryIdList.contains(arg1Id)
 				&& numberPat.matcher(arg2Name).matches()
 				|| countryIdList.contains(arg2Id)
@@ -147,16 +170,25 @@ public class NERNumberRelationMatching implements RelationMatching {
 	static boolean isNumber(String numberArg) {
 		return numberPat.matcher(numberArg).matches();
 	}
-	
+
 	/**
-	 * Takes an entityId, a number and iterates over all the relations of the number to see if there can be a 
-	 * match. 
-	 * TODO : This code should be moved to a class of its own. We plan to implement several methods like Gaussian matching etc. 
-	 * things may get out of hand pretty soon.
+	 * Takes an entityId, a number and iterates over all the relations of the
+	 * number to see if there can be a match. TODO : This code should be moved
+	 * to a class of its own. We plan to implement several methods like Gaussian
+	 * matching etc. things may get out of hand pretty soon.
+	 * 
 	 * @param entityId
 	 * @param num
 	 */
-	void fuzzyMatch(String entityId, String num) {
-		//ArrayList<FuzzyFact> facts = 
+	boolean fuzzyMatch(String entityId, String num) {
+		Double numVal = Double.parseDouble(num);
+		ArrayList<FuzzyFact> facts = fkb.getFactsForId(entityId);
+		for(FuzzyFact fact : facts) {
+			if(fact.isMatch(numVal)) {
+				return true;
+			}
+		}
+		return false;
 	}
+	
 }
