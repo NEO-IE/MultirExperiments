@@ -1,6 +1,6 @@
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/sgnewdb",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/taccorpus",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
@@ -9,7 +9,7 @@
   "ai" :
 "edu.washington.multirframework.argumentidentification.NERAndNumberArgumentIdentification",
   "rm" :
-"edu.washington.multirframework.argumentidentification.NERNumberRelationMatching",
+"edu.washington.multirframework.argumentidentification.NERRelationMatching",
   "nec" :
 "edu.washington.multirframework.distantsupervision.NegativeExampleCollectionByRatio",
   "necRatio" : "0.25",	

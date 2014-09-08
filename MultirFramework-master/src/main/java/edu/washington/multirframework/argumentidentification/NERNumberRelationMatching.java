@@ -4,14 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.apache.derby.tools.sysinfo;
 
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
@@ -57,7 +58,7 @@ public class NERNumberRelationMatching implements RelationMatching {
 				freeBaseMapping.put(countryName, countryId);
 			}
 			countryList = new HashSet<String>(freeBaseMapping.keySet());
-			countryIdList = new HashSet<String>(freeBaseMapping.values());                                                                          
+			countryIdList = new HashSet<String>(freeBaseMapping.values());
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -91,51 +92,70 @@ public class NERNumberRelationMatching implements RelationMatching {
 			// for all the argument pairs
 			Argument arg1 = si.first;
 			Argument arg2 = si.second;
+			Argument countryArg = null;
+			Argument numberArg = null;
 			String arg1Name = arg1.getArgName();
 			String arg2Name = arg2.getArgName();
 			List<String> arg1Ids = entityMap.get(arg1Name);
 			List<String> arg2Ids = entityMap.get(arg2Name);
-			String entityId = null, num = null;
+			String entityId = null, num = null, countryName = null;
 			if (null == arg1Ids && null == arg2Ids) { // useless
 				continue;
 			} else if (null == arg2Ids && isCountry(arg1Ids.get(0))
 					&& isNumber(arg2Name)) { // country and number
 				entityId = arg1Ids.get(0);
+				countryName = arg1Name;
 				num = arg2Name;
-				System.out.println(arg1Name + " - " + arg2Name);
+				countryArg = arg1;
+				numberArg = arg2;
+				//System.out.println(arg1Name + " - " + arg2Name);
 			} else if (null == arg1Ids && isCountry(arg2Ids.get(0))
 					&& isNumber(arg1Name)) { // number and country
 				entityId = arg2Ids.get(0);
+				countryName = arg2Name;
 				num = arg1Name;
-				
-				System.out.println(arg2Name + " - " + arg1Name);
+				countryArg = arg2;
+				numberArg = arg1;
+				//System.out.println(arg2Name + " - " + arg1Name);
 			} else if (null == arg1Ids || null == arg2Ids) { // the non null
 																// entity is not
 																// a country
 				continue;
 			} else {
-				int countryArg = 0;
+				int countryArgPos = 0;
 				for (String arg1Id : arg1Ids) {
 					for (String arg2Id : arg2Ids) {
-						if ((countryArg = isCountryNumberPair(arg1Name, arg1Id,
+						if ((countryArgPos = isCountryNumberPair(arg1Name, arg1Id,
 								arg2Name, arg2Id)) != -1) { // exact match
-							if (countryArg == 1) {
+							if (countryArgPos == 1) {
 								entityId = arg1Id;
+								countryName = arg1Name;
 								num = arg2Name;
-								System.out.println(arg1Name + " - " + arg2Name);
+								countryArg = arg1;
+								numberArg = arg2;
+								//System.out.println(arg1Name + " - " + arg2Name);
 							} else {
 								entityId = arg2Id;
+								countryName = arg2Name;
 								num = arg1Name;
-								System.out.println(arg2Name + " - " + arg1Name);
+								countryArg = arg2;
+								numberArg = arg1;
+								//System.out.println(arg2Name + " - " + arg1Name);
 							}
 						}
 					}
 				}
 			}
-			if((null != entityId) && (null != num) && fuzzyMatch(entityId, num)) {
-				System.out.println("Fuzzy Match! ! ! : " + entityId + " -> " + num);
+			StringBuilder rel = new StringBuilder("");
+			if ((null != entityId) && (null != num) && fuzzyMatch(entityId, num, rel)) {
+				KBArgument kbarg1 = new KBArgument(countryArg, entityId);
+				KBArgument kbarg2 = new KBArgument(numberArg, num);
+				Triple<KBArgument,KBArgument,String> t = 
+						new Triple<>(kbarg1,kbarg2,rel.toString());
+				distantSupervisionAnnotations.add(t);
+				System.out.println("Match: " + countryName + " -> " + rel.toString() + " = " + num);
 			}
-			
+
 		}
 		return distantSupervisionAnnotations;
 	}
@@ -180,15 +200,30 @@ public class NERNumberRelationMatching implements RelationMatching {
 	 * @param entityId
 	 * @param num
 	 */
-	boolean fuzzyMatch(String entityId, String num) {
-		Double numVal = Double.parseDouble(num);
+	boolean fuzzyMatch(String entityId, String num, StringBuilder rel) {
+		Number number = null;
+		for (Locale l : Locale.getAvailableLocales()) {
+			NumberFormat format = NumberFormat.getInstance(l);
+			try {
+				number = format.parse(num);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				continue;
+			}
+			break;
+		}
+		if(null == number){
+			return false;
+		}
+		Double numVal = number.doubleValue();
+		
 		ArrayList<FuzzyFact> facts = fkb.getFactsForId(entityId);
-		for(FuzzyFact fact : facts) {
-			if(fact.isMatch(numVal)) {
+		for (FuzzyFact fact : facts) {
+			if (fact.isMatch(numVal, rel)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 }

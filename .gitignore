@@ -24,3 +24,4 @@ derby.log
 /derbyFlatFile
 /*.dump
 /sg*
+/*.tsv
