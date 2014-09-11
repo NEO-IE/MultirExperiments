@@ -7,10 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
@@ -20,7 +18,6 @@ import edu.washington.multirframework.argumentidentification.RelationMatching;
 import edu.washington.multirframework.data.Argument;
 import edu.washington.multirframework.data.KBArgument;
 import edu.washington.multirframework.data.NumberArgument;
-import edu.washington.multirframework.knowledgebase.FuzzyKnowledgeBase;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;
 
 /**

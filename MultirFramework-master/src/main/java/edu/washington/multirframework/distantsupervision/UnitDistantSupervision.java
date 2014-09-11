@@ -83,7 +83,7 @@ public class UnitDistantSupervision extends DistantSupervision {
 				}		
 				//negative example annotations
 				List<NegativeAnnotation> negativeExampleAnnotations =
-						findNegativeExampleAnnotations(sententialInstances,distantSupervisionAnnotations,
+						findNegativeExampleAnnotations(countryNumberPairs, distantSupervisionAnnotations,
 								kb,sentGlobalID);
 				
 				documentNegativeExamples.addAll(negativeExampleAnnotations);
