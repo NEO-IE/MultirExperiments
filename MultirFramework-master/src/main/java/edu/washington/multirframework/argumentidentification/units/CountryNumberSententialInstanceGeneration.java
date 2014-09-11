@@ -1,11 +1,13 @@
 //sg
 package edu.washington.multirframework.argumentidentification.units;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Pair;
 import edu.washington.multirframework.argumentidentification.SententialInstanceGeneration;
+import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentGlobalIDInformation.SentGlobalID;
 import edu.washington.multirframework.data.Argument;
 /**
  * This overriding implementation returns a list of all the country number pairs. It essentially takes a cross product of
@@ -17,9 +19,18 @@ public class CountryNumberSententialInstanceGeneration implements SententialInst
 
 	@Override
 	public List<Pair<Argument, Argument>> generateSententialInstances(
-			List<Argument> arguments, CoreMap sentence) {
-		// TODO Auto-generated method stub
-		return null;
+			List<Argument> countryArguments, CoreMap sentence) {
+		//get the sentence id
+		int sentId = sentence.get(SentGlobalID.class);
+		//pull all the numbers for this sentence
+		List<Argument> numbers = null;//getAllNumbersForSentence(sentId);
+		List< Pair<Argument, Argument> > argPairs = new ArrayList<Pair<Argument, Argument>>();
+		for(Argument countryArg : countryArguments) {
+			for(Argument number : numbers) {
+				argPairs.add(new Pair<Argument, Argument>(countryArg, number));
+			}
+		}
+		return argPairs;
 	}
 	
 

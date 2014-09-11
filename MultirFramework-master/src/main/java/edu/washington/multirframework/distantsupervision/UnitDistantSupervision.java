@@ -72,7 +72,7 @@ public class UnitDistantSupervision extends DistantSupervision {
 				
 				//relation matching
 				List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = 
-						rm.matchRelations(sententialInstances,kb,sentence,d);
+						rm.matchRelations(countryNumberPairs, kb, sentence, d);
 				
 				//adding sentence IDs
 				List<Pair<Triple<KBArgument,KBArgument,String>,Integer>> dsAnnotationWithSentIDs = new ArrayList<>();
