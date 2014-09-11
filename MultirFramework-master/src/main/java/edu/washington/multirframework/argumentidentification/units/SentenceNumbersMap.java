@@ -17,6 +17,7 @@ import edu.washington.multirframework.data.NumberArgument;
 public class SentenceNumbersMap {
 	static HashMap<Integer, ArrayList<NumberArgument>> sentNumMap;
 	SentenceNumbersMap instance = null;
+	//Indexes
 	private static String SENTIDSEPERATOR = "\t";
 	private static String NUMSEPERATOR = ";";
 	private static String FIELDSEPERATOR = ":";
@@ -48,6 +49,7 @@ public class SentenceNumbersMap {
 				}
 				sentNumMap.put(sentId, numsOnLine);
 			}
+			br.close();
 		} catch (IOException ioe) {
 			System.err.println(ioe);
 		}
@@ -58,12 +60,22 @@ public class SentenceNumbersMap {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * You don't really need an instance of this class
+	 
 	public SentenceNumbersMap getInstance() {
 		if (null == instance) {
 			instance = new SentenceNumbersMap();
 			return instance;
 		}
 		return instance;
+	}
+
+	* @return
+	 */
+	
+	public static ArrayList<NumberArgument> getNumbersForSentId(int sentId) {
+		return sentNumMap.get(sentId);
 	}
 
 }

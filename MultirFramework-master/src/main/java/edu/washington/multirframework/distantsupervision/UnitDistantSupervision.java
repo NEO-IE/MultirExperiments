@@ -21,6 +21,7 @@ import edu.stanford.nlp.util.Triple;
 import edu.washington.multirframework.argumentidentification.ArgumentIdentification;
 import edu.washington.multirframework.argumentidentification.RelationMatching;
 import edu.washington.multirframework.argumentidentification.SententialInstanceGeneration;
+import edu.washington.multirframework.argumentidentification.units.CountryNumberSententialInstanceGeneration;
 import edu.washington.multirframework.corpus.Corpus;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentGlobalIDInformation.SentGlobalID;
 import edu.washington.multirframework.data.Argument;
@@ -30,9 +31,10 @@ import edu.washington.multirframework.knowledgebase.KnowledgeBase;
 import edu.washington.multirframework.util.BufferedIOUtils;
 
 public class UnitDistantSupervision extends DistantSupervision {
-	
+	CountryNumberSententialInstanceGeneration countrySig = null;
 	public UnitDistantSupervision(ArgumentIdentification ai, SententialInstanceGeneration sig, RelationMatching rm, NegativeExampleCollection nec){
 		super(ai, sig, rm, nec);
+		countrySig = new CountryNumberSententialInstanceGeneration();
 	}
 	
 	@Override
@@ -68,7 +70,7 @@ public class UnitDistantSupervision extends DistantSupervision {
 				//sentential instance generation
 				
 				//List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(arguments, sentence);
-				List<Pair<Argument,Argument>> countryNumberPairs = sig.generateSententialInstances(arguments, sentence);
+				List<Pair<Argument, NumberArgument>> countryNumberPairs =  ;
 				
 				//relation matching
 				List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = 
