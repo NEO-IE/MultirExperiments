@@ -28,10 +28,10 @@ import edu.washington.multirframework.util.BufferedIOUtils;
 
 public class DistantSupervision {
 
-	private ArgumentIdentification ai;
-	private SententialInstanceGeneration sig;
-	private RelationMatching rm;
-	private NegativeExampleCollection nec;
+	protected ArgumentIdentification ai;
+	protected SententialInstanceGeneration sig;
+	protected RelationMatching rm;
+	protected NegativeExampleCollection nec;
 
 	public DistantSupervision(ArgumentIdentification ai, SententialInstanceGeneration sig, RelationMatching rm, NegativeExampleCollection nec){
 		System.out.println("Hi I am here");
@@ -80,7 +80,7 @@ public class DistantSupervision {
 					Integer i = new Integer(sentGlobalID);
 					Pair<Triple<KBArgument,KBArgument,String>,Integer> p = new Pair<>(trip,i);
 					dsAnnotationWithSentIDs.add(p);
-				}
+				}		
 				//negative example annotations
 				List<NegativeAnnotation> negativeExampleAnnotations =
 						findNegativeExampleAnnotations(sententialInstances,distantSupervisionAnnotations,
@@ -124,7 +124,7 @@ public class DistantSupervision {
 		
 	}
 
-	private  List<NegativeAnnotation> findNegativeExampleAnnotations(
+	protected  List<NegativeAnnotation> findNegativeExampleAnnotations(
 			List<Pair<Argument, Argument>> sententialInstances,
 			List<Triple<KBArgument, KBArgument, String>> distantSupervisionAnnotations,
 			KnowledgeBase KB, Integer sentGlobalID) {
