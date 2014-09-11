@@ -12,5 +12,10 @@ public class NumberArgument  extends Argument{
 		super(name, startOff, endOff);
 		this.unit = unit;
 	}
-	
+	/**
+	 * Just returns the argument part of the number argument
+	 */
+	public Argument getArgument() {
+		return new Argument(super.argName, super.startOffset, super.endOffset);
+	}
 }
