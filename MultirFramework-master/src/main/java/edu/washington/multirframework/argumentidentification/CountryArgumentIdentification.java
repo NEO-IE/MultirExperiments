@@ -1,3 +1,4 @@
+//sg
 package edu.washington.multirframework.argumentidentification;
 
 import java.io.BufferedReader;
@@ -17,45 +18,42 @@ import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRela
 import edu.washington.multirframework.data.Argument;
 
 /**
- * in addition to NERs, also tag numbers to entities
+ * This class is to be used with unit extraction, it aims at tagging only the countries as valid entities
  * @author aman
- *
  */
-public class NERAndNumberArgumentIdentification implements
+
+public class CountryArgumentIdentification implements
 		ArgumentIdentification {
 
 	// only NER Types considered
-	private static String[] relevantNERTypes = { "ORGANIZATION", "PERSON",
-			"LOCATION" };
+	private static String[] relevantNERTypes = { "ORGANIZATION", "PERSON", "LOCATION" };
 
-	private static NERAndNumberArgumentIdentification instance = null;
+	private static CountryArgumentIdentification instance = null;
 	
-	static Pattern numberPat;
 	HashSet<String> countryList;
 
 	private static final String countriesFileName = "data/numericalkb/countries_list";
 
-	private NERAndNumberArgumentIdentification() {
+	private CountryArgumentIdentification() {
 
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(
-					NERAndNumberArgumentIdentification.countriesFileName));
+					CountryArgumentIdentification.countriesFileName));
 			String countryName = null;
 			countryList = new HashSet<>();
 			while ((countryName = br.readLine()) != null) {
 				countryList.add(countryName.toLowerCase());
 			}
 			br.close();
-			numberPat = Pattern.compile("^[\\+-]?\\d+([,\\.]\\d+)?([eE]-?\\d+)?$");
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 	}
 
-	public static NERAndNumberArgumentIdentification getInstance() {
+	public static CountryArgumentIdentification getInstance() {
 		if (instance == null)
-			instance = new NERAndNumberArgumentIdentification();
+			instance = new CountryArgumentIdentification();
 		return instance;
 	}
 
@@ -130,26 +128,6 @@ public class NERAndNumberArgumentIdentification implements
 	}
 
 	private boolean isRelevant(CoreLabel token) {
-		String ner = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-		for (String relevantNER : relevantNERTypes) {
-			if (relevantNER.equals(ner)) {
-				return true;
-			}
-		}
-		/*
-		 * if (token.toString().matches("-?\\d+(\\.\\d+)?") ||
-		 * token.toString().matches(
-		 * "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
-		 * ) || token.toString().matches("\\d{4}-\\d{2}-\\d{2}") ) { return
-		 * true; }
-		 */
-		boolean isNumber = numberPat.matcher(token.toString()).matches();
-		if (isNumber) {
-			return true;
-		}
-		if (isCountry(token.toString())) {
-			return true;
-		}
-		return false;
+		return isCountry(token.toString());
 	}
 }

@@ -41,7 +41,7 @@ public class UnitDistantSupervision extends DistantSupervision {
     	PrintWriter dsWriter = new PrintWriter(BufferedIOUtils.getBufferedWriter(new File(outputFileName)));
 		Iterator<Annotation> di = c.getDocumentIterator();
 		if(null == di) {
-			System.out.println("NULL");
+			System.out.println("NULL, I am going to crash before you blink");
 		}
 		int count =0;
 		long startms = System.currentTimeMillis();
@@ -49,7 +49,6 @@ public class UnitDistantSupervision extends DistantSupervision {
 		while(di.hasNext()){
 			Annotation d = di.next();
 			if(null == d) {
-				
 				System.out.println(d);
 			}
 			List<CoreMap> sentences = d.get(CoreAnnotations.SentencesAnnotation.class);
@@ -59,16 +58,21 @@ public class UnitDistantSupervision extends DistantSupervision {
 			for(CoreMap sentence : sentences){
 				int sentGlobalID = sentence.get(SentGlobalID.class);
 				
-				//argument identification
+				//argument identification 
+				/**
+				 * Here the argument identification module is the country argument matcher, thus this is essentially
+				 * just a list of the countries that are there in the sentence
+				 */
 				List<Argument> arguments =  ai.identifyArguments(d,sentence);
+				
 				//sentential instance generation
-				if(arguments.size() == 2) {
-				//	System.out.println(arguments);
-				}
+				
 				List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(arguments, sentence);
+				
 				//relation matching
 				List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = 
 						rm.matchRelations(sententialInstances,kb,sentence,d);
+				
 				//adding sentence IDs
 				List<Pair<Triple<KBArgument,KBArgument,String>,Integer>> dsAnnotationWithSentIDs = new ArrayList<>();
 				for(Triple<KBArgument,KBArgument,String> trip : distantSupervisionAnnotations){
