@@ -67,7 +67,8 @@ public class UnitDistantSupervision extends DistantSupervision {
 				
 				//sentential instance generation
 				
-				List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(arguments, sentence);
+				//List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(arguments, sentence);
+				List<Pair<Argument,Argument>> countryNumberPairs = sig.generateSententialInstances(arguments, sentence);
 				
 				//relation matching
 				List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = 
