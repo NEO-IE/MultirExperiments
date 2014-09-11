@@ -53,7 +53,7 @@ public class Experiment {
 	private List<String> oldFeatureFiles;
 	private List<String> featureFiles;
 	private List<String> multirDirs;
-	private List<String> oldMultirDirs;
+	private List<String> oldMultirDirs;		
 	private RelationMatching rm;
 	private NegativeExampleCollection nec;
 	private KnowledgeBase kb;

@@ -1,7 +1,9 @@
 package edu.washington.multirframework.argumentidentification;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +35,7 @@ public class NERAndNumberArgumentIdentification implements
 	private static NERAndNumberArgumentIdentification instance = null;
 	
 	static Pattern numberPat;
+	static BufferedWriter numberWriter;
 	HashSet<String> countryList;
 
 	private static final String countriesFileName = "data/numericalkb/countries_list";
@@ -43,6 +46,7 @@ public class NERAndNumberArgumentIdentification implements
 		try {
 			br = new BufferedReader(new FileReader(
 					NERAndNumberArgumentIdentification.countriesFileName));
+			numberWriter = new BufferedWriter(new FileWriter("numbers"));
 			String countryName = null;
 			countryList = new HashSet<>();
 			while ((countryName = br.readLine()) != null) {
@@ -130,7 +134,7 @@ public class NERAndNumberArgumentIdentification implements
 	private boolean isCountry(String s) {
 		return countryList.contains(s.toLowerCase());
 	}
-
+	
 	private boolean isRelevant(CoreLabel token) {
 		String ner = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
 		for (String relevantNER : relevantNERTypes) {
@@ -138,16 +142,15 @@ public class NERAndNumberArgumentIdentification implements
 				return true;
 			}
 		}
-		/*
-		 * if (token.toString().matches("-?\\d+(\\.\\d+)?") ||
-		 * token.toString().matches(
-		 * "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
-		 * ) || token.toString().matches("\\d{4}-\\d{2}-\\d{2}") ) { return
-		 * true; }
-		 */
-		boolean isNumber = numberPat.matcher(token.toString()).matches();
+		String tokenString = token.toString();
+		boolean isNumber =  numberPat.matcher(tokenString).matches();
 		if (isNumber) {
-			return true;
+			try {
+			numberWriter.write(tokenString + "\n");
+			} catch(IOException ioe) {
+				System.out.println(ioe);
+			}
+			return (tokenString.length() > 1);
 		}
 		if (isCountry(token.toString())) {
 			return true;

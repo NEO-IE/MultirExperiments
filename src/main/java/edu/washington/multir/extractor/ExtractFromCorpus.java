@@ -106,12 +106,12 @@ public class ExtractFromCorpus {
 			InvocationTargetException, SQLException, IOException {
 	
 		
-		ExtractFromCorpus efc = new ExtractFromCorpus("extract.json");
+		ExtractFromCorpus efc = new ExtractFromCorpus(args[0]);
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("sg_tac")));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("lower_ignored_extractions	")));
 		List<Extraction> extrs = getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
-		PrintWriter pw = new PrintWriter("tac_extractions");
+		PrintWriter pw = new PrintWriter("dist_match_extractions");
 		int extrCount = 1;
 		for(Extraction extr : extrs) {
 			pw.write(extr + " \n");

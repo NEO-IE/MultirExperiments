@@ -237,8 +237,8 @@ public class CreateCorpusFromDocs {
 		boolean debug = true;
 		while(debug) {
 			debug = false;
-		String corpusPath = "/mnt/a99/d0/aman/pruned-cp";
-		String outputFile = "data/derbyFlatFile4";
+		String corpusPath = "/mnt/a99/d0/aman/MultirExperiments/data/extractor_test_files	";
+		String outputFile = "data/derbyExtractorTestInput";
 		cc.preprocessCorpus(corpusPath, outputFile);
 		}
 	}
