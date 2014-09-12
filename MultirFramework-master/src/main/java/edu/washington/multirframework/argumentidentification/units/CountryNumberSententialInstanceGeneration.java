@@ -19,23 +19,35 @@ import edu.washington.multirframework.data.NumberArgument;
  */
 public class CountryNumberSententialInstanceGeneration implements SententialInstanceGeneration {
 
+	private static CountryNumberSententialInstanceGeneration instance = null;
+	private CountryNumberSententialInstanceGeneration() {
+		
+	}
+	public static CountryNumberSententialInstanceGeneration getInstance() {
+		if(null == instance) {
+			instance = new CountryNumberSententialInstanceGeneration();
+			return instance;
+		}
+		return instance;
+	}
+	
 	@Override
 	public List<Pair<Argument, Argument>> generateSententialInstances(
 			List<Argument> countryArguments, CoreMap sentence) {
-		throw new NotImplementedException();
-		/*
+		//throw new NotImplementedException();
+		
 		//get the sentence id
 		int sentId = sentence.get(SentGlobalID.class);
 		//pull all the numbers for this sentence
 		ArrayList<NumberArgument> numbers = SentenceNumbersMap.getNumbersForSentId(sentId);
-		ArrayList< Pair<Argument, NumberArgument> > argPairs = new ArrayList<Pair<Argument, NumberArgument>>();
+		ArrayList< Pair<Argument, Argument> > argPairs = new ArrayList<Pair<Argument, Argument>>();
 		for(Argument countryArg : countryArguments) {
 			for(NumberArgument number : numbers) {
-				argPairs.add(new Pair<Argument, NumberArgument>(countryArg, number));
+				argPairs.add(new Pair<Argument, Argument>(countryArg, number));
 			}
 		}
-		return null;
-		*/
+		return argPairs;
+		
 	}
 	public List<Pair<Argument, NumberArgument>> generateSententialInstancesCountryNumber(
 			List<Argument> countryArguments, CoreMap sentence) {
