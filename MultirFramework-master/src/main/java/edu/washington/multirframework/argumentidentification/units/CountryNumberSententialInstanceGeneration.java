@@ -49,19 +49,6 @@ public class CountryNumberSententialInstanceGeneration implements SententialInst
 		return argPairs;
 		
 	}
-	public List<Pair<Argument, NumberArgument>> generateSententialInstancesCountryNumber(
-			List<Argument> countryArguments, CoreMap sentence) {
-		//get the sentence id
-		int sentId = sentence.get(SentGlobalID.class);
-		//pull all the numbers for this sentence
-		ArrayList<NumberArgument> numbers = SentenceNumbersMap.getNumbersForSentId(sentId);
-		ArrayList< Pair<Argument, NumberArgument> > argPairs = new ArrayList<Pair<Argument, NumberArgument>>();
-		for(Argument countryArg : countryArguments) {
-			for(NumberArgument number : numbers) {
-				argPairs.add(new Pair<Argument, NumberArgument>(countryArg, number));
-			}
-		}
-		return argPairs;
-	}
+	
 
 }

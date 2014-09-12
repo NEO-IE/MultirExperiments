@@ -31,7 +31,17 @@ import edu.washington.multirframework.knowledgebase.KnowledgeBase;
 public class UnitsRelationMatching implements RelationMatching {
 
 	private static HashMap<String, String> freeBaseMapping;
-	
+	private static UnitsRelationMatching instance = null;
+	private UnitsRelationMatching() {
+		
+	}
+	public static UnitsRelationMatching getInstance() {
+		if(null == instance) {
+			instance = new UnitsRelationMatching();
+			return instance;
+		}
+		return instance;
+	}
 	static {
 		try {
 			

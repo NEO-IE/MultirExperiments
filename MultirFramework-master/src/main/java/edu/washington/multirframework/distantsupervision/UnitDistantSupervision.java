@@ -32,10 +32,10 @@ import edu.washington.multirframework.knowledgebase.KnowledgeBase;
 import edu.washington.multirframework.util.BufferedIOUtils;
 
 public class UnitDistantSupervision extends DistantSupervision {
-	CountryNumberSententialInstanceGeneration countrySig = null;
+
 	public UnitDistantSupervision(ArgumentIdentification ai, SententialInstanceGeneration sig, RelationMatching rm, NegativeExampleCollection nec){
 		super(ai, sig, rm, nec);
-		countrySig = CountryNumberSententialInstanceGeneration.getInstance();
+		
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class UnitDistantSupervision extends DistantSupervision {
 				//sentential instance generation
 				
 				//List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(arguments, sentence);
-				List<Pair<Argument, Argument>> countryNumberPairs = countrySig.generateSententialInstances(countryArguments, sentence); ;
+				List<Pair<Argument, Argument>> countryNumberPairs = sig.generateSententialInstances(countryArguments, sentence); ;
 				
 				//relation matching
 				List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = 
