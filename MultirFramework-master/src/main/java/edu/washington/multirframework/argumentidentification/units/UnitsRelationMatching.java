@@ -7,8 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
@@ -55,6 +57,7 @@ public class UnitsRelationMatching implements RelationMatching {
 		}
 	}
 
+	/*
 	@Override
 	public List<Triple<KBArgument, KBArgument, String>> matchRelations(
 			List<Pair<Argument, Argument>> countryNumberPairs,
@@ -66,13 +69,59 @@ public class UnitsRelationMatching implements RelationMatching {
 			Argument country = countryNumberPair.first;
 			NumberArgument number = (NumberArgument)countryNumberPair.second;
 			String rel = null;
-			if(true /*(rel = relationExists(country, number)) != null*/) {
+			if(true /*(rel = relationExists(country, number)) != null) {
 				KBArgument kbarg1 = new KBArgument(country, freeBaseMapping.get(country.getArgName()));
 				KBArgument kbarg2 = new KBArgument(number.getArgument(), number.getArgName());
 				Triple<KBArgument,KBArgument,String> t = 
 						new Triple<>(kbarg1, kbarg2, rel.toString());
 				distantSupervisionAnnotations.add(t);
 				System.out.println("Units Match: " + country.getArgName() + " -> " + rel + " = " + kbarg2.getArgName());
+			}
+		}
+		return distantSupervisionAnnotations;
+	}
+	*/
+	
+	@Override
+	public List<Triple<KBArgument,KBArgument,String>> matchRelations(
+			List<Pair<Argument,Argument>> sententialInstances,
+			KnowledgeBase KB, CoreMap sentence, Annotation doc) {
+		
+		Map<String,List<String>> entityMap =KB.getEntityMap();
+		List<Triple<KBArgument,KBArgument,String>> distantSupervisionAnnotations = new ArrayList<>();
+		
+		/**
+		 * The way things have been setup, the first argument is supposed to be a country and the second argument is supposed to be a number
+		 */
+		for(Pair<Argument,Argument> si : sententialInstances){
+			Argument country = si.first;
+			Argument number = si.second;
+			
+			String arg1Name = country.getArgName();
+			String arg2Name = number.getArgName();
+			Set<String> relationsFound = new HashSet<String>();
+			
+			if(entityMap.containsKey(arg1Name)){
+				if(entityMap.containsKey(arg2Name)){
+					NumberArgument numArg = (NumberArgument) number;
+					List<String> arg1Ids = entityMap.get(arg1Name);
+					List<String> arg2Ids = entityMap.get(arg2Name);
+					for(String arg1Id : arg1Ids){
+						for(String arg2Id: arg2Ids){
+							List<String> relations = KB.getRelationsBetweenArgumentIds(arg1Id,arg2Id);
+							for(String rel : relations){
+								if(!relationsFound.contains(rel) && (RelationUnitMap.getUnit(rel) == numArg.getUnit())){
+									KBArgument kbarg1 = new KBArgument(country, arg1Id);
+									KBArgument kbarg2 = new KBArgument(number, arg2Id);
+									Triple<KBArgument,KBArgument,String> t = 
+											new Triple<>(kbarg1,kbarg2,rel);
+									distantSupervisionAnnotations.add(t);
+									relationsFound.add(rel);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		return distantSupervisionAnnotations;

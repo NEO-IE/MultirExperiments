@@ -18,4 +18,9 @@ public class NumberArgument  extends Argument{
 	public Argument getArgument() {
 		return new Argument(super.argName, super.startOffset, super.endOffset);
 	}
+	
+	public String getUnit() {
+		return unit;
+	}
+	
 }
