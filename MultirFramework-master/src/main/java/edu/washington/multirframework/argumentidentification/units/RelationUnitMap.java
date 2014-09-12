@@ -6,7 +6,7 @@ public class RelationUnitMap {
 	private static HashMap<String, String>  unitMap = null;
 	static {
 		unitMap = new HashMap<String, String>();
-		unitMap.put("AG.LND.TOTL.K2","");
+		unitMap.put("AG.LND.TOTL.K2", "");
 		unitMap.put("BN.KLT.DINV.CD","");
 		unitMap.put("BX.GSR.MRCH.CD","");
 		unitMap.put("EG.ELC.PROD.KH","");

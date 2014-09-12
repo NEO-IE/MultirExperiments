@@ -1,5 +1,5 @@
 //sg
-package edu.washington.multirframework.argumentidentification;
+package edu.washington.multirframework.argumentidentification.units;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,6 +13,7 @@ import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
+import edu.washington.multirframework.argumentidentification.ArgumentIdentification;
 import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRelativeCharacterOffsetBeginAnnotation;
 import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRelativeCharacterOffsetEndAnnotation;
 import edu.washington.multirframework.data.Argument;
