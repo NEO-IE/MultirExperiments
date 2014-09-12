@@ -32,6 +32,9 @@ public class UnitsRelationMatching implements RelationMatching {
 
 	private static HashMap<String, String> freeBaseMapping;
 	private static UnitsRelationMatching instance = null;
+	
+	private static double threshold = 0.00001;
+	
 	private UnitsRelationMatching() {
 		
 	}
@@ -91,7 +94,18 @@ public class UnitsRelationMatching implements RelationMatching {
 		return distantSupervisionAnnotations;
 	}
 	*/
-	
+	/**
+	 * Because our argument identifier only locates countries, and because our sentential instance generator ensures that we always
+	 * have a country followed by a number, we can be assured that the ordering assumed in this code will be in place. I should probably
+	 * add some asserts in the code to be doubly sure.
+	 * Apart from that, here is how it works : 
+	 * a) Iterate over all the pairs of arguments, which again, are supposedly (country, number)
+	 * b) Parse the number in the argument to get a double value, say numD
+	 * c) For the country, go to the kb to get a list of all the numbers and the relations. This will be a list in the following format:
+	 * India -> (1300000000, POP), (34, Something else)
+	 * d) For each element of this list, extract the number, parse it to double and compare it with numD, if they match with some lax, 
+	 * check if the unit matches, if so, add the entity number pair to kb
+	 */
 	@Override
 	public List<Triple<KBArgument,KBArgument,String>> matchRelations(
 			List<Pair<Argument,Argument>> sententialInstances,
@@ -107,22 +121,26 @@ public class UnitsRelationMatching implements RelationMatching {
 			Argument country = si.first;
 			Argument number = si.second;
 			
-			String arg1Name = country.getArgName();
-			String arg2Name = number.getArgName();
+			String countryName = country.getArgName();
+			String numberStr = number.getArgName();
+			Double numberFoundInSentence = Double.parseDouble(numberStr);
 			Set<String> relationsFound = new HashSet<String>();
 			
-			if(entityMap.containsKey(arg1Name)){
-				if(entityMap.containsKey(arg2Name)){
+			if(entityMap.containsKey(countryName)){
+				//if(entityMap.containsKey(arg2Name)){ it may not be
 					NumberArgument numArg = (NumberArgument) number;
-					List<String> arg1Ids = entityMap.get(arg1Name);
-					List<String> arg2Ids = entityMap.get(arg2Name);
-					for(String arg1Id : arg1Ids){
-						for(String arg2Id: arg2Ids){
-							List<String> relations = KB.getRelationsBetweenArgumentIds(arg1Id,arg2Id);
-							for(String rel : relations){
-								if(!relationsFound.contains(rel) && (RelationUnitMap.getUnit(rel) == numArg.getUnit())){
-									KBArgument kbarg1 = new KBArgument(country, arg1Id);
-									KBArgument kbarg2 = new KBArgument(number, arg2Id);
+					List<String> countryIds = entityMap.get(countryName);
+					//List<String> arg2Ids = entityMap.get(arg2Name);
+					for(String countryId : countryIds){
+						List<Pair<String,String>> numberRelPairsForCountry = KB.getEntityPairRelationMap().get(countryId);
+							//List<String> relations = KB.getRelationsBetweenArgumentIds(arg1Id,arg2Id);
+							for(Pair<String, String> numRel : numberRelPairsForCountry) {
+								String rel = numRel.second;
+								Double num = Double.parseDouble(numRel.first);
+								
+								if(isEqual(num, numberFoundInSentence) && !relationsFound.contains(rel) && (RelationUnitMap.getUnit(rel) == numArg.getUnit())){
+									KBArgument kbarg1 = new KBArgument(country, countryId);
+									KBArgument kbarg2 = new KBArgument(number, numberStr);
 									Triple<KBArgument,KBArgument,String> t = 
 											new Triple<>(kbarg1,kbarg2,rel);
 									distantSupervisionAnnotations.add(t);
@@ -131,9 +149,17 @@ public class UnitsRelationMatching implements RelationMatching {
 							}
 						}
 					}
-				}
-			}
 		}
 		return distantSupervisionAnnotations;
+	}
+	
+	/**
+	 * Compare the 2 given numbers with some lax
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	boolean isEqual(Double a, Double b) {
+		return Math.abs(a - b) < threshold; 
 	}
 }
