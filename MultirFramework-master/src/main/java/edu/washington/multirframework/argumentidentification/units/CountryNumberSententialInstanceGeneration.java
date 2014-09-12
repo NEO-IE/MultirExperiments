@@ -4,7 +4,6 @@ package edu.washington.multirframework.argumentidentification.units;
 import java.util.ArrayList;
 import java.util.List;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Pair;
 import edu.washington.multirframework.argumentidentification.SententialInstanceGeneration;

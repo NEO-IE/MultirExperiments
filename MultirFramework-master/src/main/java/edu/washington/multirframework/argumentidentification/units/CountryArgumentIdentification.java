@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -27,7 +26,7 @@ public class CountryArgumentIdentification implements
 		ArgumentIdentification {
 
 	// only NER Types considered
-	private static String[] relevantNERTypes = { "ORGANIZATION", "PERSON", "LOCATION" };
+	//private static String[] relevantNERTypes = { "ORGANIZATION", "PERSON", "LOCATION" };
 
 	private static CountryArgumentIdentification instance = null;
 	
