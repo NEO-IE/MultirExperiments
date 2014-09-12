@@ -39,7 +39,12 @@ public class SentenceNumbersMap {
 			while ((line = br.readLine()) != null) {
 				ArrayList<NumberArgument> numsOnLine = new ArrayList<NumberArgument>();
 				String lineSplit[] = line.split(SENTIDSEPERATOR);
+				
 				Integer sentId = Integer.parseInt(lineSplit[SENTID_INDEX]);
+				if(lineSplit.length == 1) { //this sentence has no number
+					sentNumMap.put(sentId, numsOnLine);
+					continue;
+				}
 				String nums[] = lineSplit[SENTID_INDEX + 1].split(NUMSEPERATOR);
 				for (String num : nums) {
 					String numSplit[] = num.split(FIELDSEPERATOR);
@@ -75,7 +80,11 @@ public class SentenceNumbersMap {
 	 */
 	
 	public static ArrayList<NumberArgument> getNumbersForSentId(int sentId) {
-		return sentNumMap.get(sentId);
+		if(sentNumMap.containsKey(sentId)) {
+			return sentNumMap.get(sentId);
+		} else {
+			return null;
+		}
 	}
 
 }

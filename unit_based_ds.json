@@ -1,6 +1,6 @@
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/taccorpus",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/sgnewdb",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",

@@ -39,6 +39,7 @@ import edu.washington.multirframework.corpus.SentInformationI;
 import edu.washington.multirframework.corpus.TokenInformationI;
 import edu.washington.multirframework.distantsupervision.DistantSupervision;
 import edu.washington.multirframework.distantsupervision.NegativeExampleCollection;
+import edu.washington.multirframework.distantsupervision.UnitDistantSupervision;
 import edu.washington.multirframework.featuregeneration.FeatureGeneration;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;
@@ -277,7 +278,7 @@ public class Experiment {
 				mmds.run(kb, corpus);
 			}
 			else{
-				DistantSupervision ds = new DistantSupervision(ai, sigs.get(0), rm, nec);
+				DistantSupervision ds = new UnitDistantSupervision(ai, sigs.get(0), rm, nec);
 				ds.run(DSFiles.get(0), kb, corpus);
 			}
 			}
