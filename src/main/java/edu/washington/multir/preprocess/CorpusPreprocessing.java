@@ -185,12 +185,12 @@ public class CorpusPreprocessing {
 
 			}
 			
-			//print dependency information for sentence
-			System.out.println("Sentence number " + index);
-			for(Triple<Integer,String,Integer> di : dependencyInformation){
-				System.out.print(di.first + " " + di.second + " " + di.third + "|");
-			}
-			System.out.println();
+//			//print dependency information for sentence
+//			System.out.println("Sentence number " + index);
+//			for(Triple<Integer,String,Integer> di : dependencyInformation){
+//				System.out.print(di.first + " " + di.second + " " + di.third + "|");
+//			}
+//			System.out.println();
 			
 			//set annotation on sentence
 			CoreMap sentence = sentences.get(index);
@@ -327,7 +327,7 @@ public class CorpusPreprocessing {
 		return getTestDocumentFromRawString(documentString,docName);
 	}
 	
-	public static Annotation getTestDocumentFromRawString(String documentString,String docName) throws IOException, InterruptedException{
+	public static Annotation getTestDocumentFromRawString(String documentString, String docName) throws IOException, InterruptedException{
 		
 		if(pipeline == null){
 			props.put("annotators", "tokenize,ssplit,pos,parse,lemma,ner");

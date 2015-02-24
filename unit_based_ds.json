@@ -1,34 +1,33 @@
-
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/taccorpus",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/numbers_corpus",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
   "fg" :
 "edu.washington.multirframework.featuregeneration.DefaultFeatureGenerator",
   "ai" :
-"edu.washington.multirframework.argumentidentification.NERAndNumberArgumentIdentification",
+"edu.washington.multirframework.argumentidentification.units.CountryArgumentIdentification",
   "rm" :
-"edu.washington.multirframework.argumentidentification.NERRelationMatching",
+"edu.washington.multirframework.argumentidentification.units.UnitsRelationMatching",
   "nec" :
 "edu.washington.multirframework.distantsupervision.NegativeExampleCollectionByRatio",
   "necRatio" : "0.25",	
-  "kbRelFile" : "data/kb/kb-facts-train.tsv.gz",
-  "kbEntityFile" : "data/kb/entity-names-train.tsv.gz",
-  "targetRelFile" : "data/kb/target-relations.tsv",
+  "kbRelFile" : "data/numericalkb/kb-facts-train_SI.tsv.gz",
+  "kbEntityFile" : "data/numericalkb/entity-names-train.tsv.gz",
+  "targetRelFile" : "data/numericalkb/target-relations.tsv",
   "typeRelMap" : null,
   "sigs" : [
-"edu.washington.multirframework.argumentidentification.DefaultSententialInstanceGeneration"
+"edu.washington.multirframework.argumentidentification.units.CountryNumberSententialInstanceGeneration"
 ],
   "dsFiles" : [
-"data/training-instances.tsv.gz"
+"data/training-instances-numerical-matches.tsv.gz"
 ],
-  "featureFiles" : [
-"data/training-instances-features.tsv"
+  "featureFiles" : [	
+"data/units_features.tsv"
 ],
   "models" : [
-"data/multir-extractor" ],
+"data/units_based_model" ],
   "cis" :
 "edu.washington.multirframework.corpus.DefaultCorpusInformationSpecification",
   "si" : [

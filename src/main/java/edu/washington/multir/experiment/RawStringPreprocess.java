@@ -36,6 +36,7 @@ import edu.washington.multirframework.corpus.CorpusInformationSpecification.Sent
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentGlobalIDInformation.SentGlobalID;
 import edu.washington.multirframework.corpus.CustomCorpusInformationSpecification;
 import edu.washington.multirframework.corpus.DocumentInformationI;
+import edu.washington.multirframework.corpus.SentDependencyInformation;
 import edu.washington.multirframework.corpus.SentInformationI;
 import edu.washington.multirframework.corpus.TokenInformationI;
 import edu.washington.multirframework.data.Argument;
@@ -212,29 +213,14 @@ public class RawStringPreprocess {
 			
 			String[] relations = {"/people/person/gender", "/people/person/place_of_birth", "/people/person/profession", "/people/person/nationality"};
 			targetRelations = new HashSet<String>(Arrays.asList(relations));
-			RawStringPreprocess rsp = new RawStringPreprocess("sgconfig.json");
 			Annotation a = CorpusPreprocessing.getTestDocumentFromRawString("Moscow is the capital of Russia", "doc1");
-			
 			List<CoreMap> sentences = a.get(CoreAnnotations.SentencesAnnotation.class);
-			DocumentExtractor de = new DocumentExtractor("data/multir-extractor", rsp.fg, rsp.ai, rsp.sigs.get(0));
-			/*
-			for(CoreMap sentence : sentences) { //
-				for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
-			        // this is the text of the token
-			        String word = token.get(TextAnnotation.class);
-			        // this is the POS tag of the token
-			        String pos = token.get(PartOfSpeechAnnotation.class);
-			        // this is the NER label of the token
-			        String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class); 
-			        System.out.println(word + " POS " + pos + " NER " + ne);
-			      }
+			
+			for(CoreMap sentence : sentences) {
+				System.out.println(sentence.get(SentDependencyInformation.DependencyAnnotation.class));
 			}
-			*/
-			ArrayList<Annotation> docCollection = new ArrayList<Annotation>();
-			docCollection.add(a);
-			List<Extraction> extrns = getExtractions(docCollection.iterator(), rsp.ai, rsp.sigs.get(0), de);
-			System.out.println(extrns);
-		} catch (IOException | InterruptedException | InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block		
 			e.printStackTrace();
 		}

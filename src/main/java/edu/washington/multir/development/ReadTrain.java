@@ -1,6 +1,5 @@
 package edu.washington.multir.development;
 
-import java.io.File;
 import java.io.IOException;
 
 import edu.washington.multirframework.multiralgorithm.Dataset;
@@ -10,7 +9,8 @@ import edu.washington.multirframework.multiralgorithm.MemoryDataset;
 public class ReadTrain {
 	
 	public static void main(String[] args) throws IOException{
-		run(args[0]);
+		
+		run("/mnt/a99/d0/aman/MultirExperiments/data/units_based_ensemble/ensemble_models/count_model/train");
 	}
 	
 	public static void run(String trainFile) throws IOException{

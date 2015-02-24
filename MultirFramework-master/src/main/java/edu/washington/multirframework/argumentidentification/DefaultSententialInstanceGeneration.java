@@ -31,7 +31,6 @@ public class DefaultSententialInstanceGeneration implements
 			List<Argument> arguments, CoreMap sentence) {
 		List<Pair<Argument,Argument>> sententialInstances = new ArrayList<>();
 		
-		
 		for(int i =0; i < arguments.size(); i++){
 			for(int j = 0; j < arguments.size(); j++){
 				if(j != i){

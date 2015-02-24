@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
@@ -109,16 +110,9 @@ public class ExtractFromCorpus {
 		ExtractFromCorpus efc = new ExtractFromCorpus(args[0]);
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("lower_ignored_extractions	")));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("rulebased_extractions")));
 		List<Extraction> extrs = getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
-		PrintWriter pw = new PrintWriter("dist_match_extractions");
-		int extrCount = 1;
-		for(Extraction extr : extrs) {
-			pw.write(extr + " \n");
-			System.out.println("Extraction : " + extrCount);
-			extrCount += 1;
-		}
-		pw.close();
+		System.out.println("Total extractions : " + extrs.size());
 		bw.close();
 
 	}
@@ -179,12 +173,15 @@ public class ExtractFromCorpus {
 		return sb.toString().trim();
 
 	}
+	
+	
 
 	public static List<Extraction> getMultiModelExtractions(Corpus c,
 			ArgumentIdentification ai, FeatureGenerator fg,
 			List<SententialInstanceGeneration> sigs, List<String> modelPaths,
 			BufferedWriter bw) throws SQLException, IOException {
-
+		BufferedWriter featureWriter = new BufferedWriter(new FileWriter("extract_features"));
+		
 		List<Extraction> extrs = new ArrayList<Extraction>();
 		for (int i = 0; i < sigs.size(); i++) {
 			Iterator<Annotation> docs = c.getDocumentIterator();
@@ -193,8 +190,15 @@ public class ExtractFromCorpus {
 			DocumentExtractor de = new DocumentExtractor(modelPath, fg, ai, sig);
 			
 			Map<String, Integer> rel2RelIdMap = de.getMapping().getRel2RelID();
+			
 			Map<Integer, String> ftID2ftMap = ModelUtils
 					.getFeatureIDToFeatureMap(de.getMapping());
+		
+			PrintWriter pw1 = new PrintWriter(new FileWriter("features_map"));
+			for(Integer id : ftID2ftMap.keySet()) {
+				pw1.write(id.toString() + " - " + ftID2ftMap.get(id) + "\n");
+			}
+			pw1.close();
 			int docCount = 0;
 			while (docs.hasNext()) {
 				Annotation doc = docs.next();
@@ -208,9 +212,12 @@ public class ExtractFromCorpus {
 					List<Pair<Argument, Argument>> sententialInstances = sig
 							.generateSententialInstances(arguments, sentence);
 					for (Pair<Argument, Argument> p : sententialInstances) {
+						if(!(exactlyOneNumber(p) && secondNumber(p))) { // do not waste time with useless extractions
+							continue;
+						}
 						Pair<Triple<String, Double, Double>, Map<Integer, Map<Integer, Double>>> extrResult = de
 								.extractFromSententialInstanceWithAllFeatureScores(
-										p.first, p.second, sentence, doc);
+										p.first, p.second, sentence, doc, featureWriter);
 						if (extrResult != null) {
 							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
 							if (!extrScoreTriple.first.equals("NA")) {
@@ -248,9 +255,22 @@ public class ExtractFromCorpus {
 			}
 			
 		}
+		featureWriter.close();
 		return EvaluationUtils.getUniqueList(extrs);
 	}
 	
+	private static boolean exactlyOneNumber(Pair<Argument, Argument> p) {
+		boolean firstHasNumber = p.first.getArgName().matches(".*\\d.*");
+		boolean secondHasNumber = p.second.getArgName().matches(".*\\d.*");
+		return firstHasNumber ^ secondHasNumber;
+	}
+	
+	private static boolean secondNumber(Pair<Argument, Argument> p) {
+		boolean secondHasNumber = p.second.getArgName().matches(".*\\d.*");
+		return secondHasNumber;
+	}
+	
+
 	private static double sigmoid(double score) {
 		return 1 / (1 + Math.exp(-score));
 	}

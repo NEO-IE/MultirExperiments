@@ -1,7 +1,6 @@
-
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/extractorTest",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/numbers_corpus",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
@@ -9,13 +8,26 @@
 "edu.washington.multirframework.featuregeneration.DefaultFeatureGenerator",
   "ai" :
 "edu.washington.multirframework.argumentidentification.NERAndNumberArgumentIdentification",
-  "targetRelFile" : "data/tackb/target-relations.tsv",
+  "rm" :
+"edu.washington.multirframework.argumentidentification.NERRelationMatching",
+  "nec" :
+"edu.washington.multirframework.distantsupervision.NegativeExampleCollectionByRatio",
+  "necRatio" : "0.25",	
+  "kbRelFile" : "data/numericalkb/kb-facts-train.tsv.gz",
+  "kbEntityFile" : "data/numericalkb/entity-names-train.tsv.gz",
+  "targetRelFile" : "data/numericalkb/target-relations.tsv",
   "typeRelMap" : null,
   "sigs" : [
 "edu.washington.multirframework.argumentidentification.DefaultSententialInstanceGeneration"
 ],
+  "dsFiles" : [
+"data/training-instances-numerical-matches.tsv.gz"
+],
+  "featureFiles" : [
+"data/training-instances-features.tsv"
+],
   "models" : [
-"/mnt/a99/d0/aman/MultirExperiments/data/units_model" ],
+"data/multir-extractor" ],
   "cis" :
 "edu.washington.multirframework.corpus.DefaultCorpusInformationSpecification",
   "si" : [

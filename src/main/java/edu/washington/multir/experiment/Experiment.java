@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.IOUtils;
@@ -24,7 +22,6 @@ import com.cedarsoftware.util.io.JsonReader;
 import edu.washington.multir.data.TypeSignatureRelationMap;
 import edu.washington.multir.development.Preprocess;
 import edu.washington.multir.development.TrainModel;
-import edu.washington.multir.distantsupervision.FeedbackDistantSupervision;
 import edu.washington.multir.distantsupervision.FeedbackNegativeDistantSupervision;
 import edu.washington.multir.distantsupervision.MultiModelDistantSupervision;
 import edu.washington.multir.util.FigerTypeUtils;
@@ -39,6 +36,7 @@ import edu.washington.multirframework.corpus.SentInformationI;
 import edu.washington.multirframework.corpus.TokenInformationI;
 import edu.washington.multirframework.distantsupervision.DistantSupervision;
 import edu.washington.multirframework.distantsupervision.NegativeExampleCollection;
+import edu.washington.multirframework.distantsupervision.UnitDistantSupervision;
 import edu.washington.multirframework.featuregeneration.FeatureGeneration;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;
@@ -53,7 +51,7 @@ public class Experiment {
 	private List<String> oldFeatureFiles;
 	private List<String> featureFiles;
 	private List<String> multirDirs;
-	private List<String> oldMultirDirs;		
+	private List<String> oldMultirDirs;
 	private RelationMatching rm;
 	private NegativeExampleCollection nec;
 	private KnowledgeBase kb;
@@ -165,7 +163,7 @@ public class Experiment {
 		for(String oldMultirDirName : oldMultirDirNames){
 			oldMultirDirs.add(oldMultirDirName);
 		}
-		
+			
 		multirDirs = new ArrayList<>();
 		List<String> multirDirNames = getListProperty(properties,"models");
 		for(String multirDirName : multirDirNames){
@@ -261,7 +259,7 @@ public class Experiment {
 			if(oldFeatureFiles.size() > 0){
 			 runFeedbackExperiment(corpus);
 			}
-		}
+		}	
 	
 		boolean runDS = !filesExist(DSFiles);
 		boolean runFG = false;
@@ -269,7 +267,10 @@ public class Experiment {
 		//if distant supervision hasnt been run yet
 		if(runDS){
 			try {
+			
+	
 				
+			
 			System.err.println("Running DS");
 			runFG = true;
 			if(DSFiles.size() > 1){
@@ -280,6 +281,7 @@ public class Experiment {
 				DistantSupervision ds = new DistantSupervision(ai, sigs.get(0), rm, nec);
 				ds.run(DSFiles.get(0), kb, corpus);
 			}
+			
 			}
 			catch(Exception e) {
 				System.out.println("Caught Exception");
@@ -382,7 +384,7 @@ public class Experiment {
 
 
 	public ArgumentIdentification getAi() {
-		return ai;
+		return ai;	
 	}
 
 

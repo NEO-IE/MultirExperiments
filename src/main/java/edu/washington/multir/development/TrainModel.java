@@ -52,7 +52,7 @@ public class TrainModel {
 				int randomSeed = 1;
 				for(int avgIter = 1; avgIter <= numberOfAverages; avgIter++){
 					Train.train(modelFile.getAbsoluteFile().toString(),new Random(randomSeed));					
-					File newModelFile = new File(modelFile.getAbsolutePath()+"/"+modelFile.getName()+"avgIter"+avgIter);
+						File newModelFile = new File(modelFile.getAbsolutePath()+"/"+modelFile.getName()+"avgIter"+avgIter);
 					if(!newModelFile.exists()) newModelFile.mkdir();
 					randomModelFiles.add(newModelFile);
 					File oldParams = new File(modelFile.getAbsolutePath()+"/params");

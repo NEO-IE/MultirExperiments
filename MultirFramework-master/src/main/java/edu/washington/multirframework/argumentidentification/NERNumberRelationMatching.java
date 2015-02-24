@@ -62,7 +62,7 @@ public class NERNumberRelationMatching implements RelationMatching {
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}	
 	}
 
 	private NERNumberRelationMatching() {

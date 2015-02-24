@@ -15,13 +15,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.jsoup.Jsoup;
 
 import scala.actors.threadpool.Arrays;
-import edu.knowitall.tool.chunk.ChunkedToken;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
@@ -29,9 +26,6 @@ import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.process.CoreLabelTokenFactory;
-import edu.stanford.nlp.process.LexedTokenFactory;
-import edu.stanford.nlp.process.WordToSentenceProcessor;
 import edu.stanford.nlp.trees.GrammaticalStructure;
 import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.PennTreebankLanguagePack;
@@ -52,36 +46,31 @@ import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRela
 import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRelativeCharacterOffsetEndAnnotation;
 
 public class CreateCorpusFromDocs {
-	private static String options = "invertible=true,ptb3Escaping=true";
-	private static Pattern ldcPattern = Pattern.compile("<DOCID>\\s+.+LDC");
-	private static Pattern xmlParagraphPattern = Pattern
-			.compile("<P>((?:[\\s\\S](?!<P>))+)</P>");
+
 	final int NANO = 1000000000;
-	private static LexedTokenFactory<CoreLabel> ltf = new CoreLabelTokenFactory(
-			true);
-	private static WordToSentenceProcessor<CoreLabel> sen = new WordToSentenceProcessor<CoreLabel>();
-	private static Properties props = new Properties();
+
 	private static TreebankLanguagePack tlp = new PennTreebankLanguagePack();
-	private static GrammaticalStructureFactory gsf = tlp
-			.grammaticalStructureFactory();
-	private static boolean initializedParser = false;
+	private static GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
+
 	private static String BLLIP_PARSER_PATH = "bllip-parser-master";
 	private static StanfordCoreNLP pipeline; // the annotator pipeline
-	private static String COUNTRIES_FILE =  "meta/country_freebase_mapping";
-	
+	private static String COUNTRIES_FILE = "meta/country_freebase_mapping";
+
 	/*
 	 * The markers are our entity linkers for this sample exercise
 	 */
 	private CountryMarker cnMarker;
 	private NumberMarker numMarker;
-	
-/**
- * This is done to avoid loading the pipeline for each doc, which takes up a lot of time
- * @throws IOException 
- */
+
+	/**
+	 * This is done to avoid loading the pipeline for each doc, which takes up a
+	 * lot of time
+	 * 
+	 * @throws IOException
+	 */
 	public CreateCorpusFromDocs() throws IOException {
 		Properties props = new Properties();
-	
+
 		cnMarker = new CountryMarker(COUNTRIES_FILE);
 		props.put("annotators", "tokenize,ssplit,pos,parse,lemma,ner");
 		props.put("sutime.binders", "0");
@@ -89,23 +78,19 @@ public class CreateCorpusFromDocs {
 		numMarker = new NumberMarker();
 	}
 
-	Annotation createTestString(String documentString, String docName)
-			throws IOException, InterruptedException {
+	Annotation createTestString(String documentString, String docName) throws IOException, InterruptedException {
 
 		assert (pipeline != null);
-		List<String> paragraphs = CorpusPreprocessing
-				.cleanDocument(documentString);
+		List<String> paragraphs = CorpusPreprocessing.cleanDocument(documentString);
 		StringBuilder docTextBuilder = new StringBuilder();
 		for (String par : paragraphs) {
 			docTextBuilder.append(par);
 			docTextBuilder.append("\n");
 		}
 		String docText = docTextBuilder.toString().trim();
-
-		File cjInputFile = File.createTempFile(docName.replaceAll("/", ""),
-				"cjinput");
-		File cjOutputFile = File.createTempFile(docName.replaceAll("/", ""),
-				"cjoutput");
+		System.out.println(docName);
+		File cjInputFile = File.createTempFile(docName.replaceAll("/", ""), "cjinput");
+		File cjOutputFile = File.createTempFile(docName.replaceAll("/", ""), "cjoutput");
 		cjOutputFile.deleteOnExit();
 		cjInputFile.deleteOnExit();
 
@@ -113,38 +98,30 @@ public class CreateCorpusFromDocs {
 
 		Annotation doc = new Annotation(docText);
 		// get pos and ner information from stanford processing
-		//Check if its really this that's taking time
+		// Check if its really this that's taking time
 		System.out.println("Starting annotation using coreNLP");
 		long startTime = System.nanoTime();
 		try {
 			pipeline.annotate(doc);
-				
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			bw.close();
 			return null;
 		}
 		long endTime = System.nanoTime();
 		System.out.println("SFU CoreNLP took : " + (endTime - startTime) / NANO + " seconds");
-		for (CoreMap sentence : doc
-				.get(CoreAnnotations.SentencesAnnotation.class)) {
+		for (CoreMap sentence : doc.get(CoreAnnotations.SentencesAnnotation.class)) {
 			StringBuilder tokenStringBuilder = new StringBuilder();
-			for (CoreLabel token : sentence
-					.get(CoreAnnotations.TokensAnnotation.class)) {
-				Integer sentStart = sentence
-						.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-				Integer tokenStart = token
-						.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-				Integer tokenEnd = token
-						.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
-				token.set(SentenceRelativeCharacterOffsetBeginAnnotation.class,
-						tokenStart - sentStart);
-				token.set(SentenceRelativeCharacterOffsetEndAnnotation.class,
-						tokenEnd - sentStart);
+			for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+				Integer sentStart = sentence.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+				Integer tokenStart = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+				Integer tokenEnd = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+				token.set(SentenceRelativeCharacterOffsetBeginAnnotation.class, tokenStart - sentStart);
+				token.set(SentenceRelativeCharacterOffsetEndAnnotation.class, tokenEnd - sentStart);
 				tokenStringBuilder.append(token.value());
 				tokenStringBuilder.append(" ");
 			}
-			sentence.set(SentStartOffset.class, sentence
-					.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class));
+			sentence.set(SentStartOffset.class, sentence.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class));
 			String cjPreprocessedString = CorpusPreprocessing
 					.cjPreprocessSentence(tokenStringBuilder.toString().trim());
 			bw.write(cjPreprocessedString + "\n");
@@ -171,8 +148,7 @@ public class CreateCorpusFromDocs {
 		Process p = pb.start();
 		p.waitFor();
 
-		List<CoreMap> sentences = doc
-				.get(CoreAnnotations.SentencesAnnotation.class);
+		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 		// read cj parser output and run stanford dependency parse
 		BufferedReader in = new BufferedReader(new FileReader(cjOutputFile));
 		String nextLine;
@@ -210,15 +186,13 @@ public class CreateCorpusFromDocs {
 				// Triple<>(governor,type,child);
 				// dependencyInformation.add(t);
 				// }
-				Triple<Integer, String, Integer> t = new Triple<>(governor,
-						type, child);
+				Triple<Integer, String, Integer> t = new Triple<>(governor, type, child);
 				dependencyInformation.add(t);
 
 			}
 			// set annotation on sentence
 			CoreMap sentence = sentences.get(index);
-			sentence.set(SentDependencyInformation.DependencyAnnotation.class,
-					dependencyInformation);
+			sentence.set(SentDependencyInformation.DependencyAnnotation.class, dependencyInformation);
 
 			index++;
 		}
@@ -227,98 +201,79 @@ public class CreateCorpusFromDocs {
 		return doc;
 	}
 
+	public static void main(String args[]) throws IOException, InterruptedException {
 
-
-	public static void main(String args[]) throws IOException,
-			InterruptedException {
-		Object posTokens;
-		
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		boolean debug = true;
-		while(debug) {
-			debug = false;
-		String corpusPath = "/mnt/a99/d0/aman/MultirExperiments/data/extractor_test_files	";
-		String outputFile = "data/derbyExtractorTestInput";
+		String corpusPath = "/mnt/a99/d0/aman/test";
+		String outputFile = "data/derbyFlatFile4";
 		cc.preprocessCorpus(corpusPath, outputFile);
-		}
+
 	}
-	
+
 	/**
-	 * This function is used to process the html corpus
-	 * @param htmlText
-	 * @return
+	 * Preprocess Corpus takes path to a directory where the files reside,
+	 * iterates over them and attaches meta data to each of the docs. The schema
+	 * in which we need each of the sentences is as shown in meta/schema.txt
+	 * 
+	 * @param path
+	 *            : Path to the input corpus
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	public String html2text(String htmlText) {
-	    return Jsoup.parse(htmlText).text();
-	}
-	
-	/**
-	 * Preprocess Corpus takes path to a directory where the files reside, iterates over them and 
-	 * attaches meta data to each of the docs. The schema in which we need each of the sentences is 
-	 * as shown in meta/schema.txt
-	 * @param path : Path to the input corpus
-	 * @throws IOException 
-	 * @throws InterruptedException 
-	 */
-	
+
 	void preprocessCorpus(String path, String outputFile) throws IOException, InterruptedException {
 		File inputFiles[] = new File(path).listFiles();
-		if(inputFiles == null) {
+		if (inputFiles == null) {
 			return;
 		}
 		File outFile = new File(outputFile);
 		PrintWriter bw = new PrintWriter(new FileOutputStream(outFile));
 		String SEP = "\t";
-			
+		String SQL_PREFIX = "INSERT INTO \"APP\".\"SENTENCETABLE\" (SENTID,DOCNAME,SENTTOKENSINFORMATION,SENTTEXTINFORMATION,SENTOFFSETINFORMATION,SENTDEPENDENCYINFORMATION,SENTNAMEDENTITYLINKINGINFORMATION,SENTFREEBASENOTABLETYPEINFORMATION,TOKENNERINFORMATION,TOKENOFFSETINFORMATION,TOKENPOSINFORMATION,TOKENCHUNKINFORMATION) VALUES ";
 		
-		boolean debug = true;
-		while(debug) {
-			debug = false;
-			int sentId = 1;
-			for(File inputFile : inputFiles) {
-				String docName = inputFile.getName();
-				FileInputStream fisTargetFile = new FileInputStream(inputFile);
-				System.out.println("Processing " + inputFile.getAbsolutePath());
-				String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
-				targetFileStr = html2text(targetFileStr);
-				long startTime = System.nanoTime();
-				Annotation doc =createTestString(targetFileStr, docName);
-				if(null == doc) {
-					continue;
-				}
-				long endTime = System.nanoTime();
-				System.out.println("Processing Finished, Time: " + (endTime - startTime) / NANO);
-				List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
-			
-				for(CoreMap sentence : sentences) {
-					//System.out.println("\t sentence : " + sentId + " : " + sentence);
-					bw.write(createDerbyRow(sentId++, docName, sentence).stringSep(SEP) + "\n");
-					
-				}
+		int sentId = 1;
+		for (File inputFile : inputFiles) {
+			String docName = inputFile.getName();
+			FileInputStream fisTargetFile = new FileInputStream(inputFile);
+			System.out.println("Processing " + inputFile.getAbsolutePath());
+			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
+			long startTime = System.nanoTime();
+			Annotation doc = createTestString(targetFileStr, docName);
+			if (null == doc) {
+				continue;
 			}
+			long endTime = System.nanoTime();
+			System.out.println("Processing Finished, Time: " + (endTime - startTime) / NANO);
+			List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 
+			for (CoreMap sentence : sentences) {
+				// System.out.println("\t sentence : " + sentId + " : " +
+				// sentence);
+				bw.write(SQL_PREFIX + createDerbyRow(sentId++, docName, sentence).sqlRow() + "\n");
+
+			}
 		}
+
 		System.out.println("Results Written to " + outputFile);
 		bw.close();
-		
+
 	}
 
 	/**
 	 * Responsible for creating a set of corpus rows given a doc
+	 * 
 	 * @param doc
 	 * @return
 	 */
 	ArrayList<CorpusRow> createDerbyRowSet(Annotation doc, String docName) {
 		ArrayList<CorpusRow> rowSet = new ArrayList<>();
 		int sentId = 0;
-		List<CoreMap> sentences = doc
-				.get(CoreAnnotations.SentencesAnnotation.class);
+		List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 		for (CoreMap sentence : sentences) {
 			rowSet.add(createDerbyRow(sentId++, docName, sentence));
 		}
 		return rowSet;
 	}
-
 
 	/**
 	 * Takes an annotated documented and iterates over the various annotations
@@ -327,11 +282,12 @@ public class CreateCorpusFromDocs {
 	 * @param sentence
 	 *            : The annotated sentence
 	 * @return
-	 */	
+	 */
 	CorpusRow createDerbyRow(Integer sentId, String docName, CoreMap sentence) {
 		StringBuilder depInfo = new StringBuilder();
+
 		
-		String targetedChunks[] = {"NP", "VP", "PP"};
+		String targetedChunks[] = { "NP", "VP", "PP" };
 		HashSet<String> targetChunk = new HashSet<String>(Arrays.asList(targetedChunks));
 		StringBuilder offSetInfo = new StringBuilder();
 		StringBuilder nerInfo = new StringBuilder();
@@ -342,20 +298,17 @@ public class CreateCorpusFromDocs {
 		Tree t = sentence.get(TreeAnnotation.class);
 		List<Triple<Integer, String, Integer>> depInfoTripleList = sentence
 				.get(SentDependencyInformation.DependencyAnnotation.class);
-	
+
 		for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
 			// this is the text of the token
 			String word = token.get(TextAnnotation.class);
 			// this is the POS tag of the token
 			String pos = token.get(PartOfSpeechAnnotation.class);
-			// this is the NER label of the token	
-			String ne = token
-					.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-		
-			Integer startOffset = token
-					.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-			Integer endOffset = token
-					.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+			// this is the NER label of the token
+			String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+			Integer startOffset = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+			Integer endOffset = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
 			posTagInfo.append(pos + " ");
 			nerInfo.append(ne + " ");
 			tokenInformation.append(word + " ");
@@ -365,12 +318,10 @@ public class CreateCorpusFromDocs {
 		}
 
 		for (Triple<Integer, String, Integer> deps : depInfoTripleList) {
-			depInfo.append(deps.first + " " + deps.second + " " + deps.third
-					+ "|");
+			depInfo.append(deps.first + " " + deps.second + " " + deps.third + "|");
 		}
 		/*
-		 * Get typing information
-		 * TODO: See if passing 	
+		 * Get typing information TODO: See if passing
 		 */
 		ArrayList<ArrayList<Marking>> markingsList = new ArrayList<ArrayList<Marking>>();
 		markingsList.add(cnMarker.mark(sentence.toString()));
@@ -380,18 +331,26 @@ public class CreateCorpusFromDocs {
 		 * Get chunking information
 		 */
 		StringBuilder chunkBuilder = new StringBuilder();
-		
+
 		String currPhrase = "", prevPharse = "X";
 		boolean newPhrase = false;
-		for (Tree child: t) {
-			if(child.isPhrasal() && targetChunk.contains(child.value())) { //if this is a phrase we are interested in
+		for (Tree child : t) {
+			if (child.isPhrasal() && targetChunk.contains(child.value())) { // if
+																			// this
+																			// is
+																			// a
+																			// phrase
+																			// we
+																			// are
+																			// interested
+																			// in
 				currPhrase = child.value();
-				if(!currPhrase.equals(prevPharse)) {
+				if (!currPhrase.equals(prevPharse)) {
 					prevPharse = currPhrase;
 					newPhrase = true;
 				}
-			} else if(child.isLeaf()) {
-				if(newPhrase) {
+			} else if (child.isLeaf()) {
+				if (newPhrase) {
 					chunkBuilder.append("B-" + currPhrase + " ");
 					newPhrase = false;
 				} else {
@@ -400,10 +359,9 @@ public class CreateCorpusFromDocs {
 			}
 		}
 
-	
-		return new CorpusRow(sentId, docName, tokenInformation.toString()
-				.trim(), sentence.toString(), sentBeginOffSet + " " + sentEndOffSet,
-				depInfo.toString().trim(), linkTypeInfo.get(MarkingUtils.LINKOFFSET), linkTypeInfo.get(MarkingUtils.TYPEOFFSET), nerInfo.toString().trim(),
-				offSetInfo.toString().trim(), posTagInfo.toString().trim(), chunkBuilder.toString());
+		return new CorpusRow(sentId, docName, tokenInformation.toString().trim(), sentence.toString(), sentBeginOffSet
+				+ " " + sentEndOffSet, depInfo.toString().trim(), linkTypeInfo.get(MarkingUtils.LINKOFFSET),
+				linkTypeInfo.get(MarkingUtils.TYPEOFFSET), nerInfo.toString().trim(), offSetInfo.toString().trim(),
+				posTagInfo.toString().trim(), chunkBuilder.toString());
 	}
 }

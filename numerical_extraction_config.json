@@ -1,6 +1,6 @@
 {
   "corpusPath" :
-"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/taccorpus",
+"jdbc:derby:/mnt/a99/d0/aman/MultirExperiments/data/extractorTest",
   "train" : "true",
   "testDocumentsFile" :
 "data/emptyFile",
@@ -8,8 +8,6 @@
 "edu.washington.multirframework.featuregeneration.DefaultFeatureGenerator",
   "ai" :
 "edu.washington.multirframework.argumentidentification.NERAndNumberArgumentIdentification",
-  "rm" :
-"edu.washington.multirframework.argumentidentification.NERRelationMatching",
   "nec" :
 "edu.washington.multirframework.distantsupervision.NegativeExampleCollectionByRatio",
   "necRatio" : "0.25",	

@@ -58,4 +58,19 @@ public class CorpusRow {
 				+ SEP + tokenPOSInformation
 				+ SEP + tokenChunkInformation ;
 	}
+	
+	public String sqlRow() {
+		String SEP = "','";
+		return  "(" + sentId + SEP + docName
+				+ SEP + tokenInformation
+				+ SEP + textInformation
+				+ SEP + sentOffSetInformation
+				+ SEP + sentdependencyInformation
+				+ SEP + sentNELinkingInformation
+				+ SEP + sentFreebaseInformation
+				+ SEP + tokenNERInformation
+				+ SEP + tokenOffsetInformation
+				+ SEP + tokenPOSInformation
+				+ SEP + tokenChunkInformation + "')";
+	}
 }

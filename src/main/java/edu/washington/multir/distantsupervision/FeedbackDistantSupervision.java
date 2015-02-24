@@ -174,8 +174,8 @@ public class FeedbackDistantSupervision {
 					//sentential instance generation
 					List<Pair<Argument,Argument>> sententialInstances = sig.generateSententialInstances(sentenceArgs, sentence);
 					for(Pair<Argument,Argument> p : sententialInstances){
-						Pair<Triple<String,Double,Double>,Map<Integer,Map<Integer,Double>>> extrResult = 
-						de.extractFromSententialInstanceWithAllFeatureScores(p.first, p.second, sentence, doc);
+						Pair<Triple<String,Double,Double>,Map<Integer,Map<Integer,Double>>> extrResult = null;
+						//de.extractFromSententialInstanceWithAllFeatureScores(p.first, p.second, sentence, doc);
 						if(extrResult != null){
 							Integer sentNum = sentence.get(SentGlobalID.class);				
 							Triple<String,Double,Double> extrScoreTriple = extrResult.first;
