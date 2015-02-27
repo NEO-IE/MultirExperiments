@@ -64,7 +64,7 @@ public class DefaultFeatureGenerator implements FeatureGenerator {
 			
 			int begOffset = token.get(SentenceRelativeCharacterOffsetBeginAnnotation.class);
 			int endOffset = token.get(SentenceRelativeCharacterOffsetEndAnnotation.class);
-
+			//System.out.println(token + " " + begOffset + ":" + endOffset);
 			// if the token matches the argument set the ner and argPos values
 			if(begOffset == arg1StartOffset){
 				String ner = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
