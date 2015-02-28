@@ -25,8 +25,8 @@ import edu.stanford.nlp.util.Pair;
  * 
  */
 public class Preprocess {
-	private static Map<String, Integer> keyToIntegerMap = new HashMap<String, Integer>();
-	private static Map<Integer, String> intToKeyMap = new HashMap<Integer, String>();
+	public static Map<String, Integer> keyToIntegerMap = new HashMap<String, Integer>();
+	public static Map<Integer, String> intToKeyMap = new HashMap<Integer, String>();
 	private static final int FEATURE_THRESHOLD = 2;
 
 	private static final double GIGABYTE_DIVISOR = 1073741824;
@@ -95,7 +95,7 @@ public class Preprocess {
 	 * @return
 	 * @throws IOException
 	 */
-	private static Mappings getMappingFromTrainingData(String trainFile,
+	public static Mappings getMappingFromTrainingData(String trainFile,
 			String mappingFile) throws IOException {
 
 		Mappings m = new Mappings();
@@ -346,7 +346,7 @@ public class Preprocess {
 		}
 	}
 
-	private static Integer getIntKey(String key) {
+	public static Integer getIntKey(String key) {
 		if (keyToIntegerMap.containsKey(key)) {
 			return keyToIntegerMap.get(key);
 		} else {
@@ -357,7 +357,7 @@ public class Preprocess {
 		}
 	}
 
-	private static void printMemoryStatistics() {
+	public static void printMemoryStatistics() {
 		double freeMemory = Runtime.getRuntime().freeMemory()
 				/ GIGABYTE_DIVISOR;
 		double allocatedMemory = Runtime.getRuntime().totalMemory()

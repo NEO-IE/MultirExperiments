@@ -37,8 +37,8 @@ import edu.washington.multirframework.multiralgorithm.SparseBinaryVector;
  *
  */
 public class Preprocess {
-	private static Map<String,Integer> keyToIntegerMap = new HashMap<String,Integer>();
-    private static Map<Integer,String> intToKeyMap = new HashMap<Integer,String>();
+	public static Map<String,Integer> keyToIntegerMap = new HashMap<String,Integer>();
+	public static Map<Integer,String> intToKeyMap = new HashMap<Integer,String>();
     public static int FEATURE_THRESHOLD = 2;
     
 
@@ -116,7 +116,7 @@ public class Preprocess {
 	 * @return
 	 * @throws IOException
 	 */
-	private static Mappings getMappingFromTrainingData(String trainFile,
+	public static Mappings getMappingFromTrainingData(String trainFile,
 			String mappingFile) throws IOException {
 
 		Mappings m = new Mappings();
@@ -315,7 +315,7 @@ public class Preprocess {
 		tempSortedFeatureFile.delete();
 	}
 	
-	private static void externalSort(File srcFile, File destFile, Comparator<String> comparator) throws IOException {
+	public static void externalSort(File srcFile, File destFile, Comparator<String> comparator) throws IOException {
 		
 		File tmpDir = destFile.getParentFile();
 		List<File> tmpFiles = ExternalSort.sortInBatch(srcFile, comparator, 4096, 
@@ -379,7 +379,7 @@ public class Preprocess {
     	return doc;
 	}
 
-	private static List<Integer> convertFeaturesToIntegers(
+	public static List<Integer> convertFeaturesToIntegers(
 			List<String> features, Mappings m) {
 		
 		List<Integer> intFeatures = new ArrayList<Integer>();
@@ -395,7 +395,7 @@ public class Preprocess {
 	}
 
 	
-	private static void printMemoryStatistics() {
+	public static void printMemoryStatistics() {
 		double freeMemory = Runtime.getRuntime().freeMemory()/GIGABYTE_DIVISOR;
 		double allocatedMemory = Runtime.getRuntime().totalMemory()/GIGABYTE_DIVISOR;
 		double maxMemory = Runtime.getRuntime().maxMemory()/GIGABYTE_DIVISOR;
