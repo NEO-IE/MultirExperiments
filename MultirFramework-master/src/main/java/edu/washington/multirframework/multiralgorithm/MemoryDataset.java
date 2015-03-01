@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-public class MemoryDataset implements Dataset {
+public class MemoryDataset implements Dataset<MILDocument> {
 	
 	private MILDocument[] docs;
 	private int cursor = 0;

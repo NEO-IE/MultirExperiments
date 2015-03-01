@@ -2,15 +2,15 @@ package edu.washington.multirframework.multiralgorithm;
 
 import java.util.Random;
 
-public interface Dataset {
+public interface Dataset<T> {
 	
 	public int numDocs();
 	
 	public void shuffle(Random random);
 	
-	public MILDocument next();
+	public T next();
 	
-	public boolean next(MILDocument doc);
+	public boolean next(T doc);
 	
 	public void reset();
 }
