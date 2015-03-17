@@ -111,7 +111,7 @@ public class ExtractFromCorpus {
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("rulebased_extractions")));
-		List<Extraction> extrs = getMultiModelExtractions(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
+		List<Extraction> extrs = getMultiModelExtractionsNumeric(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
 		System.out.println("Total extractions : " + extrs.size());
 		bw.close();
 
@@ -177,6 +177,85 @@ public class ExtractFromCorpus {
 	
 
 	public static List<Extraction> getMultiModelExtractions(Corpus c,
+			ArgumentIdentification ai, FeatureGenerator fg,
+			List<SententialInstanceGeneration> sigs, List<String> modelPaths,
+			BufferedWriter bw) throws SQLException, IOException {
+		BufferedWriter featureWriter = new BufferedWriter(new FileWriter("extract_features"));
+		
+		List<Extraction> extrs = new ArrayList<Extraction>();
+		for (int i = 0; i < sigs.size(); i++) {
+			Iterator<Annotation> docs = c.getDocumentIterator();
+			SententialInstanceGeneration sig = sigs.get(i);
+			String modelPath = modelPaths.get(i);
+			DocumentExtractor de = new DocumentExtractor(modelPath, fg, ai, sig);
+			
+			Map<String, Integer> rel2RelIdMap = de.getMapping().getRel2RelID();
+			
+			Map<Integer, String> ftID2ftMap = ModelUtils
+					.getFeatureIDToFeatureMap(de.getMapping());
+		
+	
+			int docCount = 0;
+			while (docs.hasNext()) {
+				Annotation doc = docs.next();
+				List<CoreMap> sentences = doc
+						.get(CoreAnnotations.SentencesAnnotation.class);
+				for (CoreMap sentence : sentences) {
+					// argument identification
+					List<Argument> arguments = ai.identifyArguments(doc,
+							sentence);
+					// sentential instance generation
+					List<Pair<Argument, Argument>> sententialInstances = sig
+							.generateSententialInstances(arguments, sentence);
+					for (Pair<Argument, Argument> p : sententialInstances) {
+						if(!(exactlyOneNumber(p) && secondNumber(p))) { // do not waste time with useless extractions
+							continue;
+						}
+						Pair<Triple<String, Double, Double>, Map<Integer, Map<Integer, Double>>> extrResult = de
+								.extractFromSententialInstanceWithAllFeatureScores(
+										p.first, p.second, sentence, doc, featureWriter);
+						if (extrResult != null) {
+							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
+							if (!extrScoreTriple.first.equals("NA")) {
+								//System.out.println(extrResult);
+								Map<Integer, Double> featureScores = extrResult.second
+										.get(rel2RelIdMap
+												.get(extrResult.first.first));
+								String rel = extrScoreTriple.first;
+								List<Pair<String, Double>> featureScoreList = EvaluationUtils
+										.getFeatureScoreList(featureScores,
+												ftID2ftMap);
+
+								String docName = sentence
+										.get(SentDocName.class);
+									String senText = sentence
+										.get(CoreAnnotations.TextAnnotation.class);
+								Integer sentNum = sentence
+										.get(SentGlobalID.class);
+								Extraction e = new Extraction(p.first,
+										p.second, docName, rel, sentNum,
+										extrScoreTriple.third, senText);
+								e.setFeatureScoreList(featureScoreList);
+								extrs.add(e);
+								bw.write(formatExtractionString(c, e) + "\n");
+							}
+
+						}
+					}
+				}
+				docCount++;
+				if (docCount % 100 == 0) {
+					System.out.println(docCount + " docs processed");
+					bw.flush();
+				}	
+			}
+			
+		}
+		featureWriter.close();
+		return EvaluationUtils.getUniqueList(extrs);
+	}
+
+	public static List<Extraction> getMultiModelExtractionsNumeric(Corpus c,
 			ArgumentIdentification ai, FeatureGenerator fg,
 			List<SententialInstanceGeneration> sigs, List<String> modelPaths,
 			BufferedWriter bw) throws SQLException, IOException {

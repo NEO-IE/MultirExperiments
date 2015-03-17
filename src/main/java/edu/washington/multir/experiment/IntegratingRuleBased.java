@@ -4,6 +4,8 @@
  */
 package edu.washington.multir.experiment;
 
+import iitb.rbased.main.RuleBasedDriver;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import main.RuleBasedDriver;
 
 import org.apache.commons.io.IOUtils;
 
@@ -62,7 +62,7 @@ public class IntegratingRuleBased {
 	private boolean useFiger = false;
 	private Integer featureThreshold = 2;
 	private boolean strictNegativeGeneration = false;
-	private RuleBasedDriver rbased;
+	private iitb.rbased.main.RuleBasedDriver rbased;
 
 	public IntegratingRuleBased() {
 	}

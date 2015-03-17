@@ -6,9 +6,6 @@ import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
 
-import de.l3s.boilerpipe.BoilerpipeProcessingException;
-import de.l3s.boilerpipe.extractors.ArticleExtractor;
-
 public class Document {
 
 		public String docName;
@@ -23,9 +20,9 @@ public class Document {
 			this.docName = docName;
 		}
 		
-		public void stripHtmlDocText() throws IOException, BoilerpipeProcessingException{
-			fillDocText();
-			stripHTMLdocText = ArticleExtractor.INSTANCE.getText(docText);
+		public void stripHtmlDocText() throws IOException{
+//			fillDocText();
+//			stripHTMLdocText = ArticleExtractor.INSTANCE.getText(docText);
 		}
 		
 		public void fillDocText() throws IOException{

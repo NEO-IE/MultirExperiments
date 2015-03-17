@@ -36,7 +36,6 @@ import edu.washington.multirframework.corpus.SentInformationI;
 import edu.washington.multirframework.corpus.TokenInformationI;
 import edu.washington.multirframework.distantsupervision.DistantSupervision;
 import edu.washington.multirframework.distantsupervision.NegativeExampleCollection;
-import edu.washington.multirframework.distantsupervision.UnitDistantSupervision;
 import edu.washington.multirframework.featuregeneration.FeatureGeneration;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;

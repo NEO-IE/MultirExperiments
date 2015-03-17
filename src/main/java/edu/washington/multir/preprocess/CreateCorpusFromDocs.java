@@ -72,7 +72,7 @@ public class CreateCorpusFromDocs {
 		Properties props = new Properties();
 
 		cnMarker = new CountryMarker(COUNTRIES_FILE);
-		props.put("annotators", "tokenize,ssplit,pos,parse,lemma,ner");
+		props.put("annotators", "tokenize,ssplit,pos,lemma,parse,ner");
 		props.put("sutime.binders", "0");
 		pipeline = new StanfordCoreNLP(props, false);
 		numMarker = new NumberMarker();
@@ -203,9 +203,10 @@ public class CreateCorpusFromDocs {
 
 	public static void main(String args[]) throws IOException, InterruptedException {
 
+		System.out.println("here");
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		String corpusPath = "/mnt/a99/d0/aman/test";
-		String outputFile = "data/derbyFlatFile4";
+		String corpusPath = "/mnt/a99/d0/aman/sunny/files";
+		String outputFile = "/mnt/a99/d0/aman/sunny/sunnyderby";
 		cc.preprocessCorpus(corpusPath, outputFile);
 
 	}
@@ -233,10 +234,12 @@ public class CreateCorpusFromDocs {
 		
 		int sentId = 1;
 		for (File inputFile : inputFiles) {
+			System.out.println("HEREHEHRE");
 			String docName = inputFile.getName();
 			FileInputStream fisTargetFile = new FileInputStream(inputFile);
 			System.out.println("Processing " + inputFile.getAbsolutePath());
 			String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
+			System.out.println("Creating the file as a string");
 			long startTime = System.nanoTime();
 			Annotation doc = createTestString(targetFileStr, docName);
 			if (null == doc) {

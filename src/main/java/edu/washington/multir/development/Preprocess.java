@@ -12,18 +12,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import com.google.code.externalsorting.ExternalSort;
 
-import edu.stanford.nlp.util.Pair;
 import edu.washington.multirframework.multiralgorithm.MILDocument;
 import edu.washington.multirframework.multiralgorithm.Mappings;
 import edu.washington.multirframework.multiralgorithm.Model;
@@ -41,7 +37,6 @@ public class Preprocess {
 	public static Map<Integer,String> intToKeyMap = new HashMap<Integer,String>();
     public static int FEATURE_THRESHOLD = 2;
     
-
     private static final double GIGABYTE_DIVISOR = 1073741824;
 	/**
 	 * args[0] is path to featuresTrain

@@ -58,33 +58,33 @@ public class PreParseProcessInputCreator {
 
 	public void writeSentToDisk(String directory) {
 		
-		List<String> paragraphs = CorpusPreprocessing
-				.cleanDocument(documentString);
-		StringBuilder docTextBuilder = new StringBuilder();
-		for (String par : paragraphs) {
-			docTextBuilder.append(par);
-			docTextBuilder.append("\n");
-		}
-
-		Annotation doc = new Annotation(docText);
-		pipeline.annotate(doc);
-		for (CoreMap sentence : doc
-				.get(CoreAnnotations.SentencesAnnotation.class)) {
-			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
-				// this is the text of the token
-				String word = token.get(TextAnnotation.class);
-				// this is the POS tag of the token
-				String pos = token.get(PartOfSpeechAnnotation.class);
-				// this is the NER label of the token
-				String ne = token
-						.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-
-				Integer startOffset = token
-						.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-				Integer endOffset = token
-						.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
-			}
-		}
+//		List<String> paragraphs = CorpusPreprocessing
+//				.cleanDocument(documentString);
+//		StringBuilder docTextBuilder = new StringBuilder();
+//		for (String par : paragraphs) {
+//			docTextBuilder.append(par);
+//			docTextBuilder.append("\n");
+//		}
+//
+//		Annotation doc = new Annotation(docText);
+//		pipeline.annotate(doc);
+//		for (CoreMap sentence : doc
+//				.get(CoreAnnotations.SentencesAnnotation.class)) {
+//			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+//				// this is the text of the token
+//				String word = token.get(TextAnnotation.class);
+//				// this is the POS tag of the token
+//				String pos = token.get(PartOfSpeechAnnotation.class);
+//				// this is the NER label of the token
+//				String ne = token
+//						.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+//
+//				Integer startOffset = token
+//						.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+//				Integer endOffset = token
+//						.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+//			}
+//		}
 	}
 
 	public static void main(String args[]) throws IOException {
