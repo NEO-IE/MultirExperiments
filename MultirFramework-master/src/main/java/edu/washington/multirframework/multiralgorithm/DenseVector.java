@@ -38,6 +38,10 @@ public class DenseVector {
 	}
 	
 	public static double dotProduct(DenseVector v1, SparseBinaryVector v2) {
+		//TODO: Remove this null check added by aman
+		if(null == v2 || null == v1) {
+			return 0;
+		}
 		double sum = 0;
 		for (int i=0; i < v2.num; i++) {
 			double featureScore = v1.vals[v2.ids[i]];
@@ -58,6 +62,10 @@ public class DenseVector {
 	}
 	
 	public void addSparse(SparseBinaryVector v, double factor) {
+		//TODO: Del this
+		if(null == v) {
+			return;
+		}
 		for (int i=0; i < v.num; i++)
 			vals[v.ids[i]] += factor;
 	}

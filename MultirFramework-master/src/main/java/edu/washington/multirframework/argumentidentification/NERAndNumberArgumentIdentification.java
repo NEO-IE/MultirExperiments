@@ -33,7 +33,7 @@ public class NERAndNumberArgumentIdentification implements
 	static Pattern numberPat;
 	HashSet<String> countryList;
 
-	private static final String countriesFileName = "data/numericalkb/countries_list";
+	private static final String countriesFileName = "/mnt/a99/d0/aman/MultirExperiments/data/numericalkb/countries_list";
 
 	private NERAndNumberArgumentIdentification() {
 
