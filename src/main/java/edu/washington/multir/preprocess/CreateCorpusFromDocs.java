@@ -205,9 +205,10 @@ public class CreateCorpusFromDocs {
 
 		System.out.println("here");
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		String corpusPath = "/mnt/a99/d0/aman/sunny/files";
-		String outputFile = "/mnt/a99/d0/aman/sunny/sunnyderby";
-		cc.preprocessCorpus(corpusPath, outputFile);
+		String outputFile = "/mnt/a99/d0/aman/processedtestset";
+		String corpusPath = "/mnt/a99/d0/aman/testsetinput";
+		boolean fromFile = true;
+		cc.preprocessCorpus(corpusPath, outputFile, fromFile);
 
 	}
 
@@ -218,20 +219,26 @@ public class CreateCorpusFromDocs {
 	 * 
 	 * @param path
 	 *            : Path to the input corpus
+	 * @param fromFile:
+	 * 	       set this to true if the extraction has to be done from a single file instead of from a folder of files.
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
 
-	void preprocessCorpus(String path, String outputFile) throws IOException, InterruptedException {
+	void preprocessCorpus(String path, String outputFile, boolean fromFile) throws IOException, InterruptedException {
+		
 		File inputFiles[] = new File(path).listFiles();
-		if (inputFiles == null) {
+		if (!fromFile && inputFiles == null) {
 			return;
+		} else {
+			inputFiles = new File[1]; //the current file is the only input file
+			inputFiles[0] = new File(path);
 		}
 		File outFile = new File(outputFile);
 		PrintWriter bw = new PrintWriter(new FileOutputStream(outFile));
 		String SEP = "\t";
-		String SQL_PREFIX = "INSERT INTO \"APP\".\"SENTENCETABLE\" (SENTID,DOCNAME,SENTTOKENSINFORMATION,SENTTEXTINFORMATION,SENTOFFSETINFORMATION,SENTDEPENDENCYINFORMATION,SENTNAMEDENTITYLINKINGINFORMATION,SENTFREEBASENOTABLETYPEINFORMATION,TOKENNERINFORMATION,TOKENOFFSETINFORMATION,TOKENPOSINFORMATION,TOKENCHUNKINFORMATION) VALUES ";
-		
+		//String SQL_PREFIX = "INSERT INTO \"APP\".\"SENTENCETABLE\" (SENTID,DOCNAME,SENTTOKENSINFORMATION,SENTTEXTINFORMATION,SENTOFFSETINFORMATION,SENTDEPENDENCYINFORMATION,SENTNAMEDENTITYLINKINGINFORMATION,SENTFREEBASENOTABLETYPEINFORMATION,TOKENNERINFORMATION,TOKENOFFSETINFORMATION,TOKENPOSINFORMATION,TOKENCHUNKINFORMATION) VALUES ";
+		String SQL_PREFIX = "";
 		int sentId = 1;
 		for (File inputFile : inputFiles) {
 			System.out.println("HEREHEHRE");

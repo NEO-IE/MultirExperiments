@@ -273,11 +273,11 @@ public class ExtractFromCorpus {
 			Map<Integer, String> ftID2ftMap = ModelUtils
 					.getFeatureIDToFeatureMap(de.getMapping());
 		
-			PrintWriter pw1 = new PrintWriter(new FileWriter("features_map"));
-			for(Integer id : ftID2ftMap.keySet()) {
-				pw1.write(id.toString() + " - " + ftID2ftMap.get(id) + "\n");
-			}
-			pw1.close();
+//			PrintWriter pw1 = new PrintWriter(new FileWriter("features_map"));
+//			for(Integer id : ftID2ftMap.keySet()) {
+//				pw1.write(id.toString() + " - " + ftID2ftMap.get(id) + "\n");
+//			}
+//			pw1.close();
 			int docCount = 0;
 			while (docs.hasNext()) {
 				Annotation doc = docs.next();
