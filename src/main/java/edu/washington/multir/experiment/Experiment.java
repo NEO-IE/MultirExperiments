@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -39,6 +40,9 @@ import edu.washington.multirframework.distantsupervision.NegativeExampleCollecti
 import edu.washington.multirframework.featuregeneration.FeatureGeneration;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
 import edu.washington.multirframework.knowledgebase.KnowledgeBase;
+import edu.washington.multirframework.multiralgorithm.DenseVector;
+import edu.washington.multirframework.multiralgorithm.Model;
+import edu.washington.multirframework.multiralgorithm.Parameters;
 
 public class Experiment {
 	private String corpusPath;
@@ -604,8 +608,43 @@ public class Experiment {
 	InterruptedException, ExecutionException{
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Experiment e = new Experiment(args[0]);
-		e.runExperiment();
+		//e.runExperiment();
+		writeFeatureWeights(e.multirDirs.get(0) + File.separatorChar + "mapping", e.multirDirs.get(0) + File.separatorChar + "params", e.multirDirs.get(0) + File.separatorChar + "model", "multir_wt");
 	}	
 
+	public static void writeFeatureWeights(String mapping, String parametersFile, String modelFile, String outFile) throws IOException {
+		BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
+		BufferedReader featureReader = new BufferedReader(new FileReader(mapping));
+		Integer numRel = Integer.parseInt(featureReader.readLine());
+		HashMap<Integer, String> relNumNameMapping = new HashMap<Integer, String>();
+		
+		for(int i = 0; i < numRel; i++) {
+			//skip relation names
+			relNumNameMapping.put(i, featureReader.readLine());
+		}
+		int numFeatures = Integer.parseInt(featureReader.readLine());
+		String ftr = null;
+		HashMap<Integer, String> featureList = new HashMap<Integer, String>();
+		int fno = 0;
+		while(fno < numFeatures) {
+			ftr = featureReader.readLine();
+			featureList.put(fno, ftr);
+			fno++;
+		}
+		Parameters p = new Parameters();
+		p.model  = new Model();
+		p.model.read(modelFile);
+		p.deserialize(parametersFile);
+		for(int r = 0; r < p.model.numRelations; r++) {
+			String relName = relNumNameMapping.get(r);
+			DenseVector dv = p.relParameters[r];
+			System.out.println(dv.vals.length);
+			for(int i = 0; i < numFeatures; i++) {
+				bw.write(relName + "\t" + featureList.get(i) + "\t" + dv.vals[i] + "\n");
+			}
+		}
+		bw.close();
+		featureReader.close();
+	}
 
 }

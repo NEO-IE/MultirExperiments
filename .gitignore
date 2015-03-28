@@ -1,3 +1,4 @@
+*.json
 /.classpath
 /bllip-parser-master/
 test.err

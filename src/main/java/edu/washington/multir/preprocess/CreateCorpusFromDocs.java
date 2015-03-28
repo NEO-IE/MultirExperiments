@@ -203,10 +203,10 @@ public class CreateCorpusFromDocs {
 
 	public static void main(String args[]) throws IOException, InterruptedException {
 
-		System.out.println("here");
+
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		String outputFile = "/mnt/a99/d0/aman/processedtestset";
-		String corpusPath = "/mnt/a99/d0/aman/testsetinput";
+		String outputFile = "/mnt/a99/d0/aman/processedtestset.tsv";
+		String corpusPath = "/mnt/a99/d0/aman/testsetinput.txt";
 		boolean fromFile = true;
 		cc.preprocessCorpus(corpusPath, outputFile, fromFile);
 
@@ -241,7 +241,7 @@ public class CreateCorpusFromDocs {
 		String SQL_PREFIX = "";
 		int sentId = 1;
 		for (File inputFile : inputFiles) {
-			System.out.println("HEREHEHRE");
+		
 			String docName = inputFile.getName();
 			FileInputStream fisTargetFile = new FileInputStream(inputFile);
 			System.out.println("Processing " + inputFile.getAbsolutePath());
@@ -259,7 +259,7 @@ public class CreateCorpusFromDocs {
 			for (CoreMap sentence : sentences) {
 				// System.out.println("\t sentence : " + sentId + " : " +
 				// sentence);
-				bw.write(SQL_PREFIX + createDerbyRow(sentId++, docName, sentence).sqlRow() + "\n");
+				bw.write(createDerbyRow(sentId++, docName, sentence).stringSep(SEP) + "\n");
 
 			}
 		}

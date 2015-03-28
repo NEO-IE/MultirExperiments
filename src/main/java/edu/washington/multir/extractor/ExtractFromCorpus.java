@@ -59,6 +59,8 @@ public class ExtractFromCorpus {
 	private List<SententialInstanceGeneration> sigs;
 	private List<String> multirDirs;
 	private String corpusPath;
+	private String resultsFile;
+
 	
 	
 
@@ -67,7 +69,7 @@ public class ExtractFromCorpus {
 				propertiesFile)));
 		Map<String, Object> properties = JsonReader.jsonToMaps(jsonProperties);
 		corpusPath = getStringProperty(properties,"corpusPath");
-		
+		resultsFile = getStringProperty(properties, "resultsFile");
 		String featureGeneratorClass = getStringProperty(properties, "fg");
 		if (featureGeneratorClass != null) {
 			fg = (FeatureGenerator) ClassLoader.getSystemClassLoader()
@@ -110,7 +112,7 @@ public class ExtractFromCorpus {
 		ExtractFromCorpus efc = new ExtractFromCorpus(args[0]);
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("rulebased_extractions")));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(efc.resultsFile)));
 		List<Extraction> extrs = getMultiModelExtractionsNumeric(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
 		System.out.println("Total extractions : " + extrs.size());
 		bw.close();
