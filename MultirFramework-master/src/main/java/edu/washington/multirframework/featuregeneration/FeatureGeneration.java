@@ -194,13 +194,13 @@ public class FeatureGeneration {
 	
 	public static class SententialArgumentPair{
 		
-		private Integer sentID;
-		private Pair<Integer,Integer> arg1Offsets;
-		private Pair<Integer,Integer> arg2Offsets;
-		private List<String> relations;
-		private String arg1ID;
-		private String arg2ID;
-		private String partitionID;
+		public Integer sentID;
+		public Pair<Integer,Integer> arg1Offsets;
+		public Pair<Integer,Integer> arg2Offsets;
+		public List<String> relations;
+		public String arg1ID;
+		public String arg2ID;
+		public String partitionID;
 		
 		private SententialArgumentPair(Integer sentID, Pair<Integer,Integer> arg1Offsets,
 										Pair<Integer,Integer> arg2Offsets, String relation,
