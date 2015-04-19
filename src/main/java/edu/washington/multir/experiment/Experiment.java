@@ -608,8 +608,8 @@ public class Experiment {
 	InterruptedException, ExecutionException{
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Experiment e = new Experiment(args[0]);
-		//e.runExperiment();
-		writeFeatureWeights(e.multirDirs.get(0) + File.separatorChar + "mapping", e.multirDirs.get(0) + File.separatorChar + "params", e.multirDirs.get(0) + File.separatorChar + "model", "multir_wt");
+		e.runExperiment();
+		writeFeatureWeights(e.multirDirs.get(0) + File.separatorChar + "mapping", e.multirDirs.get(0) + File.separatorChar + "params", e.multirDirs.get(0) + File.separatorChar + "model", "multir_wt_golddbds");
 	}	
 
 	public static void writeFeatureWeights(String mapping, String parametersFile, String modelFile, String outFile) throws IOException {
