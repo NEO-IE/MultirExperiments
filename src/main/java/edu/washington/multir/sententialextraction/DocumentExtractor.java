@@ -430,7 +430,7 @@ public class DocumentExtractor {
 		Map<Integer, Map<Integer, Map<Integer, Double>>> mentionFeatureScoreMap = new HashMap<>();
 		Parse parse = FullInference.inferWithFeatureScoreMap(doc, scorer,
 				params, mentionFeatureScoreMap);
-		System.out.println(mentionFeatureScoreMap);
+	
 		int[] Yp = parse.Y;
 		if (parse.Z[0] > 0) {
 			relation = relID2rel.get(parse.Z[0]);

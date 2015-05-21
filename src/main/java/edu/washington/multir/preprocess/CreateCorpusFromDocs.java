@@ -205,8 +205,8 @@ public class CreateCorpusFromDocs {
 
 
 		CreateCorpusFromDocs cc = new CreateCorpusFromDocs();
-		String corpusPath = "/mnt/a99/d0/aman/troubledin.txt";
-		String outputFile = "/mnt/a99/d0/aman/troubledout.tsv";
+		String corpusPath = "/mnt/a99/d0/aman/training_data.txt";
+		String outputFile = "/mnt/a99/d0/aman/baby_corpus.tsv";
 		
 		boolean fromFile = true;
 		cc.preprocessCorpus(corpusPath, outputFile, fromFile);

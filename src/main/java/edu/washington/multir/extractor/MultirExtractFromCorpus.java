@@ -51,7 +51,7 @@ import edu.washington.multirframework.featuregeneration.FeatureGenerator;
  * @author jgilme1
  * 
  */
-public class ExtractFromCorpus {
+public class MultirExtractFromCorpus {
 
 	private CorpusInformationSpecification cis;
 	private ArgumentIdentification ai;
@@ -64,7 +64,7 @@ public class ExtractFromCorpus {
 	
 	
 
-	public ExtractFromCorpus(String propertiesFile) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public MultirExtractFromCorpus(String propertiesFile) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		String jsonProperties = IOUtils.toString(new FileInputStream(new File(
 				propertiesFile)));
 		Map<String, Object> properties = JsonReader.jsonToMaps(jsonProperties);
@@ -109,7 +109,7 @@ public class ExtractFromCorpus {
 			InvocationTargetException, SQLException, IOException {
 	
 		
-		ExtractFromCorpus efc = new ExtractFromCorpus(args[0]);
+		MultirExtractFromCorpus efc = new MultirExtractFromCorpus(args[0]);
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(efc.resultsFile)));
@@ -324,6 +324,10 @@ public class ExtractFromCorpus {
 										p.second, docName, rel, sentNum,
 										extrScoreTriple.third, senText);
 								e.setFeatureScoreList(featureScoreList);
+								double conf = extrScoreTriple.second;
+								if(conf < 0.9) {
+									continue;
+								}
 								extrs.add(e);
 								bw.write(formatExtractionString(c, e) + "\n");
 							}
