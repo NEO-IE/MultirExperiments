@@ -6,18 +6,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
-import org.apache.derby.tools.sysinfo;
 
 import com.cedarsoftware.util.io.JsonObject;
 import com.cedarsoftware.util.io.JsonReader;
@@ -28,18 +25,16 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Pair;
 import edu.stanford.nlp.util.Triple;
 import edu.washington.multir.sententialextraction.DocumentExtractor;
-import edu.washington.multir.util.CLIUtils;
 import edu.washington.multir.util.EvaluationUtils;
 import edu.washington.multir.util.ModelUtils;
 import edu.washington.multirframework.argumentidentification.ArgumentIdentification;
 import edu.washington.multirframework.argumentidentification.SententialInstanceGeneration;
 import edu.washington.multirframework.corpus.Corpus;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification;
-import edu.washington.multirframework.corpus.CustomCorpusInformationSpecification;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentDocNameInformation.SentDocName;
 import edu.washington.multirframework.corpus.CorpusInformationSpecification.SentGlobalIDInformation.SentGlobalID;
+import edu.washington.multirframework.corpus.CustomCorpusInformationSpecification;
 import edu.washington.multirframework.corpus.SentOffsetInformation.SentStartOffset;
-import edu.washington.multirframework.corpus.TokenOffsetInformation.SentenceRelativeCharacterOffsetBeginAnnotation;
 import edu.washington.multirframework.data.Argument;
 import edu.washington.multirframework.data.Extraction;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
@@ -60,60 +55,57 @@ public class MultirExtractFromCorpus {
 	private List<String> multirDirs;
 	private String corpusPath;
 	private String resultsFile;
+	private double cutoff_confidence;
 
-	
-	
-
-	public MultirExtractFromCorpus(String propertiesFile) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		String jsonProperties = IOUtils.toString(new FileInputStream(new File(
-				propertiesFile)));
+	public MultirExtractFromCorpus(String propertiesFile) throws FileNotFoundException, IOException,
+			InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException {
+		String jsonProperties = IOUtils.toString(new FileInputStream(new File(propertiesFile)));
 		Map<String, Object> properties = JsonReader.jsonToMaps(jsonProperties);
-		corpusPath = getStringProperty(properties,"corpusPath");
-		resultsFile = getStringProperty(properties, "resultsFile");
+		corpusPath = getStringProperty(properties, "testCorpusPath");
+		resultsFile = getStringProperty(properties, "verboseFile");
 		String featureGeneratorClass = getStringProperty(properties, "fg");
 		if (featureGeneratorClass != null) {
-			fg = (FeatureGenerator) ClassLoader.getSystemClassLoader()
-					.loadClass(featureGeneratorClass).newInstance();
+			fg = (FeatureGenerator) ClassLoader.getSystemClassLoader().loadClass(featureGeneratorClass).newInstance();
 		}
 
 		String aiClass = getStringProperty(properties, "ai");
 		if (aiClass != null) {
-			ai = (ArgumentIdentification) ClassLoader.getSystemClassLoader()
-					.loadClass(aiClass).getMethod("getInstance").invoke(null);
+			ai = (ArgumentIdentification) ClassLoader.getSystemClassLoader().loadClass(aiClass)
+					.getMethod("getInstance").invoke(null);
 		}
 		List<String> sigClasses = getListProperty(properties, "sigs");
 		sigs = new ArrayList<>();
 		for (String sigClass : sigClasses) {
-			sigs.add((SententialInstanceGeneration) ClassLoader
-					.getSystemClassLoader().loadClass(sigClass)
+			sigs.add((SententialInstanceGeneration) ClassLoader.getSystemClassLoader().loadClass(sigClass)
 					.getMethod("getInstance").invoke(null));
 		}
 		multirDirs = new ArrayList<>();
-		List<String> multirDirNames = getListProperty(properties,"models");
-		for(String multirDirName : multirDirNames){
+		List<String> multirDirNames = getListProperty(properties, "models");
+		for (String multirDirName : multirDirNames) {
 			multirDirs.add(multirDirName);
 		}
 		cis = new CustomCorpusInformationSpecification();
-		
-		String altCisString = getStringProperty(properties,"cis");
-		if(altCisString != null){
-			cis = (CustomCorpusInformationSpecification)ClassLoader.getSystemClassLoader().loadClass(altCisString).newInstance();
+
+		String altCisString = getStringProperty(properties, "cis");
+		if (altCisString != null) {
+			cis = (CustomCorpusInformationSpecification) ClassLoader.getSystemClassLoader().loadClass(altCisString)
+					.newInstance();
 		}
-		
+
+		cutoff_confidence = Double.parseDouble(getStringProperty(properties, "cutoff_confidence"));
+
 	}
 
-	
-	public static void main(String[] args) throws ClassNotFoundException,
-			InstantiationException, IllegalAccessException, ParseException,
-			NoSuchMethodException, SecurityException, IllegalArgumentException,
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, ParseException, NoSuchMethodException, SecurityException, IllegalArgumentException,
 			InvocationTargetException, SQLException, IOException {
-	
-		
+
 		MultirExtractFromCorpus efc = new MultirExtractFromCorpus(args[0]);
 		Corpus c = new Corpus(efc.corpusPath, efc.cis, true);
 		c.setCorpusToDefault();
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(efc.resultsFile)));
-		List<Extraction> extrs = getMultiModelExtractionsNumeric(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw);
+		List<Extraction> extrs = getMultiModelExtractionsNumeric(c, efc.ai, efc.fg, efc.sigs, efc.multirDirs, bw, efc.cutoff_confidence);
 		System.out.println("Total extractions : " + extrs.size());
 		bw.close();
 
@@ -130,8 +122,7 @@ public class MultirExtractFromCorpus {
 		return null;
 	}
 
-	public static String formatExtractionString(Corpus c, Extraction e)
-			throws SQLException {
+	public static String formatExtractionString(Corpus c, Extraction e) throws SQLException {
 		StringBuilder sb = new StringBuilder();
 		String[] eValues = e.toString().split("\t");
 		String arg1Name = eValues[0];
@@ -177,70 +168,66 @@ public class MultirExtractFromCorpus {
 		return sb.toString().trim();
 
 	}
-	
-	
 
-	public static List<Extraction> getMultiModelExtractions(Corpus c,
-			ArgumentIdentification ai, FeatureGenerator fg,
-			List<SententialInstanceGeneration> sigs, List<String> modelPaths,
-			BufferedWriter bw) throws SQLException, IOException {
+	public static List<Extraction> getMultiModelExtractions(Corpus c, ArgumentIdentification ai, FeatureGenerator fg,
+			List<SententialInstanceGeneration> sigs, List<String> modelPaths, BufferedWriter bw, double cutoff_confidence) throws SQLException,
+			IOException {
 		BufferedWriter featureWriter = new BufferedWriter(new FileWriter("extract_features"));
-		
+
 		List<Extraction> extrs = new ArrayList<Extraction>();
 		for (int i = 0; i < sigs.size(); i++) {
 			Iterator<Annotation> docs = c.getDocumentIterator();
 			SententialInstanceGeneration sig = sigs.get(i);
 			String modelPath = modelPaths.get(i);
 			DocumentExtractor de = new DocumentExtractor(modelPath, fg, ai, sig);
-			
+
 			Map<String, Integer> rel2RelIdMap = de.getMapping().getRel2RelID();
-			
-			Map<Integer, String> ftID2ftMap = ModelUtils
-					.getFeatureIDToFeatureMap(de.getMapping());
-		
-	
+
+			Map<Integer, String> ftID2ftMap = ModelUtils.getFeatureIDToFeatureMap(de.getMapping());
+
 			int docCount = 0;
 			while (docs.hasNext()) {
 				Annotation doc = docs.next();
-				List<CoreMap> sentences = doc
-						.get(CoreAnnotations.SentencesAnnotation.class);
+				List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 				for (CoreMap sentence : sentences) {
 					// argument identification
-					List<Argument> arguments = ai.identifyArguments(doc,
-							sentence);
+					List<Argument> arguments = ai.identifyArguments(doc, sentence);
 					// sentential instance generation
-					List<Pair<Argument, Argument>> sententialInstances = sig
-							.generateSententialInstances(arguments, sentence);
+					List<Pair<Argument, Argument>> sententialInstances = sig.generateSententialInstances(arguments,
+							sentence);
 					for (Pair<Argument, Argument> p : sententialInstances) {
-						if(!(exactlyOneNumber(p) && secondNumber(p))) { // do not waste time with useless extractions
+						if (!(exactlyOneNumber(p) && secondNumber(p))) { // do
+																			// not
+																			// waste
+																			// time
+																			// with
+																			// useless
+																			// extractions
 							continue;
 						}
 						Pair<Triple<String, Double, Double>, Map<Integer, Map<Integer, Double>>> extrResult = de
-								.extractFromSententialInstanceWithAllFeatureScores(
-										p.first, p.second, sentence, doc, featureWriter);
+								.extractFromSententialInstanceWithAllFeatureScores(p.first, p.second, sentence, doc,
+										featureWriter);
 						if (extrResult != null) {
 							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
 							if (!extrScoreTriple.first.equals("NA")) {
-								//System.out.println(extrResult);
-								Map<Integer, Double> featureScores = extrResult.second
-										.get(rel2RelIdMap
-												.get(extrResult.first.first));
+								// System.out.println(extrResult);
+								Map<Integer, Double> featureScores = extrResult.second.get(rel2RelIdMap
+										.get(extrResult.first.first));
 								String rel = extrScoreTriple.first;
-								List<Pair<String, Double>> featureScoreList = EvaluationUtils
-										.getFeatureScoreList(featureScores,
-												ftID2ftMap);
+								List<Pair<String, Double>> featureScoreList = EvaluationUtils.getFeatureScoreList(
+										featureScores, ftID2ftMap);
 
-								String docName = sentence
-										.get(SentDocName.class);
-									String senText = sentence
-										.get(CoreAnnotations.TextAnnotation.class);
-								Integer sentNum = sentence
-										.get(SentGlobalID.class);
-								Extraction e = new Extraction(p.first,
-										p.second, docName, rel, sentNum,
+								String docName = sentence.get(SentDocName.class);
+								String senText = sentence.get(CoreAnnotations.TextAnnotation.class);
+								Integer sentNum = sentence.get(SentGlobalID.class);
+								Extraction e = new Extraction(p.first, p.second, docName, rel, sentNum,
 										extrScoreTriple.third, senText);
 								e.setFeatureScoreList(featureScoreList);
-								extrs.add(e);
+								// cutoff on the confidence score
+								if (extrScoreTriple.second >= cutoff_confidence) {
+									extrs.add(e);
+								}
 								bw.write(formatExtractionString(c, e) + "\n");
 							}
 
@@ -251,83 +238,78 @@ public class MultirExtractFromCorpus {
 				if (docCount % 100 == 0) {
 					System.out.println(docCount + " docs processed");
 					bw.flush();
-				}	
+				}
 			}
-			
+
 		}
 		featureWriter.close();
 		return EvaluationUtils.getUniqueList(extrs);
 	}
 
-	public static List<Extraction> getMultiModelExtractionsNumeric(Corpus c,
-			ArgumentIdentification ai, FeatureGenerator fg,
-			List<SententialInstanceGeneration> sigs, List<String> modelPaths,
-			BufferedWriter bw) throws SQLException, IOException {
+	public static List<Extraction> getMultiModelExtractionsNumeric(Corpus c, ArgumentIdentification ai,
+			FeatureGenerator fg, List<SententialInstanceGeneration> sigs, List<String> modelPaths, BufferedWriter bw, double cutoff_confidence)
+			throws SQLException, IOException {
 		BufferedWriter featureWriter = new BufferedWriter(new FileWriter("extract_features"));
-		
+
 		List<Extraction> extrs = new ArrayList<Extraction>();
 		for (int i = 0; i < sigs.size(); i++) {
 			Iterator<Annotation> docs = c.getDocumentIterator();
 			SententialInstanceGeneration sig = sigs.get(i);
 			String modelPath = modelPaths.get(i);
 			DocumentExtractor de = new DocumentExtractor(modelPath, fg, ai, sig);
-			
+
 			Map<String, Integer> rel2RelIdMap = de.getMapping().getRel2RelID();
-			
-			Map<Integer, String> ftID2ftMap = ModelUtils
-					.getFeatureIDToFeatureMap(de.getMapping());
-		
-//			PrintWriter pw1 = new PrintWriter(new FileWriter("features_map"));
-//			for(Integer id : ftID2ftMap.keySet()) {
-//				pw1.write(id.toString() + " - " + ftID2ftMap.get(id) + "\n");
-//			}
-//			pw1.close();
+
+			Map<Integer, String> ftID2ftMap = ModelUtils.getFeatureIDToFeatureMap(de.getMapping());
+
+			// PrintWriter pw1 = new PrintWriter(new
+			// FileWriter("features_map"));
+			// for(Integer id : ftID2ftMap.keySet()) {
+			// pw1.write(id.toString() + " - " + ftID2ftMap.get(id) + "\n");
+			// }
+			// pw1.close();
 			int docCount = 0;
 			while (docs.hasNext()) {
 				Annotation doc = docs.next();
-				List<CoreMap> sentences = doc
-						.get(CoreAnnotations.SentencesAnnotation.class);
+				List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
 				for (CoreMap sentence : sentences) {
 					System.out.println(sentence);
 					// argument identification
-					List<Argument> arguments = ai.identifyArguments(doc,
-							sentence);
+					List<Argument> arguments = ai.identifyArguments(doc, sentence);
 					// sentential instance generation
-					List<Pair<Argument, Argument>> sententialInstances = sig
-							.generateSententialInstances(arguments, sentence);
+					List<Pair<Argument, Argument>> sententialInstances = sig.generateSententialInstances(arguments,
+							sentence);
 					for (Pair<Argument, Argument> p : sententialInstances) {
-						if(!(exactlyOneNumber(p) && secondNumber(p))) { // do not waste time with useless extractions
+						if (!(exactlyOneNumber(p) && secondNumber(p))) { // do
+																			// not
+																			// waste
+																			// time
+																			// with
+																			// useless
+																			// extractions
 							continue;
 						}
 						Pair<Triple<String, Double, Double>, Map<Integer, Map<Integer, Double>>> extrResult = de
-								.extractFromSententialInstanceWithAllFeatureScores(
-										p.first, p.second, sentence, doc, featureWriter);
+								.extractFromSententialInstanceWithAllFeatureScores(p.first, p.second, sentence, doc,
+										featureWriter);
 						if (extrResult != null) {
 							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
 							if (!extrScoreTriple.first.equals("NA")) {
-								//System.out.println(extrResult);
-								Map<Integer, Double> featureScores = extrResult.second
-										.get(rel2RelIdMap
-												.get(extrResult.first.first));
+								// System.out.println(extrResult);
+								Map<Integer, Double> featureScores = extrResult.second.get(rel2RelIdMap
+										.get(extrResult.first.first));
 								String rel = extrScoreTriple.first;
-								List<Pair<String, Double>> featureScoreList = EvaluationUtils
-										.getFeatureScoreList(featureScores,
-												ftID2ftMap);
+								List<Pair<String, Double>> featureScoreList = EvaluationUtils.getFeatureScoreList(
+										featureScores, ftID2ftMap);
 
-								String docName = sentence
-										.get(SentDocName.class);
-									String senText = sentence
-										.get(CoreAnnotations.TextAnnotation.class);
-								Integer sentNum = sentence
-										.get(SentGlobalID.class);
-								Extraction e = new Extraction(p.first,
-										p.second, docName, rel, sentNum,
+								String docName = sentence.get(SentDocName.class);
+								String senText = sentence.get(CoreAnnotations.TextAnnotation.class);
+								Integer sentNum = sentence.get(SentGlobalID.class);
+								Extraction e = new Extraction(p.first, p.second, docName, rel, sentNum,
 										extrScoreTriple.third, senText);
 								e.setFeatureScoreList(featureScoreList);
 								double conf = extrScoreTriple.second;
-								if(conf < 0.9) {
-									continue;
-								}
+
 								extrs.add(e);
 								bw.write(formatExtractionString(c, e) + "\n");
 							}
@@ -339,40 +321,46 @@ public class MultirExtractFromCorpus {
 				if (docCount % 100 == 0) {
 					System.out.println(docCount + " docs processed");
 					bw.flush();
-				}	
+				}
 			}
-			
+
 		}
 		featureWriter.close();
 		return EvaluationUtils.getUniqueList(extrs);
 	}
-	
+
 	private static boolean exactlyOneNumber(Pair<Argument, Argument> p) {
 		boolean firstHasNumber = p.first.getArgName().matches(".*\\d.*");
 		boolean secondHasNumber = p.second.getArgName().matches(".*\\d.*");
 		return firstHasNumber ^ secondHasNumber;
 	}
-	
+
 	private static boolean secondNumber(Pair<Argument, Argument> p) {
 		boolean secondHasNumber = p.second.getArgName().matches(".*\\d.*");
 		return secondHasNumber;
 	}
-	
 
 	private static double sigmoid(double score) {
 		return 1 / (1 + Math.exp(-score));
 	}
-	private List<String> getListProperty(Map<String, Object> properties,
-			String string) {
-		if(properties.containsKey(string)){
+
+	private List<String> getListProperty(Map<String, Object> properties, String string) {
+		if (properties.containsKey(string)) {
 			JsonObject obj = (JsonObject) properties.get(string);
 			List<String> returnValues = new ArrayList<>();
-			for(Object o : obj.getArray()){
+			for (Object o : obj.getArray()) {
 				returnValues.add(o.toString());
 			}
 			return returnValues;
 		}
 		return new ArrayList<>();
+	}
+
+	public List<Extraction> getExtractions() throws SQLException, IOException {
+		Corpus c = new Corpus(corpusPath, cis, true);
+		c.setCorpusToDefault();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(resultsFile)));
+		return getMultiModelExtractionsNumeric(c, ai, fg, sigs, multirDirs, bw, cutoff_confidence);
 	}
 
 }
