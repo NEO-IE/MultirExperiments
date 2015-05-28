@@ -309,8 +309,9 @@ public class MultirExtractFromCorpus {
 										extrScoreTriple.third, senText);
 								e.setFeatureScoreList(featureScoreList);
 								double conf = extrScoreTriple.second;
-
-								extrs.add(e);
+								if(conf > cutoff_confidence) {
+									extrs.add(e);
+								}
 								bw.write(formatExtractionString(c, e) + "\n");
 							}
 
