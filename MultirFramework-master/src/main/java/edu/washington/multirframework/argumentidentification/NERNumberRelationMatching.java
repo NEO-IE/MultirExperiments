@@ -42,7 +42,7 @@ public class NERNumberRelationMatching implements RelationMatching {
 
 			numberPat = Pattern
 					.compile("^[\\+-]?\\d+([,\\.]\\d+)?([eE]-?\\d+)?$");
-			String countriesFile = "data/countries_file";
+			String countriesFile = "/mnt/a99/d0/aman/MultirExperiments/data/numericalkb/countries_list_ids";
 
 			BufferedReader br = new BufferedReader(new FileReader(new File(
 					countriesFile)));
@@ -50,7 +50,7 @@ public class NERNumberRelationMatching implements RelationMatching {
 			freeBaseMapping = new HashMap<String, String>();
 
 			while ((countryRecord = br.readLine()) != null) {
-				System.out.println(countryRecord);
+				
 				String vars[] = countryRecord.split("\t");
 				String countryName = vars[1].toLowerCase();
 				String countryId = vars[0];

@@ -47,9 +47,7 @@ public class Extraction {
 			(senText.equals(e.senText))){
 			return true;
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	@Override

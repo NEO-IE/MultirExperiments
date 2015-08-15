@@ -11,7 +11,7 @@ public class Train {
 		Model model = new Model();
 		model.read(dir + File.separatorChar + "model");
 		
-		AveragedPerceptron ct = new AveragedPerceptron(model, r);
+		AveragedPerceptron ct = new AveragedPerceptron(model, r, dir + File.separatorChar + "mapping");
 		
 		Dataset train = new MemoryDataset(dir + File.separatorChar + "train");
 

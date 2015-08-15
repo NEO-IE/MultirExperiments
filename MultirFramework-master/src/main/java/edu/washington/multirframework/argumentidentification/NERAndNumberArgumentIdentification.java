@@ -25,15 +25,14 @@ public class NERAndNumberArgumentIdentification implements
 		ArgumentIdentification {
 
 	// only NER Types considered
-	private static String[] relevantNERTypes = { "ORGANIZATION", "PERSON",
-			"LOCATION" };
-
+	private static String[] relevantNERTypes = {};
+	private static String[] irrelevantNERTypes = {"DATE"};
 	private static NERAndNumberArgumentIdentification instance = null;
 	
 	static Pattern numberPat;
 	HashSet<String> countryList;
 
-	private static final String countriesFileName = "/mnt/a99/d0/aman/MultirExperiments/data/numericalkb/countries_list";
+	private static final String countriesFileName = "/mnt/a99/d0/aman/MultirExperiments/data/numericalkb/countries_list_ids";
 
 	private NERAndNumberArgumentIdentification() {
 
@@ -44,7 +43,7 @@ public class NERAndNumberArgumentIdentification implements
 			String countryName = null;
 			countryList = new HashSet<>();
 			while ((countryName = br.readLine()) != null) {
-				countryList.add(countryName.toLowerCase());
+				countryList.add(countryName.split("\t")[1].toLowerCase());
 			}
 			br.close();
 			numberPat = Pattern.compile("^[\\+-]?\\d+([,\\.]\\d+)?([eE]-?\\d+)?$");
@@ -107,6 +106,7 @@ public class NERAndNumberArgumentIdentification implements
 	// type
 	private List<CoreLabel> getRelevantTokenSequence(List<CoreLabel> tokens,
 			int i) {
+		
 		List<CoreLabel> tokenSequence = new ArrayList<CoreLabel>();
 		tokenSequence.add(tokens.get(i));
 		String ner = tokens.get(i).get(
@@ -136,6 +136,12 @@ public class NERAndNumberArgumentIdentification implements
 				return true;
 			}
 		}
+		for (String irrelevantNER : irrelevantNERTypes) {
+			if (irrelevantNER.equals(ner)) {
+				return false;
+			}
+		}
+		
 		/*
 		 * if (token.toString().matches("-?\\d+(\\.\\d+)?") ||
 		 * token.toString().matches(

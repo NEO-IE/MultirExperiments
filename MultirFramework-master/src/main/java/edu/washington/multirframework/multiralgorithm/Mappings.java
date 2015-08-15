@@ -89,6 +89,12 @@ public class Mappings {
 		int count = Integer.parseInt(r.readLine());
 		for (int i=0; i < count; i++) {
 			String[] t = r.readLine().split("\t");
+			if(t.length == 1) {
+				continue;
+			}
+			if(i % 1000000 == 0) {
+				System.out.println(i);
+			}
 			m.put(t[1], Integer.parseInt(t[0]));
 		}
 	}

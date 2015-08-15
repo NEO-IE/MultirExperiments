@@ -1,5 +1,10 @@
 package edu.washington.multirframework.multiralgorithm;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 public class AveragedPerceptron {
@@ -13,10 +18,53 @@ public class AveragedPerceptron {
 	private Model model;
 	private Random random;
 
-	public AveragedPerceptron(Model model, Random random) {
+	/**
+	 * Data structures to store information about keyword features
+	 */
+	public static HashMap<Integer, String> relNumNameMapping;
+	public static HashMap<String, Integer> featNameNumMapping;
+	public static HashMap<Integer, String> featureList;
+	Integer numRelation;
+	Integer numFeatures;
+	
+	boolean readMapping = false;
+	
+	public AveragedPerceptron(Model model, Random random, String mappingFile) {
 		scorer = new Scorer();
 		this.model = model;
 		this.random = random;
+		if(readMapping) {
+			relNumNameMapping = new HashMap<Integer, String>();
+			featNameNumMapping = new HashMap<String, Integer>();
+			featureList = new HashMap<Integer, String>();
+			BufferedReader featureReader;
+			try {
+				featureReader = new BufferedReader(new FileReader(
+						mappingFile));
+		
+			Integer numRel = Integer.parseInt(featureReader.readLine());
+			for (int i = 0; i < numRel; i++) {
+				// skip relation names
+				String rel = featureReader.readLine().trim();
+				relNumNameMapping.put(i, rel);
+			}
+			int numFeatures = Integer.parseInt(featureReader.readLine());
+			String ftr = null;
+			featureList = new HashMap<Integer, String>();
+			int fno = 0;
+			while (fno < numFeatures) {
+				ftr = featureReader.readLine().trim();
+				String parts[] = ftr.split("\t");
+				featNameNumMapping.put(parts[1], Integer.parseInt(parts[0]));
+				featureList.put(fno, ftr);
+				fno++;
+			}
+			featureReader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// the following two are actually not storing weights:
