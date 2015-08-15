@@ -269,11 +269,16 @@ public class MultirExtractFromCorpus {
 			// }
 			// pw1.close();
 			int docCount = 0;
+			int sentenceNumber = 0;
 			while (docs.hasNext()) {
+				
 				Annotation doc = docs.next();
 				List<CoreMap> sentences = doc.get(CoreAnnotations.SentencesAnnotation.class);
+				
 				for (CoreMap sentence : sentences) {
-					System.out.println(sentence);
+				
+					sentenceNumber++;
+					System.out.println("Processing sentence number: " + sentenceNumber);
 					// argument identification
 					List<Argument> arguments = ai.identifyArguments(doc, sentence);
 					// sentential instance generation
@@ -296,12 +301,21 @@ public class MultirExtractFromCorpus {
 							Triple<String, Double, Double> extrScoreTriple = extrResult.first;
 							if (!extrScoreTriple.first.equals("NA")) {
 								// System.out.println(extrResult);
+								
+								//Now check for units and only extract if the unit is compatible	
 								Map<Integer, Double> featureScores = extrResult.second.get(rel2RelIdMap
 										.get(extrResult.first.first));
 								String rel = extrScoreTriple.first;
 								List<Pair<String, Double>> featureScoreList = EvaluationUtils.getFeatureScoreList(
 										featureScores, ftID2ftMap);
-
+								
+								/* Get compatible relations for the number, which is an argument of the relation just extracted.
+								 * The compatibility just checked is the units compatibility.
+								 */
+								ArrayList<Integer> compatRels = UnitUtils.unitsCompatible(p.second, sentence, rel2RelIdMap);
+								if(!compatRels.contains(rel2RelIdMap.get(rel))) {
+									continue; //can't proceed if the units are not compatible
+								}
 								String docName = sentence.get(SentDocName.class);
 								String senText = sentence.get(CoreAnnotations.TextAnnotation.class);
 								Integer sentNum = sentence.get(SentGlobalID.class);
@@ -309,7 +323,7 @@ public class MultirExtractFromCorpus {
 										extrScoreTriple.third, senText);
 								e.setFeatureScoreList(featureScoreList);
 								double conf = extrScoreTriple.second;
-								if(conf > cutoff_confidence) {
+								if(conf >= cutoff_confidence) {
 									extrs.add(e);
 								}
 								bw.write(formatExtractionString(c, e) + "\n");
