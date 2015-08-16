@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class FullInference {
+public class FullInferenceAtleastK {
 	
 	
 	public static Parse infer(MILDocument doc,
@@ -12,7 +12,7 @@ public class FullInference {
 		Parse parse = new Parse();
 		parse.doc = doc;
 		parse.Z = new int[doc.numMentions];
-	
+		double K = 0.5;
 		//parse.allScores = new double[doc.numMentions][params.model.numRelations];
 		
 		parseScorer.setParameters(params);
@@ -22,6 +22,8 @@ public class FullInference {
 		double[] scores = new double[params.model.numRelations];
 		for (int i=0; i < scores.length; i++) scores[i] = Double.NEGATIVE_INFINITY;
 		boolean[] binaryYs = new boolean[params.model.numRelations];
+		int[] countYs = new int[params.model.numRelations];
+		
 		int numYs = 0;
 		// loop over all mentions of the instance, finding the highest probability
 		// relation for each and storing it in scores..
@@ -29,8 +31,8 @@ public class FullInference {
 			Viterbi.Parse p = viterbi.parse(doc, m);
 			
 			parse.Z[m] = p.state;
-			if (p.state > 0 && !binaryYs[p.state]) {
-				binaryYs[p.state] = true;
+			if (p.state > 0) {
+				countYs[p.state]++;
 				numYs++;
 			}
 			
@@ -38,7 +40,9 @@ public class FullInference {
 				scores[parse.Z[m]] = p.score;
 			//parse.allScores[m] = p.scores;
 		}
-
+		for(int i = 1; i < countYs.length; i++) {
+			binaryYs[i] = ((double)countYs[i] / doc.numMentions) > K;
+		}
 		// parse.y is an array the size of the number of relations that
 		// were predicted for this instance it stores the relation id
 		parse.Y = new int[numYs];

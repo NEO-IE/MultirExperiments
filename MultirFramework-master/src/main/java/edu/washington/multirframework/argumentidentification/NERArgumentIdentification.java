@@ -3,8 +3,6 @@ package edu.washington.multirframework.argumentidentification;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.derby.tools.sysinfo;
-
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;

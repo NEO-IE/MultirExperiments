@@ -2,8 +2,6 @@ package edu.washington.multirframework.data;
 
 import java.util.ArrayList;
 
-import scala.actors.threadpool.Arrays;
-
 public class FuzzyFact {
 	private static final int VALS_INDEX = 1;
 	private static final int ATTR_INDEX = 0;

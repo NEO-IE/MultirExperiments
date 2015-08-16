@@ -1,7 +1,6 @@
 package edu.washington.multirframework.multiralgorithm;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,16 +23,17 @@ public class AveragedPerceptron {
 	public static HashMap<Integer, String> relNumNameMapping;
 	public static HashMap<String, Integer> featNameNumMapping;
 	public static HashMap<Integer, String> featureList;
-	Integer numRelation;
-	Integer numFeatures;
+	public static Integer numRelation;
+	public static Integer numFeatures;
 	
-	boolean readMapping = false;
+	static boolean readMapping = true;
 	
 	public AveragedPerceptron(Model model, Random random, String mappingFile) {
 		scorer = new Scorer();
 		this.model = model;
 		this.random = random;
 		if(readMapping) {
+			System.err.println("Reading the Mapping File");
 			relNumNameMapping = new HashMap<Integer, String>();
 			featNameNumMapping = new HashMap<String, Integer>();
 			featureList = new HashMap<Integer, String>();
@@ -42,13 +42,13 @@ public class AveragedPerceptron {
 				featureReader = new BufferedReader(new FileReader(
 						mappingFile));
 		
-			Integer numRel = Integer.parseInt(featureReader.readLine());
-			for (int i = 0; i < numRel; i++) {
+			numRelation = Integer.parseInt(featureReader.readLine());
+			for (int i = 0; i < numRelation; i++) {
 				// skip relation names
-				String rel = featureReader.readLine().trim();
+				String rel = featureReader.readLine().split("\t")[1].trim();
 				relNumNameMapping.put(i, rel);
 			}
-			int numFeatures = Integer.parseInt(featureReader.readLine());
+			numFeatures = Integer.parseInt(featureReader.readLine());
 			String ftr = null;
 			featureList = new HashMap<Integer, String>();
 			int fno = 0;
@@ -60,7 +60,9 @@ public class AveragedPerceptron {
 				fno++;
 			}
 			featureReader.close();
+			readMapping = false;
 			} catch (IOException e) {
+			
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -114,7 +116,7 @@ public class AveragedPerceptron {
 		trainingData.reset();
 
 		while (trainingData.next(doc)) {
-
+			
 			// compute most likely label under current parameters
 			Parse predictedParse = FullInference.infer(doc, scorer,
 					iterParameters);
@@ -125,7 +127,7 @@ public class AveragedPerceptron {
 				if (computeAvgParameters && avgIteration == 0)
 					avgParamsLastUpdates.sum(iterParameters, 1.0f);
 
-				Parse trueParse = ConditionalInference.infer(doc, scorer,
+				Parse trueParse = KeywordClamping.infer(doc, scorer,
 					iterParameters);
 				update(predictedParse, trueParse);
 			}

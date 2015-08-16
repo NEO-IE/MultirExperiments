@@ -1,6 +1,8 @@
-package main.java.iitb.neo.util;
+package edu.washington.multirframework.util;
 
-import main.java.org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.SnowballStemmer;
+
+
 
 public class StemUtils {
 	public static SnowballStemmer stemmer = null;
@@ -9,7 +11,7 @@ public class StemUtils {
 		@SuppressWarnings("rawtypes")
 		Class stemClass = null;
 		try {
-			stemClass = Class.forName("main.java.org.tartarus.snowball.englishStemmer");
+			stemClass = Class.forName("org.tartarus.snowball.ext.englishStemmer");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

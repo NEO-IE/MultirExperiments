@@ -10,20 +10,11 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Pair;
 import edu.stanford.nlp.util.Triple;
-import edu.washington.multirframework.multiralgorithm.FullInference;
-import edu.washington.multirframework.multiralgorithm.MILDocument;
-import edu.washington.multirframework.multiralgorithm.Parse;
-import edu.washington.multirframework.multiralgorithm.SparseBinaryVector;
-import edu.washington.multirframework.multiralgorithm.Mappings;
-import edu.washington.multirframework.multiralgorithm.Model;
-import edu.washington.multirframework.multiralgorithm.Parameters;
-import edu.washington.multirframework.multiralgorithm.Scorer;
 import edu.washington.multirframework.argumentidentification.ArgumentIdentification;
 import edu.washington.multirframework.argumentidentification.SententialInstanceGeneration;
 import edu.washington.multirframework.corpus.Corpus;
@@ -31,6 +22,14 @@ import edu.washington.multirframework.corpus.CorpusInformationSpecification;
 import edu.washington.multirframework.data.Argument;
 import edu.washington.multirframework.data.KBArgument;
 import edu.washington.multirframework.featuregeneration.FeatureGenerator;
+import edu.washington.multirframework.multiralgorithm.FullInference;
+import edu.washington.multirframework.multiralgorithm.MILDocument;
+import edu.washington.multirframework.multiralgorithm.Mappings;
+import edu.washington.multirframework.multiralgorithm.Model;
+import edu.washington.multirframework.multiralgorithm.Parameters;
+import edu.washington.multirframework.multiralgorithm.Parse;
+import edu.washington.multirframework.multiralgorithm.Scorer;
+import edu.washington.multirframework.multiralgorithm.SparseBinaryVector;
 /**
  * An extractor that provides extractions
  * from a document based on a trained
